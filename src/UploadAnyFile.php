@@ -4,12 +4,13 @@
  * 引入后实例化时传入一个配置数组即可
  * 
  * $upload=new UploadAnyFile(array(
- * 				'rootPath'      =>  '/data/upload_file/', //保存根路径    可以自己定义     路径和后面的依次组合构成完整的路径存放文件
-				'savePath'      =>  'producer/product/picture/', //保存路径
-				'pathTags'      =>  $org_id, //保存组别
-				'subName'       =>  array('date'=>'Y-n-d'), //子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
-		));
-		$result=$upload->upload();
+ * 				'rootPath'      =>  '/data/upload_file/', //保存根路径    可以自己定义     
+ *路径和后面的依次组合构成完整的路径存放文件
+ *				'savePath'      =>  'producer/product/picture/', //保存路径
+ *				'pathTags'      =>  $org_id, //保存组别
+ *				'subName'       =>  array('date'=>'Y-n-d'), //子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
+ *		));
+ *		$result=$upload->upload();
  * 
  * 
  *
