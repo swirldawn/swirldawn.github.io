@@ -1,0 +1,284 @@
+<html >
+<meta charset="utf-8">
+<meta name=”renderer” content=”webkit”>
+<head>
+    <link href="https://cdn.bootcss.com/flat-ui/2.3.0/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootflat/2.0.4/css/bootflat.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-barber-shop.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/layer/2.4/skin/layer.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+    <!--<link href="./site.min.css" rel="stylesheet">-->
+    <script src="https://cdn.bootcss.com/flat-ui/2.3.0/js/vendor/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootflat/2.0.4/js/jquery.fs.selecter.min.js"></script>
+    <script src="https://plat.heyimed.com//assets/js/moment.min.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="https://plat.heyimed.com//assets/js/vue.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="https://cdn.bootcss.com/layer/2.4/layer.min.js"></script>
+    <script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js" charset="UTF-8" type="text/javascript"></script>
+    <style>
+        .pace{
+            height:0px;
+        }
+        .pace .pace-progress{
+            height:3px;
+        }
+        .pace .pace-activity{
+            height:3px;
+        }
+        body{
+            background-color: #ecf0f1;
+            font-size: 14px;
+        }
+        p{
+            font-size: 13px;
+        }
+         .content-active{
+            color:#E9573F;
+             font-size: 15px;
+             font-weight: bold;
+        }
+        .content{
+            min-height:570px;
+            background-color: #F5F7FA;
+            overflow:auto;
+        }
+        #grad {
+            background: -webkit-linear-gradient(red, blue); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(red, blue); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(red, blue); /* Firefox 3.6 - 15 */
+            background: linear-gradient(red, blue); /* 标准的语法 */
+        }
+        .page-view{
+            position:fixed;
+            bottom:15px;
+            text-align: center;
+            width:100%;
+        }
+        .pagination{
+            margin:2px;
+        }
+        .pagination .active  a{
+            background-color: #A0D468;
+        }
+        .title .pagination .active  a{
+            background-color: #8CC152;
+        }
+
+        .center {
+            width: auto;
+            display: table;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .text-center {
+            text-align: center;
+
+        }
+        /*卷名div*/
+        .tab-content{
+            height:80%;
+            overflow:auto;
+            scrollbar-face-color: #FF0000 ;
+            scrollbar-highlight-color: #00FF00;
+            scrollbar-darkshadow-color: #ff0000;
+            scrollbar-3dlight-color: #ff0000;
+            scrollbar-arrow-color: #ff0000;
+            scrollbar-track-color: #ffcccc;
+            scrollbar-darkshadow-color: #ffffff;
+        }
+        ::-webkit-scrollbar{width:2px;}
+        ::-webkit-scrollbar-thumb:hover {background-color:#E9573F}
+        ::-webkit-scrollbar-thumb:active {background-color:#DA4453}
+        ::-webkit-scrollbar-track {
+            background-color: #F5F7FA;
+        } /* 滚动条的滑轨背景颜色 */
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #FC6E51;
+        } /* 滑块颜色 */
+
+        ::-webkit-scrollbar-button {
+            background-color: #F5F7FA;
+        } /* 滑轨两头的监听按钮颜色 */
+
+        ::-webkit-scrollbar-corner {
+            background-color: #F5F7FA;
+        } /* 横向滚动条和纵向滚动条相交处尖角的颜色 */
+        /*背景图片*/
+        .s-skin-container {
+            position: fixed;
+            _position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            min-width: 1000px;
+            z-index: -10;
+            background-position: center 0;
+            background-repeat: no-repeat;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -o-background-size: cover;
+            zoom: 1;
+        }
+        /*章 div*/
+        #paragraph{
+            /*height:90%;*/
+            overflow:auto;
+        }
+        .staggered-transition {
+            transition: all .5s ease;
+            overflow: hidden;
+            margin: 0;
+        }
+        .staggered-enter, .staggered-leave {
+            opacity: 0;
+            height: 0;
+        }
+    </style>
+    <title>在线圣经</title>
+        </head>
+    <body id="background">
+    <div class="s-skin-container s-isindex-wrap" style="background-color:rgb(64, 64, 64);background-image:url(000.jpg);">  </div>
+    <div id="vue">
+    <div style="width:85%;margin:auto;" >
+    <h4 ></h4>
+    <div class="row ">
+        <div class="col-xs-12" >
+            <div class="col-md-2">
+                <div class="panel">
+                    <ul id="myTab1" class="nav nav-tabs nav-justified">
+                        <li class="active"><a href="#home1" data-toggle="tab"><h4>圣经</h4></a></li>
+                    </ul>
+                    <input id="srarch_content" type="text" class="form-control" placeholder="搜索卷名首字母" style="margin-bottom:10px;margin-left:14px;width:165px;" v-model="srarch_content" @keyup="search($event)">
+
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade active in" id="profile1">
+                            <div class="list-group"  id="title_view">
+                                <a v-for="title in title_list | filterBy srarch_fmt_content in 'Prefix'" transition="staggered" tid="{{title.Id}}" class="list-group-item {{title.Id==tid?'active':''}}" @click="setParagraph(title.Id,$event)">{{title.Cn_title}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-1">
+                <div class="btn-group-vertical" id="paragraph">
+                    <input type="text" class="form-control" placeholder="章节" style="margin-bottom:10px;">
+
+                    <button type="button" v-for="num in paragraph" class="btn {{num==pid?'btn-success':'btn-default'}} paragraph"  transition="staggered" pid="{{num}}"  @click="getContent(num)">{{num}}</button>
+                </div>
+            </div>
+            <div class="thumbnail content " style="margin-left:20%;">
+                <h3 class="events-heading">{{current_title}}</h3><h5 v-show="current_title!=''">第{{pid}}章</h5>
+                <div class="col-xs-10 col-xs-offset-1" >
+                <p v-for="content in contents" class="{{content.Section==cid?'content-active':''}}" transition="staggered">
+                    {{content.Section}} ,{{ content.Content}}</p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+<script>
+    var vue;
+    vue = new Vue({
+        el:"#vue",
+        data:{
+            title_list:{},
+            paragraph:{},
+            contents:{},
+            current_title:'',
+            tid:1,
+            pid:1,
+            cid:0,
+            srarch_content:'',
+            srarch_fmt_content:'',
+        },
+        methods:{
+            search:function(event){
+                if(event.keyCode==13) {
+                    //获取第一个卷名
+                    var view_tid = $('#title_view').find('a:first').attr('tid');
+                    if(view_tid == undefined){//如果没找到就返回
+                        return;
+                    }else{
+                        vue.tid = view_tid;
+                    }
+                    var index = vue.srarch_content.indexOf(':');
+                    if(index>0) {//如果能找到
+                       //获取最后一个冒号后面的值
+                        var to_index = vue.srarch_content.lastIndexOf(':');
+                        var current_max_pid = vue.title_list[vue.tid]['fmt_paragraph'][vue.title_list[vue.tid]['fmt_paragraph'].length-1];
+                        //获取章节
+                        var view_pid =  vue.srarch_content.substring(index+1, to_index);
+                        var fmt_pid = parseInt(view_pid);
+                        if(fmt_pid > 0){
+                            if(fmt_pid > current_max_pid){
+                                vue.pid = current_max_pid;
+                            }else{
+                                vue.pid = fmt_pid;
+                            }
+                        }
+                        if(to_index > index){
+                            var view_cid =  vue.srarch_content.substring(to_index+1, vue.srarch_content.length);
+                            var fmt_cid = parseInt(view_cid);
+                            if(fmt_cid > 0){
+                                vue.cid = fmt_cid;
+                            }
+                        }
+                    }
+                    vue.getContent();
+                    vue.srarch_content = '';
+                    vue.srarch_fmt_content = '';
+                    $(event.currentTarget).focus();
+                }else{
+                    //查询出现首次冒号的位置
+                    var index = vue.srarch_content.indexOf(':');
+                    if(index>0){//如果能找到
+                        vue.srarch_fmt_content = vue.srarch_content.substr(0, index);
+                    }else{
+                        vue.srarch_fmt_content = vue.srarch_content;
+                    }
+                }
+
+            },
+            setParagraph:function(id,self){
+                vue.paragraph = vue.title_list[id]['fmt_paragraph'];
+                vue.tid = id;
+//                $('#paragraph').addClass('animated bounce');
+//                setTimeout(function(){
+//                    $('#paragraph').removeClass('bounce');
+//                },1000);
+            },
+            getContent:function(pid){
+                if(pid != undefined){
+                    vue.pid = pid;
+                }
+                vue.current_title = vue.title_list[vue.tid]['Cn_title'];
+                $.get('http://www.kaffir-lily.cc:8080/bible',{pid:vue.pid,tid:vue.tid},
+                    function(result){
+                        vue.contents = result.content;
+                    });
+            }
+        }
+    });
+    var title_list = {};
+    $(function(){
+        $.get('http://www.kaffir-lily.cc:8080/bibletitle',function(result){
+            $.each(result.content,function(i,v){
+                title_list[v.Id] = v;
+                title_list[v.Id]['fmt_paragraph'] =JSON.parse(v.Paragraph);
+                vue.title_list = title_list;
+            });
+            vue.paragraph = vue.title_list['1']['fmt_paragraph'];
+        });
+        $('#srarch_content').focus();
+//        layer.tips('只想提示地精准些', '#srarch_content', {
+//            tips: 1,
+//            time:5000,
+//        });
+
+    });
+
+</script>
+</body>
+</html>
