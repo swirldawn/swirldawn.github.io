@@ -174,6 +174,7 @@
                 <p v-for="content in contents" class="{{content.Section==cid?'content-active':''}}" transition="staggered">
                     {{content.Section}} ,{{ content.Content}}</p>
                 </div>
+                {{{page_view}}}
             </div>
         </div>
         
@@ -192,6 +193,7 @@
             cid:0,
             srarch_content:'',
             srarch_fmt_content:'',
+            page_view:'',
         },
         methods:{
             search:function(event){
@@ -278,6 +280,68 @@
 //        });
 
     });
+    Vue.getPageViewByBootStarp =function (fun,page_num,current,size,total){
+        var  $pages =new Array();
+        var  $page_num = page_num; //总分页数
+        var  $current = current; //当前页
+        var  $size = size; //每页显示数
+        var  $total = total; //获取总数
+
+        var  $start = 0;
+        var $end = 0;
+        if($current <= 10){
+            $start = 1;
+            $end = $start + 9;
+        }else if( $current  > 5)
+        {
+            $start = $current - 4;
+            $end = $current + 5;
+        }else{
+            $start = $current - 2;
+            $end = $page_num;
+        }
+        if($end > $page_num)
+        {
+            $end = $page_num;
+        }
+        var $html = '<div >';
+        if ($page_num > 9) {
+
+            $html += ''+
+                    '<div id="page-skip" style="float:right;margin-top:2px;"><span style="float:left;line-height:34px;">&nbsp;共'+$page_num+'页&nbsp;&nbsp;第&nbsp;</span><input id="inputPage" class="form-control" style="width:45px;float:left;" value="'+$current+'" /><span style="float:left;line-height:34px;">&nbsp;页&nbsp;</span>'+
+                    '<button style="float:left;" href="javascript:;" onclick=\'javascript:var go_page=this.parentNode.parentNode.getElementsByTagName("input")[0].value;if(isNaN(go_page)||go_page>'+$page_num+'||go_page<1||go_page=='+$current+')return;'+fun+'(go_page);return false;\' class="btn btn-primary">'+
+                    '确定'+
+                    '</button>'+
+                    '</div>'+
+                    '';
+        }
+        $html += '<ul  class="pagination" style="float:right;" >';
+        if ($current > 1) {
+            var last_page= $current - 1;
+            $html += '<li class="active"><a  onclick="'+fun+'(' + last_page + ')" title="上一页"><<</a></li>';
+        }
+        if ($page_num > 1) {
+            for (var $i = $start; $i <= $end; ++$i) {
+                var $_start = $size * ($i - 1) + 1;
+                var $_end = Math.min($size * $i, $total);
+                if ($i != $current) {
+                    $html += '<li><a class="everyPage" onclick="' +fun+'('+$i+') ">' + $i + '</a></li>';
+                }else {
+                    $html += '<li class="active"><a >'+$i+'</a></li>';
+                }
+            }
+        }
+        if ($current < $page_num) {
+            var next_page=$current + 1;
+            $html += '<li class="active"><a  onclick="'+fun+'('+next_page+')'+'" title="下一页">>></a></li>';
+        }
+        $html += '</ul>';
+
+
+        $html += '</div>';
+        return $html;
+
+    }
 
 </script>
 </body>
