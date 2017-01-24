@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta name="keywords" content="二维码生成,计算器,json解析" />
+
     <link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootflat/2.0.4/css/bootflat.min.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/highlight.js/9.9.0/styles/atelier-sulphurpool-dark.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
     <script src="https://plat.heyimed.com//assets/js/moment.min.js" charset="UTF-8" type="text/javascript"></script>
     <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
     <script src="https://cdn.bootcss.com/jsbarcode/3.5.8/JsBarcode.all.js"></script>
    <script src="https://plat.heyimed.com//assets/js/vue.js" charset="UTF-8" type="text/javascript"></script>
 <script src="https://plat.heyimed.com//calendar/WdatePicker.js" charset="UTF-8" type="text/javascript"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.9.0/highlight.min.js"></script>
 <script src="https://cdn.bootcss.com/blueimp-md5/2.6.0/js/md5.min.js"></script>
+<script src="./jparticle.jquery.min.js"></script>
+
     <title>奇幻领域</title>
     <style>
         .min-height{
@@ -21,12 +24,32 @@
             margin-top:5px;
             background-color: #CCCC99;
         }
+          /*背景图片*/
+        .s-skin-container {
+            position: fixed;
+            _position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            min-width: 1000px;
+            z-index: -10;
+            background-position: center 0;
+            background-repeat: no-repeat;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -o-background-size: cover;
+            zoom: 1;
+        }
+
     </style>
 </head>
 <body style="background-color: rgb(241, 242, 246);">
-<div class='container documents' id='vue'>
+     <div class="s-skin-container s-isindex-wrap" style="">  </div>
+
+<div class='container documents' id='vue' style="background-color: rgb(241, 242, 246);">
     <div class="example">
-        <h2 class="example-title"></h2>
+        <h2 class="example-title"> <i class="fa fa-cog fa-spin"></i></h2>
         <div class="row">
                     <div class="col-md-4">
                         <div class="form-group ">
@@ -93,16 +116,17 @@
         </div>
          <div class="example" style='margin-top:12px;'>
              <div class='row'>   
-                  <label class="control-label" for="inputSuccess2">json解析</label>
+                   <div class="form-group col-md-6 col-md-offset-3" style="margin-top:12px;">
+                            <button type="button" class="btn btn-primary btn-block " onclick="var data = $('#json_input').val();var data_json = JSON.parse(data);var data_html = JSON.stringify(data_json, null, 4);$('#json_input').val(data_html)">json解析</button>
+                            </div>
                             <div class="col-md-12">
                                 <textarea id="json_input" name="json_input" class="col-md-12 form-control" rows='32' style="font-size: 11px !important;"  spellcheck="false" placeholder="请输入需要检验的json字符串或URL"></textarea>
                             </div>
-                            <button type="button" class="btn btn-primary btn-block" onclick="var data = $('#json_input').val();var data_json = JSON.parse(data);var data_html = JSON.stringify(data_json, null, 4);$('#json_input').val(data_html)">转换</button>
-                            
+                       
 
                 </div>
          </div>
-         <div class="col-md-12">
+         <div class="col-md-12" style="margin-top:12px;">
             <div class="footer">
               <div class="container">
                 <div class="clearfix">
@@ -120,6 +144,7 @@
 	<script>
 		
 		$(function(){
+        $(".s-skin-container").jParticle({background:'#99CC99'});
 
 		$('#barcode_text').keyup(function(){
 				var barcode=$('#barcode_text').val();
