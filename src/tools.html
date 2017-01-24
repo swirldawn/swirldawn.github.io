@@ -6,14 +6,16 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootflat/2.0.4/css/bootflat.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://plat.heyimed.com//assets/js/moment.min.js" charset="UTF-8" type="text/javascript"></script>
     <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
     <script src="https://cdn.bootcss.com/jsbarcode/3.5.8/JsBarcode.all.js"></script>
-    <script src="http://www.kaffir-lily.cc/assets/home/js/vue.js"></script>
-
+   <script src="https://plat.heyimed.com//assets/js/vue.js" charset="UTF-8" type="text/javascript"></script>
+<script src="https://plat.heyimed.com//calendar/WdatePicker.js" charset="UTF-8" type="text/javascript"></script>
     <title>Document</title>
     <style>
         .min-height{
             min-height:250px;
+            margin-top:5px;
             background-color: #CCCC99;
         }
     </style>
@@ -23,43 +25,70 @@
     <div class="example">
         <h2 class="example-title"></h2>
         <div class="row">
-          <div class="col-md-4">
-              <div class="form-group ">
-                  <label class="control-label" for="inputSuccess2">条形码</label>
-                  <input type="text" class="form-control" id='barcode_text'>
-                </div>
-                 <div class=" min-height"  id="barcode_show">
-                     <svg id="barcode"></svg>
-          </div>
-          </div>
-          <div class="col-md-4">
-               <div class="form-group ">
-                  <label class="control-label" for="inputSuccess2">二维码</label>
-                  <input type="text" class="form-control" id='qrcode'>
-                </div>
-                 <div class=" min-height" id="qrcode_show">
-          </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group ">
-                  <label class="control-label" for="inputSuccess2">计算器</label>
-                  <input type="text" class="form-control" id='info' v-model="info" @keyup.enter="cal">
-                </div>
-                 <div class=" min-height">
-                     <span v-text="previous" style="font-size:xx-large;">   </span><br />
-			<span v-text="result" style="font-size:xx-large;">   </span>
+                    <div class="col-md-4">
+                        <div class="form-group ">
+                            <label class="control-label" for="inputSuccess2">条形码</label>
+                            <input type="text" class="form-control" id='barcode_text'>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-block" onclick="var barcode=$('#barcode_text').val();if(barcode=='')return; $('#barcode').JsBarcode(barcode);">转换</button>
+                            <div class=" min-height"  id="barcode_show">
+                                <svg id="barcode"></svg>
+                    </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group ">
+                            <label class="control-label" for="inputSuccess2">二维码</label>
+                            <input type="text" class="form-control" id='qrcode'>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-block" onclick="var qrcode=$('#qrcode').val();$('#qrcode_show').html(''); $('#qrcode_show').qrcode(qrcode);">转换</button>
+                            
+                            <div class=" min-height" id="qrcode_show">
+                    </div>
+                    </div>
+                <div class="col-md-4">
+                    <div class="form-group ">
+                        <label class="control-label" for="inputSuccess2">计算器</label>
+                        <input type="text" class="form-control" id='info' v-model="info" @keyup.enter="cal">
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block" @click="cal">计算</button>
+                        
+                        <div class=" min-height">
+                            <span v-text="previous" style="font-size:xx-large;">   </span><br />
+                    <span v-text="result" style="font-size:xx-large;">   </span>
 
 
-          </div>
-            </div>
+                </div>
+                    </div>
+               
         </div>
+          <div class='row'>   
+                            <div class="col-md-4">
+                                <div class="form-group">
+                            <label class="control-label" >时间戳 to 时间</label>
+                            <input type="text" class="form-control" v-model='timestamp'>
+                            </div>
+                                    <input type="text" class="form-control" value='{{timestamp | date}}'>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                            <label class="control-label" >时间 to 时间戳</label>
+                            <input type="text" class="form-control" v-model='date' onClick="WdatePicker({dateFmt:'yyyy-MM-dd'});">
+                            </div>
+                                    {{date | timestamp}}
 
-      </div>
+                            </div>
+
+                </div>
+        </div>
+        </div>
+  
+
 </body>
 
 	<script>
 		
 		$(function(){
+
 		$('#barcode_text').keyup(function(){
 				var barcode=$('#barcode_text').val();
                 if(barcode=='')return;
@@ -75,8 +104,12 @@
 		
 		 	});
 
-		// $('#code').qrcode(aa,"code11",{barWidth:2, barHeight:30,showHRI:false});	
 		});
+        Vue.filter('timestamp', function (value) {
+        if(value == '')return '';
+        var date = moment(value).unix();
+        return date;
+              });
 
 		var vue;
 		vue = new Vue({
@@ -85,6 +118,8 @@
 			    info:'',
 			    previous:'',
 				result:'',
+                timestamp:'',
+                date:'',
 			  },
 			  methods:{
 					cal:function(){
@@ -96,7 +131,7 @@
 						console.log(eval(vue.info));
 					}
 				}
-			})
+			});
 		
 
 	</script>
