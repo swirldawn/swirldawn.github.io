@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootflat/2.0.4/css/bootflat.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/highlight.js/9.9.0/styles/atelier-sulphurpool-dark.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
     <script src="https://plat.heyimed.com//assets/js/moment.min.js" charset="UTF-8" type="text/javascript"></script>
     <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
     <script src="https://cdn.bootcss.com/jsbarcode/3.5.8/JsBarcode.all.js"></script>
    <script src="https://plat.heyimed.com//assets/js/vue.js" charset="UTF-8" type="text/javascript"></script>
 <script src="https://plat.heyimed.com//calendar/WdatePicker.js" charset="UTF-8" type="text/javascript"></script>
-    <title>Document</title>
+<script src="https://cdn.bootcss.com/highlight.js/9.9.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.6.0/js/md5.min.js"></script>
+    <title>奇幻领域</title>
     <style>
         .min-height{
             min-height:250px;
@@ -65,22 +68,51 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                             <label class="control-label" >时间戳 to 时间</label>
-                            <input type="text" class="form-control" v-model='timestamp'>
+                            <input type="text" class="form-control" v-model='timestamp' placeholder="请选择要转换的unix时间戳">
                             </div>
                                     <input type="text" class="form-control" value='{{timestamp | date}}'>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                             <label class="control-label" >时间 to 时间戳</label>
-                            <input type="text" class="form-control" v-model='date' onClick="WdatePicker({dateFmt:'yyyy-MM-dd'});">
+                            <input type="text" class="form-control" v-model='date' onClick="WdatePicker({dateFmt:'yyyy-MM-dd'});" placeholder="请选择要转换的时间">
                             </div>
-                                    {{date | timestamp}}
+                                     <input type="text" class="form-control" value='{{date | timestamp}}'>
 
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                            <label class="control-label" >md5</label>
+                            <input type="text" class="form-control" onChange="$('#md5-value').val(md5(this.value));" placeholder="请输入要加密的字符串">
+                            </div>
+                                    <input type="text" class="form-control" id="md5-value" value=''>
                             </div>
 
                 </div>
+                 
         </div>
+         <div class="example" style='margin-top:12px;'>
+             <div class='row'>   
+                  <label class="control-label" for="inputSuccess2">json解析</label>
+                            <div class="col-md-12">
+                                <textarea id="json_input" name="json_input" class="col-md-12 form-control" rows='32' style="font-size: 11px !important;"  spellcheck="false" placeholder="请输入需要检验的json字符串或URL"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-block" onclick="var data = $('#json_input').val();var data_json = JSON.parse(data);var data_html = JSON.stringify(data_json, null, 4);$('#json_input').val(data_html)">转换</button>
+                            
+
+                </div>
+         </div>
+         <div class="col-md-12">
+            <div class="footer">
+              <div class="container">
+                <div class="clearfix">
+                </div>
+                <div class="footer-copyright text-center">Copyright © 2017 DawnLight</div>
+              </div>
+            </div>
+          </div>
         </div>
+        
   
 
 </body>
@@ -105,6 +137,21 @@
 		 	});
 
 		});
+        function showData(slef){
+                         var data = $(slef).attr('mongo-data');
+                        var data_json = JSON.parse(data);
+                        var data_html = JSON.stringify(data_json, null, 4);
+                        $('#show_data_msg').html(data_html);
+                        layer.open({
+                            type: 1,
+                            shade: 0.3,
+                            area: '800px',
+                            title: '数据信息', //不显示标题
+                            content: $('#data_msg'), //捕获的元素
+                        });
+
+        }
+
         Vue.filter('timestamp', function (value) {
         if(value == '')return '';
         var date = moment(value).unix();
