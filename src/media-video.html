@@ -10,7 +10,7 @@
     <link href="https://cdn.bootcss.com/video.js/5.13.0/alt/video-js-cdn.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/vue/2.2.1/vue.min.js"></script>
-    <script src="https://cdn.bootcss.com/video.js/5.13.0/video.min.js"></script>
+    
     <script src="./dcore.js"></script>
     <link href="./style/font/iconfont.css" rel="stylesheet">
     <title>缸瓦市聚会视频</title>
@@ -91,7 +91,7 @@
         <div class="weui-cells">
                     <video id="my-video" class="video-js" controls preload="auto" style="max-width:980px;"
               poster="" data-setup="{}">
-               <source src="http://helpvidep.oss-cn-shanghai.aliyuncs.com/1%E8%AE%A2%E5%8D%95%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD.mp4" type='video/mp4'>
+               <source src="http://helpvidep.oss-cn-shanghai.aliyuncs.com/2%E8%AE%A2%E5%8D%95%E8%AF%A6%E6%83%85%E5%8F%8A%E6%96%B0%E5%A2%9E%E6%89%B9%E6%AC%A1.mp4" type='video/mp4'>
                 <p class="vjs-no-js">
                   To view this video please enable JavaScript, and consider upgrading to a web browser that
                   <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
@@ -110,6 +110,7 @@
           
         </div>
     </div>
+   
 
             </div>
             <script>
@@ -136,12 +137,12 @@
                 $(function(){
                     var id = D.getQueryString("id");
                         $.get("https://www.kaffir-lily.cc/media/"+id,{id:id},function(result){
-                                vue.media = result.data;
-                                vue.type = result.data.type;
-                                var myPlayer = videojs('my-video');
+                            //     vue.media = result.data;
+                            //     vue.type = result.data.type;
+                            //     var myPlayer = videojs('my-video');
 
-                            myPlayer.src(result.data.url);
-                            myPlayer.load(result.data.url);
+                            // myPlayer.src(result.data.url);
+                            // myPlayer.load(result.data.url);
                     });
                     
                 });
@@ -169,5 +170,6 @@
 // http://www.dawnlight.com/mediaList
                 
             </script>
+             <script src="https://cdn.bootcss.com/video.js/5.13.0/video.min.js"></script>
 </body>
 </html>
