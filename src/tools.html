@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
@@ -12,20 +13,26 @@
     <script src="https://plat.heyimed.com//assets/js/moment.min.js" charset="UTF-8" type="text/javascript"></script>
     <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
     <script src="https://cdn.bootcss.com/jsbarcode/3.5.8/JsBarcode.all.js"></script>
-   <script src="https://plat.heyimed.com//assets/js/vue.js" charset="UTF-8" type="text/javascript"></script>
-<script src="https://plat.heyimed.com//calendar/WdatePicker.js" charset="UTF-8" type="text/javascript"></script>
-<script src="https://cdn.bootcss.com/blueimp-md5/2.6.0/js/md5.min.js"></script>
-<script src="./jparticle.jquery.min.js"></script>
+    <script src="https://plat.heyimed.com//assets/js/vue.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="https://plat.heyimed.com//calendar/WdatePicker.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.6.0/js/md5.min.js"></script>
+    <script src="./jparticle.jquery.min.js"></script>
 
     <title>奇幻领域</title>
     <style>
-        .min-height{
-            min-height:250px;
-            margin-top:5px;
+        body {
+            background-color: #336690;
+        }
+        
+        .min-height {
+            min-height: 250px;
+            margin-top: 5px;
             background-color: #CCCC99;
         }
-          /*背景图片*/
+        /*背景图片*/
+        
         .s-skin-container {
+            background-color: #336690;
             position: fixed;
             _position: absolute;
             top: 0;
@@ -41,170 +48,200 @@
             -o-background-size: cover;
             zoom: 1;
         }
-
     </style>
 </head>
-<body style="background-color: rgb(241, 242, 246);">
-     <div class="s-skin-container s-isindex-wrap" style="">  </div>
 
-<div class='container documents' id='vue' style="background-color: rgb(241, 242, 246);">
-    <div class="example">
-        <h2 class="example-title" style="color:#336699">  <i class="fa fa-cog fa-spin"></i></h2>
-        <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group ">
-                            <label class="control-label" for="inputSuccess2">条形码</label>
-                            <input type="text" class="form-control" id='barcode_text'>
-                            </div>
-                            <button type="button" class="btn btn-primary btn-block" onclick="var barcode=$('#barcode_text').val();if(barcode=='')return; $('#barcode').JsBarcode(barcode);">转换</button>
-                            <div class=" min-height"  id="barcode_show">
-                                <svg id="barcode"></svg>
+<body style="background-color: rgb(241, 242, 246);">
+    <div class="s-skin-container s-isindex-wrap" style=""> </div>
+
+    <div class='container documents' id='vue' style="background-color: rgb(241, 242, 246);">
+        <div class="example">
+            <h2 class="example-title" style="color:#336699"> <i class="fa fa-cog fa-spin"></i></h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group ">
+                        <label class="control-label" for="inputSuccess2">条形码</label>
+                        <input type="text" class="form-control" id='barcode_text'>
                     </div>
+                    <button type="button" class="btn btn-primary btn-block" onclick="var barcode=$('#barcode_text').val();if(barcode=='')return; $('#barcode').JsBarcode(barcode);">转换</button>
+                    <div class=" min-height" id="barcode_show">
+                        <svg id="barcode"></svg>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group ">
-                            <label class="control-label" for="inputSuccess2">二维码</label>
-                            <input type="text" class="form-control" id='qrcode'>
-                            </div>
-                            <button type="button" class="btn btn-primary btn-block" onclick="var qrcode=$('#qrcode').val();$('#qrcode_show').html(''); $('#qrcode_show').qrcode(qrcode);">转换</button>
-                            
-                            <div class=" min-height" id="qrcode_show">
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group ">
+                        <label class="control-label" for="inputSuccess2">二维码</label>
+                        <input type="text" class="form-control" id='qrcode'>
                     </div>
+                    <button type="button" class="btn btn-primary btn-block" onclick="var qrcode=$('#qrcode').val();$('#qrcode_show').html(''); $('#qrcode_show').qrcode(qrcode);">转换</button>
+
+                    <div class=" min-height" id="qrcode_show">
                     </div>
+                </div>
                 <div class="col-md-4">
                     <div class="form-group ">
                         <label class="control-label" for="inputSuccess2">计算器</label>
                         <input type="text" class="form-control" id='info' v-model="info" @keyup.enter="cal">
-                        </div>
-                        <button type="button" class="btn btn-primary btn-block" @click="cal">计算</button>
-                        
-                        <div class=" min-height">
-                            <span v-text="previous" style="font-size:xx-large;">   </span><br />
-                    <span v-text="result" style="font-size:xx-large;">   </span>
-
-
-                </div>
                     </div>
-               
-        </div>
-          <div class='row'>   
-                            <div class="col-md-4">
-                                <div class="form-group">
-                            <label class="control-label" >时间戳 to 时间</label>
-                            <input type="text" class="form-control" v-model='timestamp' placeholder="请选择要转换的unix时间戳">
-                            </div>
-                                    <input type="text" class="form-control" value='{{timestamp | date}}'>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                            <label class="control-label" >时间 to 时间戳</label>
-                            <input type="text" class="form-control" v-model='date' onClick="WdatePicker({dateFmt:'yyyy-MM-dd'});" placeholder="请选择要转换的时间">
-                            </div>
-                                     <input type="text" class="form-control" value='{{date | timestamp}}'>
+                    <button type="button" class="btn btn-primary btn-block" @click="cal">计算</button>
 
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                            <label class="control-label" >md5</label>
-                            <input type="text" class="form-control" onChange="$('#md5-value').val(md5(this.value));" placeholder="请输入要加密的字符串">
-                            </div>
-                                    <input type="text" class="form-control" id="md5-value" value=''>
-                            </div>
+                    <div class=" min-height">
+                        <span v-text="previous" style="font-size:xx-large;">   </span><br />
+                        <span v-text="result" style="font-size:xx-large;">   </span>
 
-                </div>
-                 
-        </div>
-         <div class="example" style='margin-top:12px;'>
-             <div class='row'>   
-                   <div class="form-group col-md-6 col-md-offset-3" style="margin-top:12px;">
-                            <button type="button" class="btn btn-primary btn-block " onclick="var data = $('#json_input').val();var data_json = JSON.parse(data);var data_html = JSON.stringify(data_json, null, 4);$('#json_input').val(data_html)">json解析</button>
-                            </div>
-                            <div class="col-md-12">
-                                <textarea id="json_input" name="json_input" class="col-md-12 form-control" rows='32' style="font-size: 11px !important;"  spellcheck="false" placeholder="请输入需要检验的json字符串或URL"></textarea>
-                            </div>
-                       
 
+                    </div>
                 </div>
-         </div>
-         <div class="col-md-12" style="margin-top:12px;">
-            <div class="footer">
-              <div class="container">
-                <div class="clearfix">
-                </div>
-                <div class="footer-copyright text-center">Copyright © 2017 DawnLight</div>
-              </div>
+
             </div>
-          </div>
+            <div class='row'>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">时间戳 to 时间</label>
+                        <input type="text" class="form-control" v-model='timestamp' placeholder="请选择要转换的unix时间戳">
+                    </div>
+                    <input type="text" class="form-control" value='{{timestamp | date}}'>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">时间 to 时间戳</label>
+                        <input type="text" class="form-control" v-model='date' onClick="WdatePicker({dateFmt:'yyyy-MM-dd'});" placeholder="请选择要转换的时间">
+                    </div>
+                    <input type="text" class="form-control" value='{{date | timestamp}}'>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">md5</label>
+                        <input type="text" class="form-control" onChange="$('#md5-value').val(md5(this.value));" placeholder="请输入要加密的字符串">
+                    </div>
+                    <input type="text" class="form-control" id="md5-value" value=''>
+                </div>
+
+            </div>
+
         </div>
-        
-  
+        <div class="example" style='margin-top:12px;'>
+            <div class='row'>
+                <div class="form-group col-md-6 col-md-offset-3" style="margin-top:12px;">
+                    <button type="button" class="btn btn-primary btn-block " onclick="var data = $('#json_input').val();var data_json = JSON.parse(data);var data_html = JSON.stringify(data_json, null, 4);$('#json_input').val(data_html)">json解析</button>
+                </div>
+                <div class="col-md-12">
+                    <textarea id="json_input" name="json_input" class="col-md-12 form-control" rows='32' style="font-size: 11px !important;" spellcheck="false" placeholder="请输入需要检验的json字符串或URL"></textarea>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="example" style='margin-top:12px;'>
+            <div class="form-group col-md-6 col-md-offset-3" style="margin-top:12px;">
+                <button type="button" class="btn btn-primary btn-block ">转成json</button>
+            </div>
+            <div class="col-md-12 example">
+
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <input type="text" placeholder="请输入key" class="form-control ">
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" placeholder="请输入value" class="form-control ">
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-12 example">
+
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <input type="text" placeholder="请输入key" class="form-control ">
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" placeholder="请输入value" class="form-control ">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-top:12px;">
+            <div class="footer">
+                <div class="container">
+                    <div class="clearfix">
+                    </div>
+                    <div class="footer-copyright text-center">Copyright © 2017 DawnLight</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 </body>
 
-	<script>
-		
-		$(function(){
-        $(".s-skin-container").jParticle({background:'#336690'});
+<script>
+    $(function() {
+        // $(".s-skin-container").jParticle({
+        //     background: '#336690'
+        // });
 
-		$('#barcode_text').keyup(function(){
-				var barcode=$('#barcode_text').val();
-                if(barcode=='')return;
-                $("#barcode").JsBarcode(barcode);
-		 	});
-		
-		 $('#qrcode').keyup(function(){
-				var qrcode=$('#qrcode').val();
-				$('#qrcode_show').html('');
-		 $('#qrcode_show').qrcode(qrcode);
+        $('#barcode_text').keyup(function() {
+            var barcode = $('#barcode_text').val();
+            if (barcode == '') return;
+            $("#barcode").JsBarcode(barcode);
+        });
 
-		 
-		
-		 	});
+        $('#qrcode').keyup(function() {
+            var qrcode = $('#qrcode').val();
+            $('#qrcode_show').html('');
+            $('#qrcode_show').qrcode(qrcode);
 
-		});
-        function showData(slef){
-                         var data = $(slef).attr('mongo-data');
-                        var data_json = JSON.parse(data);
-                        var data_html = JSON.stringify(data_json, null, 4);
-                        $('#show_data_msg').html(data_html);
-                        layer.open({
-                            type: 1,
-                            shade: 0.3,
-                            area: '800px',
-                            title: '数据信息', //不显示标题
-                            content: $('#data_msg'), //捕获的元素
-                        });
 
-        }
 
-        Vue.filter('timestamp', function (value) {
-        if(value == '')return '';
+        });
+
+    });
+
+    function showData(slef) {
+        var data = $(slef).attr('mongo-data');
+        var data_json = JSON.parse(data);
+        var data_html = JSON.stringify(data_json, null, 4);
+        $('#show_data_msg').html(data_html);
+        layer.open({
+            type: 1,
+            shade: 0.3,
+            area: '800px',
+            title: '数据信息', //不显示标题
+            content: $('#data_msg'), //捕获的元素
+        });
+
+    }
+
+    Vue.filter('timestamp', function(value) {
+        if (value == '') return '';
         var date = moment(value).unix();
         return date;
-              });
+    });
 
-		var vue;
-		vue = new Vue({
-			  el: '#vue',
-			  data: {
-			    info:'',
-			    previous:'',
-				result:'',
-                timestamp:'',
-                date:'',
-			  },
-			  methods:{
-					cal:function(){
-						vue.previous=vue.info;
-						vue.result='=';
-						vue.result+=eval(vue.info);
-						vue.info='';
-						$('#info').focus();
-						console.log(eval(vue.info));
-					}
-				}
-			});
-		
+    var vue;
+    vue = new Vue({
+        el: '#vue',
+        data: {
+            info: '',
+            previous: '',
+            result: '',
+            timestamp: '',
+            date: '',
+        },
+        methods: {
+            cal: function() {
+                vue.previous = vue.info;
+                vue.result = '=';
+                vue.result += eval(vue.info);
+                vue.info = '';
+                $('#info').focus();
+                console.log(eval(vue.info));
+            }
+        }
+    });
+</script>
 
-	</script>
 </html>
