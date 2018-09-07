@@ -25,7 +25,7 @@
         }
         
         .min-height {
-            min-height: 250px;
+            min-height: 200px;
             margin-top: 5px;
             background-color: #CCCC99;
         }
@@ -119,15 +119,49 @@
                 </div>
 
             </div>
+            <hr>
+            <div class="row two">
+                <div class="col-md-12">
+                    <div class="form-group ">
+                        <label class="control-label" for="inputSuccess2">urlDecode</label>
+                        <input type="text" class="form-control" v-model="url_decode" placeholder="请选择要解码的字符串">
+                    </div>
+
+                    <div class=" ">
+                        <input type="text" class="form-control" value="{{url_decode | url_decode}}">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row two">
+                <div class="col-md-12">
+                    <div class="form-group ">
+                        <label class="control-label" for="inputSuccess2">urlEncode</label>
+                        <input type="text" class="form-control" v-model="url_encode" placeholder="请选择要编码的字符串">
+                    </div>
+
+                    <div class=" ">
+                        <input type="text" class="form-control" value="{{url_encode | url_encode}}">
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+
 
         </div>
         <div class="example" style='margin-top:12px;'>
             <div class='row'>
-                <div class="form-group col-md-6 col-md-offset-3" style="margin-top:12px;">
+                <div class=" col-md-1 " style="margin-top:12px;">
+                    <input id="json_length">
+                </div>
+                <div class="form-group col-md-6 col-md-offset-2" style="margin-top:12px;">
+
                     <button type="button" class="btn btn-primary btn-block " onclick="var data = $('#json_input').val();var data_json = JSON.parse(data);var data_html = JSON.stringify(data_json, null, 4);$('#json_input').val(data_html)">json解析</button>
                 </div>
                 <div class="col-md-12">
-                    <textarea id="json_input" name="json_input" class="col-md-12 form-control" rows='32' style="font-size: 11px !important;" spellcheck="false" placeholder="请输入需要检验的json字符串或URL"></textarea>
+                    <textarea id="json_input" @blur="showLength" name="json_input" class="col-md-12 form-control" rows='32' style="font-size: 11px !important;" spellcheck="false" placeholder="请输入需要检验的json字符串或URL"></textarea>
                 </div>
 
 
@@ -178,6 +212,66 @@
 </body>
 
 <script>
+    let ShengUtils = {};
+
+
+    /** 
+     * Url编码 
+     **/
+    ShengUtils.encode = function(unzipStr) {
+        var zipstr = "";
+        var strSpecial = "!\"#$%&'()*+,/:;<=>?[]^`{|}~%";
+        var tt = "";
+        for (var i = 0; i < unzipStr.length; i++) {
+            var chr = unzipStr.charAt(i);
+            var c = ShengUtils.StringToAscii(chr);
+            tt += chr + ":" + c + "n";
+            if (parseInt("0x" + c) > 0x7f) {
+                zipstr += encodeURI(unzipStr.substr(i, 1));
+            } else {
+                if (chr == " ")
+                    zipstr += "+";
+                else if (strSpecial.indexOf(chr) != -1)
+                    zipstr += "%" + c.toString(16);
+                else
+                    zipstr += chr;
+            }
+        }
+        return zipstr;
+    }
+
+    /** 
+     * Url解码 
+     **/
+    ShengUtils.decode = function(zipStr) {
+        var uzipStr = "";
+        for (var i = 0; i < zipStr.length; i++) {
+            var chr = zipStr.charAt(i);
+            if (chr == "+") {
+                uzipStr += " ";
+            } else if (chr == "%") {
+                var asc = zipStr.substring(i + 1, i + 3);
+                if (parseInt("0x" + asc) > 0x7f) {
+                    uzipStr += decodeURI("%" + asc.toString() + zipStr.substring(i + 3, i + 9).toString());;
+                    i += 8;
+                } else {
+                    uzipStr += ShengUtils.AsciiToString(parseInt("0x" + asc));
+                    i += 2;
+                }
+            } else {
+                uzipStr += chr;
+            }
+        }
+        return uzipStr;
+    }
+
+    ShengUtils.StringToAscii = function(str) {
+        return str.charCodeAt(0).toString(16);
+    }
+
+    ShengUtils.AsciiToString = function(asccode) {
+        return String.fromCharCode(asccode);
+    }
     $(function() {
         // $(".s-skin-container").jParticle({
         //     background: '#336690'
@@ -220,6 +314,16 @@
         var date = moment(value).unix();
         return date;
     });
+    Vue.filter('url_decode', function(value) {
+        if (value == '') return '';
+        var re = ShengUtils.decode(value);
+        return re;
+    });
+    Vue.filter('url_encode', function(value) {
+        if (value == '') return '';
+        var re = ShengUtils.encode(value);
+        return re;
+    });
 
     var vue;
     vue = new Vue({
@@ -230,6 +334,8 @@
             result: '',
             timestamp: '',
             date: '',
+            url_decode: "",
+            url_encode: "",
         },
         methods: {
             cal: function() {
@@ -239,9 +345,11 @@
                 vue.info = '';
                 $('#info').focus();
                 console.log(eval(vue.info));
+            },
+            showLength: function() {
+                var str = $('#json_input').val();
+                $('#json_length').val("一共   " + str.length + "   个字");
             }
         }
     });
 </script>
-
-</html>
