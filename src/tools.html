@@ -147,8 +147,36 @@
                 </div>
 
             </div>
-            <hr>
 
+            <hr>
+            <!-- -------------------------- base64_decode ----------------- -->
+            <div class="row two">
+                <div class="col-md-12">
+                    <div class="form-group ">
+                        <label class="control-label" for="inputSuccess2">base64_decode</label>
+                        <input type="text" class="form-control" v-model="base64_decode" placeholder="请选择要解码的字符串">
+                    </div>
+
+                    <div class=" ">
+                        <input type="text" class="form-control" value="{{base64_decode | base64_decode}}">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row two">
+                <div class="col-md-12">
+                    <div class="form-group ">
+                        <label class="control-label" for="inputSuccess2">base64_encode</label>
+                        <input type="text" class="form-control" v-model="base64_encode" placeholder="请选择要编码的字符串">
+                    </div>
+
+                    <div class=" ">
+                        <input type="text" class="form-control" value="{{base64_encode | base64_encode}}">
+                    </div>
+                </div>
+
+            </div>
 
         </div>
         <div class="example" style='margin-top:12px;'>
@@ -325,6 +353,16 @@
         return re;
     });
 
+    Vue.filter('base64_encode', function(value) {
+        if (value == '') return '';
+        var re = window.btoa(value);
+        return re;
+    });
+    Vue.filter('base64_decode', function(value) {
+        if (value == '') return '';
+        var re = window.atob(value);
+        return re;
+    });
     var vue;
     vue = new Vue({
         el: '#vue',
@@ -336,6 +374,8 @@
             date: '',
             url_decode: "",
             url_encode: "",
+            base64_encode: "",
+            base64_decode: "",
         },
         methods: {
             cal: function() {
