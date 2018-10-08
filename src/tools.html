@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <meta name="keywords" content="二维码生成,计算器,json解析" />
 
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/bootflat/2.0.4/css/bootflat.min.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+    <link href="https://web-js-or-css-source.oss-cn-beijing.aliyuncs.com/bjsda_back/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.loli.net/ajax/libs/bootflat/2.0.4/css/bootflat.min.css" rel="stylesheet">
+    <link href="https://cdnjs.loli.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdnjs.loli.net/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="https://plat.heyimed.com//assets/js/moment.min.js" charset="UTF-8" type="text/javascript"></script>
-    <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
-    <script src="https://cdn.bootcss.com/jsbarcode/3.5.8/JsBarcode.all.js"></script>
+    <script src="https://cdnjs.loli.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+    <script src="https://cdnjs.loli.net/ajax/libs/jsbarcode/3.5.8/JsBarcode.all.js"></script>
     <script src="https://plat.heyimed.com//assets/js/vue.js" charset="UTF-8" type="text/javascript"></script>
     <script src="https://plat.heyimed.com//calendar/WdatePicker.js" charset="UTF-8" type="text/javascript"></script>
-    <script src="https://cdn.bootcss.com/blueimp-md5/2.6.0/js/md5.min.js"></script>
+    <script src="https://cdnjs.loli.net/ajax/libs/blueimp-md5/2.6.0/js/md5.min.js"></script>
     <script src="./jparticle.jquery.min.js"></script>
 
     <title>奇幻领域</title>
@@ -120,6 +120,7 @@
 
             </div>
             <hr>
+            <!-- urldecode -->
             <div class="row two">
                 <div class="col-md-12">
                     <div class="form-group ">
@@ -133,7 +134,7 @@
                 </div>
 
             </div>
-
+            <!-- urlEncode -->
             <div class="row two">
                 <div class="col-md-12">
                     <div class="form-group ">
@@ -304,13 +305,13 @@
         // $(".s-skin-container").jParticle({
         //     background: '#336690'
         // });
-
+        //条形码
         $('#barcode_text').keyup(function() {
             var barcode = $('#barcode_text').val();
             if (barcode == '') return;
             $("#barcode").JsBarcode(barcode);
         });
-
+        //二维码
         $('#qrcode').keyup(function() {
             var qrcode = $('#qrcode').val();
             $('#qrcode_show').html('');
@@ -336,12 +337,13 @@
         });
 
     }
-
+    //时间戳过滤器
     Vue.filter('timestamp', function(value) {
         if (value == '') return '';
         var date = moment(value).unix();
         return date;
     });
+    //url编码过滤器
     Vue.filter('url_decode', function(value) {
         if (value == '') return '';
         var re = ShengUtils.decode(value);
@@ -352,7 +354,7 @@
         var re = ShengUtils.encode(value);
         return re;
     });
-
+    //base64过滤器
     Vue.filter('base64_encode', function(value) {
         if (value == '') return '';
         var re = window.btoa(value);
