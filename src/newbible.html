@@ -26,9 +26,9 @@
 <body>
     <div id="q-app">
         <q-layout view="lHh Lpr fff">
-            <div style="margin:10px auto;max-width:1100px;">
+            <div style="margin:5px auto;max-width:1100px;" class="fixed-top">
                 <div>
-                    <q-list id="content_list" style="text-align:left;height:calc(100vh - 90px);overflow:auto;padding:20px;">
+                    <q-list id="content_list" style="text-align:left;height:calc(100vh - 80px);overflow:auto;padding:20px;">
                         <q-list-header>{{current_title}}</q-list-header>
                         <div class="" v-for="c in contents">
 
@@ -41,8 +41,8 @@
             <q-page-container>
                 <my-page>
                     <div class="fixed-bottom">
-                        <q-pagination class="offset-5" v-model="page" input :min="minPages" :max="maxPages" @input="to"></q-pagination>
-                        <q-select align="center" color="orange" inverted-light v-model="select" float-label="请选择经卷" filter autofocus-filter :options="selectOptions" />
+                        <q-pagination class="offset-md-5 offset-xs-3" v-model="page" input :min="minPages" :max="maxPages" @input="to"></q-pagination>
+                        <q-select align="center" color="orange" inverted-light v-model="select" filter autofocus-filter :options="selectOptions" />
                     </div>
                 </my-page>
             </q-page-container>
@@ -62,7 +62,7 @@
                     current_title: "创世纪",
                     selectOptions: [],
                     select: 1,
-                    pid: "1",
+                    pid: 1,
                     tid: 1,
                     sid: 1,
                     page: 1,
@@ -162,6 +162,8 @@
             watch: {
                 select: function(val, oldVal) {
                     this.tid = val;
+                    this.pid = 1;
+                    this.page = 1;
                     this.current_title = this.title[val - 1].Cn_title;
                     this.getContent();
                     console.log(val, oldVal);
