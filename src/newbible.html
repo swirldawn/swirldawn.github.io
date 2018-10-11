@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.loli.net/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
+    <link href="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/css/quasar.mat.min.css" rel="stylesheet" type="text/css" media="screen" />
+    <script src="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/js/vue.min.js"></script>
+    <script src="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/js/quasar.mat.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar-framework@latest/dist/umd/i18n.zh-hans.umd.min.js"></script>
+    <script src="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/js/axios.min.js"></script>
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #E0E3DA;
+        }
+        
+        .q-list {
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="q-app">
+        <q-layout view="lHh Lpr fff">
+            <div style="margin:10px auto;max-width:1100px;">
+                <div>
+                    <q-list id="content_list" style="text-align:left;height:calc(100vh - 90px);overflow:auto;padding:20px;">
+                        <q-list-header>{{current_title}}</q-list-header>
+                        <div class="" v-for="c in contents">
+
+                            <h2 v-if="c.Section == sid"> {{c.Paragraph}}:{{c.Section}} {{c.Content}}</h2>
+                            <p v-else> {{c.Paragraph}}:{{c.Section}} {{c.Content}}</p>
+                        </div>
+                    </q-list>
+                </div>
+            </div>
+            <q-page-container>
+                <my-page>
+                    <div class="fixed-bottom">
+                        <q-pagination class="offset-5" v-model="page" input :min="minPages" :max="maxPages" @input="to"></q-pagination>
+                        <q-select align="center" color="orange" inverted-light v-model="select" float-label="请选择经卷" filter autofocus-filter :options="selectOptions" />
+                    </div>
+                </my-page>
+            </q-page-container>
+        </q-layout>
+    </div>
+
+    <script>
+        Quasar.utils.scroll.animScrollTo(document.getElementById("content_list"), 900, 100);
+        console.log(Quasar);
+        var vue = new Vue({
+            el: '#q-app',
+            data: function() {
+                return {
+                    model: "",
+                    title: [],
+                    title_list: [],
+                    current_title: "创世纪",
+                    selectOptions: [],
+                    select: 1,
+                    pid: "1",
+                    tid: 1,
+                    sid: 1,
+                    page: 1,
+                    minPages: 1,
+                    maxPages: 27,
+                    contents: [],
+                }
+            },
+            methods: {
+                launch: function(url) {
+                    Quasar.utils.openURL(url)
+                },
+                getTitle() {
+                    axios.get(`http://101.200.128.119:8080/bibletitle`).then(({
+                        data
+                    }) => {
+                        this.title = data.content;
+
+                        let select = [];
+                        data.content.forEach(function(v, i) {
+                            let title = {};
+                            title.label = v.Cn_title + v.Prefix;
+                            title.value = v.Id;
+                            select.push(title);
+
+                        });
+
+                        this.selectOptions = select;
+                    });
+                },
+                getContent: function() {
+
+
+                    axios.get(`http://www.kaffir-lily.cc:8080/bible?pid=${this.pid}&tid=${this.tid}`).then(({
+                        data
+                    }) => {
+                        this.contents = data.content;
+                        this.maxPages = eval(this.title[this.tid - 1].Paragraph).length;
+
+                    })
+
+                },
+                to(pid) {
+                    this.sid = 1;
+                    if (pid < 1) {
+                        pid = 1;
+                    }
+                    if (pid > this.maxPages) {
+                        pid = this.maxPages;
+                    }
+                    console.log(pid);
+                    this.pid = pid;
+                    this.getContent();
+
+                },
+                up() {
+                    this.sid--;
+                    if (this.sid < 1) {
+                        this.sid++;
+                        return;
+                    }
+                    if (this.sid < this.contents.length - 10) {
+                        var sHeight = Quasar.utils.scroll.getScrollHeight(document.getElementById("content_list"));
+                        var Height = Quasar.utils.dom.height(document.getElementById("content_list"));
+                        var toHeight = this.sid / this.contents.length * sHeight;
+                        console.log(toHeight);
+                        Quasar.utils.scroll.animScrollTo(document.getElementById("content_list"), toHeight - sHeight / 100 * 20, 100);
+                    }
+
+                },
+                down() {
+                    this.sid++;
+                    if (this.sid > this.contents.length) {
+                        this.sid--;
+                        return;
+                    }
+                    if (this.sid > 10) {
+                        var sHeight = Quasar.utils.scroll.getScrollHeight(document.getElementById("content_list"));
+                        var Height = Quasar.utils.dom.height(document.getElementById("content_list"));
+                        var toHeight = this.sid / this.contents.length * sHeight;
+                        console.log(toHeight);
+                        Quasar.utils.scroll.animScrollTo(document.getElementById("content_list"), toHeight - sHeight / 100 * 30, 100);
+                    }
+
+                },
+                left() {
+
+                },
+                right() {
+
+                }
+            },
+            created() {
+                this.getTitle();
+                this.getContent();
+            },
+            watch: {
+                select: function(val, oldVal) {
+                    this.tid = val;
+                    this.current_title = this.title[val - 1].Cn_title;
+                    this.getContent();
+                    console.log(val, oldVal);
+                }
+            },
+        })
+
+        document.onkeydown = function(event) {
+            var evt = event || window.event || arguments.callee.caller.arguments[0];
+
+            if (evt.keyCode) {
+                if (evt.keyCode == 38) {
+                    vue.up();
+                    console.log("up");
+                }
+                if (evt.keyCode == 40) {
+                    vue.down();
+                    console.log(Quasar.utils.scroll.getScrollHeight(document.getElementById("content_list")));
+                    console.log("Down");
+                }
+                if (evt.keyCode == 39) {
+                    vue.right();
+                    console.log("Right");
+                }
+                if (evt.keyCode == 37) {
+                    vue.left();
+                    console.log("Left");
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html
