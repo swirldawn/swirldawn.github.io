@@ -25,6 +25,14 @@
 
 <body>
     <div id="q-app">
+        <blockquote v-show="show_tips" class="absolute-left " style="color:#fff;z-index:100000;background-color: #fff;height:calc(50vh - 80px);top:26%;width:100%;background-image: -webkit-linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+        background-image: -moz-linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+        background-image: -o-linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+        background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+        ">
+            <h2 class="text-bold text-center">{{current_title}} {{pid}}:{{sid}} {{current_content}}</h2>
+
+        </blockquote>
         <q-layout view="lHh Lpr fff">
             <div style="margin:5px auto;max-width:1100px;" class="fixed-top">
                 <div>
@@ -41,7 +49,11 @@
             <q-page-container>
                 <my-page>
                     <div class="fixed-bottom">
-                        <q-pagination class="offset-md-5 offset-xs-3" v-model="page" input :min="minPages" :max="maxPages" @input="to"></q-pagination>
+                        <q-btn outline style="color: goldenrod;" :label="show_tips?'关闭启应':'打开启应'" @click="show_tips=!show_tips"></q-btn>
+                        <q-pagination class="offset-md-5 offset-xs-3" v-model="page" input :min="minPages" :max="maxPages" @input="to">
+
+                        </q-pagination>
+
                         <q-select align="center" color="orange" inverted-light v-model="select" filter autofocus-filter :options="selectOptions" />
                     </div>
                 </my-page>
@@ -60,6 +72,7 @@
                     title: [],
                     title_list: [],
                     current_title: "创世纪",
+                    current_content: "",
                     selectOptions: [],
                     select: 1,
                     pid: 1,
@@ -69,6 +82,7 @@
                     minPages: 1,
                     maxPages: 27,
                     contents: [],
+                    show_tips: false,
                 }
             },
             methods: {
@@ -101,7 +115,7 @@
                     }) => {
                         this.contents = data.content;
                         this.maxPages = eval(this.title[this.tid - 1].Paragraph).length;
-
+                        this.current_content = this.contents[this.sid - 1].Content;
                     })
 
                 },
@@ -167,8 +181,14 @@
                     this.current_title = this.title[val - 1].Cn_title;
                     this.getContent();
                     console.log(val, oldVal);
+                },
+                sid: function(val, oldVal) {
+
+                    this.current_content = this.contents[val - 1].Content;
+                    console.log(val, this.current_content);
                 }
             },
+
         })
 
         document.onkeydown = function(event) {
