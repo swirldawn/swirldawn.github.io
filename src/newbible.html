@@ -46,18 +46,16 @@
                     </q-list>
                 </div>
             </div>
-            <q-page-container>
-                <my-page>
-                    <div class="fixed-bottom">
-                        <q-btn outline style="color: goldenrod;" :label="show_tips?'关闭启应':'打开启应'" @click="show_tips=!show_tips"></q-btn>
-                        <q-pagination class="offset-md-5 offset-xs-3" v-model="page" input :min="minPages" :max="maxPages" @input="to">
 
-                        </q-pagination>
+            <div class="fixed-bottom">
+                <q-btn outline class="" style="color: goldenrod;position:absolute;" :label="show_tips?'关闭启应':'打开启应'" @click="show_tips=!show_tips"></q-btn>
+                <q-pagination class="offset-md-5 offset-xs-3" v-model="page" input :min="minPages" :max="maxPages" @input="to">
 
-                        <q-select align="center" color="orange" inverted-light v-model="select" filter autofocus-filter :options="selectOptions" />
-                    </div>
-                </my-page>
-            </q-page-container>
+                </q-pagination>
+
+                <q-select align="center" color="orange" inverted-light v-model="select" filter autofocus-filter :options="selectOptions"></q-select>
+            </div>
+
         </q-layout>
     </div>
 
