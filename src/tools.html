@@ -17,7 +17,7 @@
     <script src="https://plat.heyimed.com//calendar/WdatePicker.js" charset="UTF-8" type="text/javascript"></script>
     <script src="https://cdnjs.loli.net/ajax/libs/blueimp-md5/2.6.0/js/md5.min.js"></script>
     <script src="./jparticle.jquery.min.js"></script>
-
+    <script src="./sha1.js"></script>
     <title>奇幻领域</title>
     <style>
         body {
@@ -110,6 +110,7 @@
                     <input type="text" class="form-control" value='{{date | timestamp}}'>
 
                 </div>
+                <!-- md5  md5 md5 md5 md5 md5 md5 md5-->
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="control-label">md5</label>
@@ -117,10 +118,18 @@
                     </div>
                     <input type="text" class="form-control" id="md5-value" value=''>
                 </div>
+                <!-- sha1  sha1  sha1   sha1   sha1  -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">sha1</label>
+                        <input type="text" class="form-control" onChange="$('#hex_sha1-value').val(hex_sha1(this.value));" placeholder="请输入要加密的字符串">
+                    </div>
+                    <input type="text" class="form-control" id="hex_sha1-value" value=''>
+                </div>
 
             </div>
             <hr>
-            <!-- urldecode -->
+            <!-- urldecode  urldecode urldecode urldecode urldecode -->
             <div class="row two">
                 <div class="col-md-12">
                     <div class="form-group ">
@@ -134,7 +143,7 @@
                 </div>
 
             </div>
-            <!-- urlEncode -->
+            <!-- urlEncode   urlEncode urlEncode urlEncode urlEncode urlEncode -->
             <div class="row two">
                 <div class="col-md-12">
                     <div class="form-group ">
@@ -243,7 +252,7 @@
 <script>
     let ShengUtils = {};
 
-
+    console.log(hex_sha1("123456"));
     /** 
      * Url编码 
      **/
