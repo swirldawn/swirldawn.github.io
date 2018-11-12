@@ -117,7 +117,7 @@ upgrade</textarea>
     </div>
     <div id="bdtts_div_id">
         <audio id="tts_autio_id" autoplay="autoplay">
-                    <source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=9&text=播报内容" type="audio/mpeg">
+                    <source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=7&text=请输入展示单词" type="audio/mpeg">
                     <embed id="tts_embed_id" height="0" width="0" src="">
                 </audio>
     </div>
@@ -171,7 +171,7 @@ upgrade</textarea>
         // 这样就可实现播放内容的替换了
         ttsDiv.removeChild(ttsAudio);
         var au1 = '<audio id="tts_autio_id" autoplay="autoplay">';
-        var sss = '<source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=9&text=' + ttsText + '" type="audio/mpeg">';
+        var sss = '<source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=en&ie=UTF-8&spd=7&text=' + ttsText + '" type="audio/mpeg">';
         var eee = '<embed id="tts_embed_id" height="0" width="0" src="">';
         var au2 = '</audio>';
         ttsDiv.innerHTML = au1 + sss + eee + au2;
