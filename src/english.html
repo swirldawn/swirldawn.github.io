@@ -115,7 +115,12 @@ chunk
 upgrade</textarea>
         </div>
     </div>
-
+    <div id="bdtts_div_id">
+        <audio id="tts_autio_id" autoplay="autoplay">
+                    <source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=9&text=播报内容" type="audio/mpeg">
+                    <embed id="tts_embed_id" height="0" width="0" src="">
+                </audio>
+    </div>
 </body>
 <script>
     let num = 0;
@@ -125,7 +130,7 @@ upgrade</textarea>
         let showWord = $("#show_word").text();
         console.log(inputWord, showWord);
         if (inputWord == showWord) {
-
+            doTTS(inputWord);
             $(".clipped-box div").click();
             num++;
             $("#show_word").text(newArray[num]);
@@ -153,6 +158,27 @@ upgrade</textarea>
         });
         console.log(newArray);
         $("#show_word").text(newArray[num]);
+    }
+
+    function doTTS(text) {
+        var ttsDiv = document.getElementById('bdtts_div_id');
+        var ttsAudio = document.getElementById('tts_autio_id');
+        var ttsText = text;
+        // 这样为什么替换不了播放内容
+        /*var ssrcc = 'http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=10&text='+ttsText;
+        document.getElementById('tts_source_id').src=ssrcc;*/
+
+        // 这样就可实现播放内容的替换了
+        ttsDiv.removeChild(ttsAudio);
+        var au1 = '<audio id="tts_autio_id" autoplay="autoplay">';
+        var sss = '<source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=9&text=' + ttsText + '" type="audio/mpeg">';
+        var eee = '<embed id="tts_embed_id" height="0" width="0" src="">';
+        var au2 = '</audio>';
+        ttsDiv.innerHTML = au1 + sss + eee + au2;
+
+        ttsAudio = document.getElementById('tts_autio_id');
+
+        ttsAudio.play();
     }
 </script>
 
