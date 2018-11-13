@@ -12,7 +12,7 @@
     <link href="https://lib.baomitu.com/animate.css/3.7.0/animate.min.css" rel="stylesheet">
     <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="style.css" />
-    <title>🔐英语单词拼写训练</title>
+    <title>🔐性感单词,在线播报-英语单词拼写</title>
 </head>
 <style>
     .index {
@@ -63,7 +63,6 @@
         </div>
         <div style="margin:0 auto;width:1100px;" class="">
             <textarea name="" style="width:1100px;" id="word_data" rows="100" onblur="handle">
-                
 disabled
 position
 relative
@@ -92,32 +91,32 @@ division
 font-family
 needle
 pause
-January Jan.
-February Feb.
-March Mar.
-April Ap.
-May May.
-June Jun.
-July Jul.
-August Aug.
-September Sep.
-October Oct.
-November Nov.
-December Dec.
-Monday Mon.
-Tuesday Tue.
-Wednesday Wed.
-Thursday Thu.
-Friday Fri.
-Saterday Sat.
-Sunday Sun.
+January
+February
+March
+April
+May
+June
+July
+August
+September
+October
+November
+December
+Monday
+Tuesday
+Wednesday
+Thursday
+Friday
+Saterday
+Sunday
 chunk
 upgrade</textarea>
         </div>
     </div>
     <div id="bdtts_div_id">
         <audio id="tts_autio_id" autoplay="autoplay">
-                    <source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=7&text=请输入展示单词" type="audio/mpeg">
+                    <source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=zh&aue=wav&ie=UTF-8&spd=7&per=4&pit=9&text=请输入展示单词" type="audio/mpeg">
                     <embed id="tts_embed_id" height="0" width="0" src="">
                 </audio>
     </div>
@@ -136,16 +135,18 @@ upgrade</textarea>
             $("#show_word").text(newArray[num]);
             $(this).val("");
             $("#show_word").addClass("animated flipInX");
+            if (num >= newArray.length) {
+                num = 0;
+            }
             setTimeout(function() {
                 $("#show_word").removeClass("animated flipInX");
             }, 1000);
+
         }
     });
 
     $(function() {
         handle()
-
-
     });
 
     function handle() {
@@ -157,6 +158,7 @@ upgrade</textarea>
             }
         });
         console.log(newArray);
+        num = 0;
         $("#show_word").text(newArray[num]);
     }
 
@@ -171,7 +173,7 @@ upgrade</textarea>
         // 这样就可实现播放内容的替换了
         ttsDiv.removeChild(ttsAudio);
         var au1 = '<audio id="tts_autio_id" autoplay="autoplay">';
-        var sss = '<source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=en&ie=UTF-8&spd=7&text=' + ttsText + '" type="audio/mpeg">';
+        var sss = '<source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=en&aue=wav&ie=UTF-8&spd=6&per=4&pit=9&text=' + ttsText + '" type="audio/mpeg">';
         var eee = '<embed id="tts_embed_id" height="0" width="0" src="">';
         var au2 = '</audio>';
         ttsDiv.innerHTML = au1 + sss + eee + au2;
