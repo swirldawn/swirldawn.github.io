@@ -62,7 +62,7 @@
 
         </div>
         <div style="margin:0 auto;width:1100px;" class="">
-            <textarea name="" style="width:1100px;" id="word_data" rows="100" onblur="handle">
+            <textarea name="" style="width:1100px;" id="word_data" rows="100" onblur="handle()">
 disabled
 position
 relative
@@ -132,12 +132,14 @@ upgrade</textarea>
             doTTS(inputWord);
             $(".clipped-box div").click();
             num++;
-            $("#show_word").text(newArray[num]);
+
             $(this).val("");
-            $("#show_word").addClass("animated flipInX");
             if (num >= newArray.length) {
                 num = 0;
             }
+            $("#show_word").text(newArray[num]);
+            $("#show_word").addClass("animated flipInX");
+
             setTimeout(function() {
                 $("#show_word").removeClass("animated flipInX");
             }, 1000);
@@ -151,6 +153,7 @@ upgrade</textarea>
 
     function handle() {
         let word = $("#word_data").val().split(/[\n]/);
+        newArray = new Array();
         word.forEach(function(v, i) {
             let val = $.trim(v);
             if (val != "") {
