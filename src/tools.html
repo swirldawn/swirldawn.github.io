@@ -10,12 +10,13 @@
     <link href="https://cdnjs.loli.net/ajax/libs/bootflat/2.0.4/css/bootflat.min.css" rel="stylesheet">
     <link href="https://cdnjs.loli.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://cdnjs.loli.net/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="https://plat.heyimed.com//assets/js/moment.min.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="https://lib.baomitu.com/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.loli.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
     <script src="https://cdnjs.loli.net/ajax/libs/jsbarcode/3.5.8/JsBarcode.all.js"></script>
-    <script src="https://plat.heyimed.com//assets/js/vue.js" charset="UTF-8" type="text/javascript"></script>
-    <script src="https://plat.heyimed.com//calendar/WdatePicker.js" charset="UTF-8" type="text/javascript"></script>
+    <script src="https://lib.baomitu.com/vue/1.0.28/vue.min.js"></script>
     <script src="https://cdnjs.loli.net/ajax/libs/blueimp-md5/2.6.0/js/md5.min.js"></script>
+    <script src="https://lib.baomitu.com/flatpickr/4.5.2/flatpickr.min.js"></script>
+    <link href="https://lib.baomitu.com/flatpickr/4.5.2/flatpickr.min.css" rel="stylesheet">
     <script src="./jparticle.jquery.min.js"></script>
     <script src="./sha1.js"></script>
     <title>奇幻领域</title>
@@ -105,7 +106,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="control-label">时间 to 时间戳</label>
-                        <input type="text" class="form-control" v-model='date' onClick="WdatePicker({dateFmt:'yyyy-MM-dd'});" placeholder="请选择要转换的时间">
+                        <input type="text" class="form-control" id="show_date" v-model='date' placeholder="请选择要转换的时间">
                     </div>
                     <input type="text" class="form-control" value='{{date | timestamp}}'>
 
@@ -252,7 +253,6 @@
 <script>
     let ShengUtils = {};
 
-    console.log(hex_sha1("123456"));
     /** 
      * Url编码 
      **/
@@ -314,6 +314,7 @@
         // $(".s-skin-container").jParticle({
         //     background: '#336690'
         // });
+        document.getElementById("show_date").flatpickr();
         //条形码
         $('#barcode_text').keyup(function() {
             var barcode = $('#barcode_text').val();
