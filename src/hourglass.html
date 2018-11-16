@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://lib.baomitu.com/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./jquery.countdown.js"></script>
+    <title>Document</title>
+</head>
+<style>
+    body {
+        background-color: #355c7d;
+    }
+    
+    .list {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+    
+    .card {
+        background-color: orange;
+    }
+    
+    .bb,
+    .bb::before,
+    .bb::after {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    
+    .bb {
+        width: 200px;
+        height: 200px;
+        margin: auto;
+        background: url("Button-White-Large.png") no-repeat 50%/70% rgba(0, 0, 0, 0.1);
+        color: #69ca62;
+        box-shadow: inset 0 0 0 1px rgba(105, 202, 98, 0.5);
+    }
+    
+    .bb::before,
+    .bb::after {
+        content: '';
+        z-index: -1;
+        margin: -5%;
+        box-shadow: inset 0 0 0 2px;
+        animation: clipMe 8s linear infinite;
+    }
+    
+    .bb::before {
+        animation-delay: -4s;
+    }
+    
+    .bb:hover::after,
+    .bb:hover::before {
+        background-color: rgba(255, 0, 0, 0.3);
+    }
+    
+    @keyframes clipMe {
+        0%,
+        100% {
+            clip: rect(0px, 220.0px, 2px, 0px);
+        }
+        25% {
+            clip: rect(0px, 2px, 220.0px, 0px);
+        }
+        50% {
+            clip: rect(218.0px, 220.0px, 220.0px, 0px);
+        }
+        75% {
+            clip: rect(0px, 220.0px, 220.0px, 218.0px);
+        }
+    }
+    
+    .countdown {
+        display: table-cell;
+        font-weight: normal;
+    }
+    
+    .countdown .item {
+        display: inline-block;
+        vertical-align: bottom;
+        position: relative;
+        font-family: Impact, Charcoal, sans-serif;
+        font-weight: 700;
+        font-size: 160px;
+        line-height: 180px;
+        text-align: center;
+        color: #B7B7B7;
+        border-radius: 10px;
+        margin: 50px 10px 50px 0;
+        padding: 0 10px;
+        background: #2A2A2A;
+        background: -webkit-linear-gradient(#2A2A2A, #000);
+        background: linear-gradient(#2A2A2A, #000);
+        overflow: hidden;
+    }
+    
+    .countdown .item-ss {
+        font-size: 50px;
+        line-height: 70px;
+    }
+    
+    .countdown .item:after {
+        content: '';
+        display: block;
+        height: 1px;
+        border-top: 3px solid #111;
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        left: 0;
+    }
+    
+    .countdown .label {
+        text-transform: uppercase;
+        display: block;
+        position: absolute;
+        font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+        font-weight: 700;
+        line-height: normal;
+        right: 6px;
+        bottom: 4px;
+        font-size: 14px;
+        color: #B9B9B9;
+    }
+    
+    .countdown .item-hh .label,
+    .countdown .item-mm .label,
+    .countdown .item-ss .label {
+        display: none;
+    }
+    /* COUNTDOWN-ALT-1 */
+    /* ----------------------------------------------------------------------------------------- */
+    
+    .countdown-alt-1 {
+        display: block;
+        font-size: 0;
+        /* Hack for inline and inline-block extra markup generated spaces */
+        margin: 100px 0;
+        color: #000;
+    }
+    
+    .countdown-alt-1 .item {
+        position: relative;
+    }
+    
+    .countdown-alt-1 .dd,
+    .countdown-alt-1 .hh-1,
+    .countdown-alt-1 .hh-2,
+    .countdown-alt-1 .mm-1,
+    .countdown-alt-1 .mm-2,
+    .countdown-alt-1 .ss-1,
+    .countdown-alt-1 .ss-2 {
+        font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+        background: #F6F6F6;
+        border-radius: 10px;
+        display: inline-block;
+        font-size: 60px;
+        margin: 1px 2px;
+        min-width: 40px;
+        padding: 5px 16px;
+        text-align: center;
+    }
+    
+    .countdown-alt-1 .hh-1,
+    .countdown-alt-1 .hh-2,
+    .countdown-alt-1 .mm-1,
+    .countdown-alt-1 .mm-2,
+    .countdown-alt-1 .ss-1,
+    .countdown-alt-1 .ss-2 {
+        width: 40px;
+        max-width: 40px;
+    }
+    
+    .countdown-alt-1 .label {
+        font-style: italic;
+        text-transform: capitalize;
+        background: #F6F6F6;
+        border-radius: 5px;
+        font-size: 12px;
+        margin: 1px 2px;
+        padding: 2px 5px;
+        position: absolute;
+        left: 0;
+        bottom: -44px;
+    }
+    
+    .countdown-alt-1 .separator-dd,
+    .countdown-alt-1 .separator {
+        color: #FFF;
+        font-size: 40px;
+        position: relative;
+    }
+    /* COUNTDOWN-ALT-2 - Inspiration http://goo.gl/hRfsc */
+    /* ----------------------------------------------------------------------------------------- */
+    
+    .countdown-alt-2 {
+        font-size: 0;
+        /* Hack for inline and inline-block extra markup generated spaces */
+        display: block;
+        overflow: auto;
+        padding: 20px 0;
+        margin: 50px 0;
+        font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+        color: #333;
+        -webkit-transform: skew(-2deg, -2deg);
+        transform: skew(-2deg, -2deg);
+    }
+    
+    .countdown-alt-2 .item {
+        display: block;
+        float: left;
+        position: relative;
+        font-size: 50px;
+        font-weight: bold;
+        padding: 36px 20px 10px 20px;
+        margin: 0 10px;
+        min-width: 100px;
+        max-width: 100px;
+        text-align: center;
+        background: #FFF;
+        border: 2px solid #FFF;
+        box-shadow: 10px 10px 10px 1px rgba(0, 0, 0, 0.2);
+    }
+    
+    .countdown-alt-2 .dd,
+    .countdown-alt-2 .hh-1,
+    .countdown-alt-2 .hh-2,
+    .countdown-alt-2 .mm-1,
+    .countdown-alt-2 .mm-2,
+    .countdown-alt-2 .ss-1,
+    .countdown-alt-2 .ss-2 {
+        font: italic;
+        text-shadow: 1px 1px 10px #FFF, 1px 1px 3px #333;
+    }
+    
+    .countdown-alt-2 .label {
+        font-weight: normal;
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 14px;
+        width: 120px;
+        padding: 5px 10px;
+        background: #0B81BC;
+        color: #FFF;
+    }
+</style>
+
+<body>
+
+    <div class="big">
+        <div class="list row">
+            <div style="position: absolute;top:68%;left:10%;"> <time datetime="2020-06-21T17:43:00"></time></div>
+            <div class="card col-3 bb">
+
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+<script>
+    window.jQuery(function($) {
+        "use strict";
+
+        $('time').countDown({
+            with_separators: false,
+            label_dd: "天",
+            label_hh: "小时",
+            label_mm: "分钟",
+            label_ss: "秒",
+        });
+        $('.alt-1').countDown({
+            css_class: 'countdown-alt-1'
+        });
+        $('.alt-2').countDown({
+            css_class: 'countdown-alt-2'
+        });
+
+    });
+</script>
+
+</html>
