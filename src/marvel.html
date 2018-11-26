@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/quasar-framework@^0.16.0/dist/umd/quasar.mat.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@latest/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar-framework@^0.16.0/dist/umd/quasar.mat.umd.min.js"></script>
+    <title>漫威电影票房总览</title>
+</head>
+<style>
+    body {
+        background-color: #a8d8ea;
+    }
+    
+    .q-table-container {
+        background-color: #fafafa;
+    }
+</style>
+
+<body>
+    <div id="q-app">
+        <q-layout view="lHh Lpr fff">
+            <q-page-container>
+                <my-page>
+
+                </my-page>
+            </q-page-container>
+        </q-layout>
+    </div>
+
+    <script type="text/x-template" id="my-page">
+        <q-page padding>
+            <q-table title="漫威电影票房总览" :data="table_data" :columns="columns" row-key="name" :pagination.sync="pagination">
+                <q-td slot="body-cell-id" slot-scope="props" :props="props">
+                    {{props.row.__index}}
+                </q-td>
+            </q-table>
+        </q-page>
+
+    </script>
+
+    <script>
+        Vue.component('my-page', {
+            template: '#my-page',
+            data: () => ({
+                pagination: {
+                    sortBy: "global", // 字符串，列“name”属性值
+                    descending: true,
+                    page: 1,
+                    rowsPerPage: 100 // 当前每页显示的行数
+                },
+                columns: [{
+                    "name": "id",
+                    "label": '序号',
+                    "field": "id",
+                    "align": "left",
+                }, {
+                    "name": "name",
+                    "label": '电影名',
+                    "field": "name",
+                    "align": "left",
+                }, {
+                    "name": "date",
+                    "label": "时间",
+                    "field": "date",
+                    "align": "left",
+                    sortable: true
+                }, {
+                    "name": "china",
+                    "label": "中国票房(千万人民币)",
+                    "field": "china",
+                    "align": "left",
+                    format: formatNum,
+                    sortable: true
+                }, {
+                    "name": "america",
+                    "label": "北美票房(千万美元)",
+                    "field": "america",
+                    "align": "left",
+                    format: formatNum,
+                    sortable: true
+                }, {
+                    "name": "global",
+                    "label": "全球票房(千万美元) ",
+                    "field": "global",
+                    "align": "left ",
+                    format: formatNum,
+                    sortable: true
+                }, {
+                    "name": "cost",
+                    "label": "制作成本(千万美元)",
+                    "field": "cost",
+                    "align": "left",
+                    format: formatNum,
+                    sortable: true
+                }],
+                table_data: [{
+                    "name": "雷神1",
+                    "date": 20110508,
+                    "china": 9786,
+                    "america": 18051,
+                    "global": 44800,
+                    "cost": 15000,
+                }, {
+                    "name": "无敌浩克",
+                    "date": 20080000,
+                    "china": 0,
+                    "america": 13500,
+                    "global": 26300,
+                    "cost": 15000,
+                }, {
+                    "name": "美国队长1",
+                    "date": 20110000,
+                    "china": 6934,
+                    "america": 17700,
+                    "global": 37100,
+                    "cost": 14000,
+                }, {
+                    "name": "蚁人1",
+                    "date": 20150000,
+                    "china": 67176,
+                    "america": 18000,
+                    "global": 51900,
+                    "cost": 13000,
+                }, {
+                    "name": "钢铁侠1",
+                    "date": 20080000,
+                    "china": 7779,
+                    "america": 31800,
+                    "global": 58500,
+                    "cost": 14000,
+                }, {
+                    "name": "钢铁侠2",
+                    "date": 20100000,
+                    "china": 17509,
+                    "america": 31200,
+                    "global": 62400,
+                    "cost": 20000,
+                }, {
+                    "name": "雷神2:黑暗世界",
+                    "date": 20130000,
+                    "china": 34239,
+                    "america": 20600,
+                    "global": 64500,
+                    "cost": 17000,
+                }, {
+                    "name": "奇异博士",
+                    "date": 20160000,
+                    "china": 75170,
+                    "america": 23300,
+                    "global": 67800,
+                    "cost": 16500,
+                }, {
+                    "name": "美国队长2:冬日战士",
+                    "date": 20140000,
+                    "china": 71853,
+                    "america": 26000,
+                    "global": 71400,
+                    "cost": 17000,
+                }, {
+                    "name": "银河护卫队",
+                    "date": 20140000,
+                    "china": 59612,
+                    "america": 33300,
+                    "global": 77300,
+                    "cost": 17000,
+                }, {
+                    "name": "雷神3:诸神黄昏",
+                    "date": 20170000,
+                    "china": 74302,
+                    "america": 31500,
+                    "global": 85400,
+                    "cost": 18000,
+                }, {
+                    "name": "银河护卫队2",
+                    "date": 20170000,
+                    "china": 68611,
+                    "america": 39000,
+                    "global": 86400,
+                    "cost": 20000,
+                }, {
+                    "name": "蜘蛛侠:英雄归来",
+                    "date": 20170000,
+                    "china": 77413,
+                    "america": 33400,
+                    "global": 88000,
+                    "cost": 17500,
+                }, {
+                    "name": "美国队长3:内战",
+                    "date": 20160000,
+                    "china": 124634,
+                    "america": 33400,
+                    "global": 115000,
+                    "cost": 25000,
+                }, {
+                    "name": "钢铁侠3",
+                    "date": 20130000,
+                    "china": 75486,
+                    "america": 40900,
+                    "global": 121000,
+                    "cost": 20000,
+                }, {
+                    "name": "黑豹",
+                    "date": 20180000,
+                    "china": 66258,
+                    "america": 69900,
+                    "global": 135000,
+                    "cost": 20000,
+                }, {
+                    "name": "复仇者联盟2:奥创纪元",
+                    "date": 20150000,
+                    "china": 146439,
+                    "america": 45900,
+                    "global": 140000,
+                    "cost": 25000,
+                }, {
+                    "name": "复仇者联盟1",
+                    "date": 20120000,
+                    "china": 56851,
+                    "america": 62300,
+                    "global": 152000,
+                    "cost": 22000,
+                }, {
+                    "name": "复仇者联盟3:无限战争",
+                    "date": 20180000,
+                    "china": 239053,
+                    "america": 65500,
+                    "global": 200000,
+                    "cost": 25000,
+                }],
+            }),
+        })
+
+        new Vue({
+            el: '#q-app',
+            data: function() {
+                return {
+                    version: Quasar.version,
+                    drawerState: true
+                }
+            },
+            methods: {
+                launch: function(url) {
+                    Quasar.utils.openURL(url)
+                }
+            }
+        });
+        // 数字过滤,返回带千分位的数值
+        Vue.filter('num', formatNum);
+
+        function formatNum(value, type) {
+            if (value == undefined || value == "") {
+                return 0;
+            }
+            value = value + "";
+            var sum = value.split("."); //处理有小数点的情况
+            // 返回处理后的值
+            var str_n = sum[0] + "";
+            var result = "";
+            while (str_n.length > 3) {
+                result = "," + str_n.slice(-3) + result;
+                str_n = str_n.slice(0, str_n.length - 3)
+            }
+            if (str_n) {
+                result = str_n + result
+            }
+            if (type == undefined) {
+                if (sum[1] != undefined) {
+                    result = result + "." + sum[1];
+                }
+            } else {
+                if (sum[1] != undefined) {
+                    result = result + "." + sum[1];
+                } else {
+                    result += ".00";
+                }
+            }
+
+            return result;
+        }
+    </script>
+</body>
+
+</html>
