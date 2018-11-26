@@ -69,33 +69,34 @@
                     "label": "时间",
                     "field": "date",
                     "align": "left",
+                    format: date,
                     sortable: true
                 }, {
                     "name": "china",
                     "label": "中国票房(千万人民币)",
                     "field": "china",
-                    "align": "left",
+                    "align": "right",
                     format: formatNum,
                     sortable: true
                 }, {
                     "name": "america",
                     "label": "北美票房(千万美元)",
                     "field": "america",
-                    "align": "left",
+                    "align": "right",
                     format: formatNum,
                     sortable: true
                 }, {
                     "name": "global",
                     "label": "全球票房(千万美元) ",
                     "field": "global",
-                    "align": "left ",
+                    "align": "right ",
                     format: formatNum,
                     sortable: true
                 }, {
                     "name": "cost",
                     "label": "制作成本(千万美元)",
                     "field": "cost",
-                    "align": "left",
+                    "align": "right",
                     format: formatNum,
                     sortable: true
                 }],
@@ -108,126 +109,126 @@
                     "cost": 15000,
                 }, {
                     "name": "无敌浩克",
-                    "date": 20080000,
+                    "date": 20080613,
                     "china": 0,
                     "america": 13500,
                     "global": 26300,
                     "cost": 15000,
                 }, {
                     "name": "美国队长1",
-                    "date": 20110000,
+                    "date": 20110722,
                     "china": 6934,
                     "america": 17700,
                     "global": 37100,
                     "cost": 14000,
                 }, {
                     "name": "蚁人1",
-                    "date": 20150000,
+                    "date": 20150717,
                     "china": 67176,
                     "america": 18000,
                     "global": 51900,
                     "cost": 13000,
                 }, {
                     "name": "钢铁侠1",
-                    "date": 20080000,
+                    "date": 20080502,
                     "china": 7779,
                     "america": 31800,
                     "global": 58500,
                     "cost": 14000,
                 }, {
                     "name": "钢铁侠2",
-                    "date": 20100000,
+                    "date": 20100507,
                     "china": 17509,
                     "america": 31200,
                     "global": 62400,
                     "cost": 20000,
                 }, {
                     "name": "雷神2:黑暗世界",
-                    "date": 20130000,
+                    "date": 20131108,
                     "china": 34239,
                     "america": 20600,
                     "global": 64500,
                     "cost": 17000,
                 }, {
                     "name": "奇异博士",
-                    "date": 20160000,
+                    "date": 20161104,
                     "china": 75170,
                     "america": 23300,
                     "global": 67800,
                     "cost": 16500,
                 }, {
                     "name": "美国队长2:冬日战士",
-                    "date": 20140000,
+                    "date": 20140404,
                     "china": 71853,
                     "america": 26000,
                     "global": 71400,
                     "cost": 17000,
                 }, {
                     "name": "银河护卫队",
-                    "date": 20140000,
+                    "date": 20140801,
                     "china": 59612,
                     "america": 33300,
                     "global": 77300,
                     "cost": 17000,
                 }, {
                     "name": "雷神3:诸神黄昏",
-                    "date": 20170000,
+                    "date": 20171103,
                     "china": 74302,
                     "america": 31500,
                     "global": 85400,
                     "cost": 18000,
                 }, {
                     "name": "银河护卫队2",
-                    "date": 20170000,
+                    "date": 20170505,
                     "china": 68611,
                     "america": 39000,
                     "global": 86400,
                     "cost": 20000,
                 }, {
                     "name": "蜘蛛侠:英雄归来",
-                    "date": 20170000,
+                    "date": 20170707,
                     "china": 77413,
                     "america": 33400,
                     "global": 88000,
                     "cost": 17500,
                 }, {
                     "name": "美国队长3:内战",
-                    "date": 20160000,
+                    "date": 20160506,
                     "china": 124634,
                     "america": 33400,
                     "global": 115000,
                     "cost": 25000,
                 }, {
                     "name": "钢铁侠3",
-                    "date": 20130000,
+                    "date": 20130503,
                     "china": 75486,
                     "america": 40900,
                     "global": 121000,
                     "cost": 20000,
                 }, {
                     "name": "黑豹",
-                    "date": 20180000,
+                    "date": 20180216,
                     "china": 66258,
                     "america": 69900,
                     "global": 135000,
                     "cost": 20000,
                 }, {
                     "name": "复仇者联盟2:奥创纪元",
-                    "date": 20150000,
+                    "date": 20150501,
                     "china": 146439,
                     "america": 45900,
                     "global": 140000,
                     "cost": 25000,
                 }, {
                     "name": "复仇者联盟1",
-                    "date": 20120000,
+                    "date": 20120504,
                     "china": 56851,
                     "america": 62300,
                     "global": 152000,
                     "cost": 22000,
                 }, {
                     "name": "复仇者联盟3:无限战争",
-                    "date": 20180000,
+                    "date": 20180427,
                     "china": 239053,
                     "america": 65500,
                     "global": 200000,
@@ -250,6 +251,11 @@
                 }
             }
         });
+
+        function date(value) {
+            value += "";
+            return value.replace(/([\d]{4})([\d]{2})([\d]{2})/, "$1-$2-$3");
+        };
         // 数字过滤,返回带千分位的数值
         Vue.filter('num', formatNum);
 
