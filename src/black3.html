@@ -859,6 +859,11 @@
                     }
 
                     if (count % 2 == 1) { //是正方
+                        if (newArr[j - coat] != undefined &&
+                            newArr[j - coat][i + (count + 1) / 2] != undefined &&
+                            newArr[j - coat][i + (count + 1) / 2] === "0") { //上边
+                            return [j - coat, i + (count + 1) / 2];
+                        }
                         //一次判断四个
                         if (newArr[j + (count + 1) / 2] != undefined &&
                             newArr[j + (count + 1) / 2][i + coat] != undefined &&
@@ -876,11 +881,7 @@
                             newArr[j - (count + 1) / 2][i - coat] === "0") { //左边
                             return [j - (count + 1) / 2, i - coat];
                         }
-                        if (newArr[j - coat] != undefined &&
-                            newArr[j - coat][i + (count + 1) / 2] != undefined &&
-                            newArr[j - coat][i + (count + 1) / 2] === "0") { //上边
-                            return [j - coat, i + (count + 1) / 2];
-                        }
+
                         if (rightDown[0] == (j + (count + 1) / 2) && rightDown[1] == (i + coat)) { //都到了右下角的话,说明都找过了,开始外一层
                             break;
                         }
