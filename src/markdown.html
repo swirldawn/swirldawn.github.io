@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Marked in the browser</title>
+
+    <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-BlPof9RtjBqeJFskKv3sK3dh4Wk70iKlpIe92FeVN+6qxaGUOUu+mZNpALZ+K7ya" src="https://lib.baomitu.com/highlight.js/9.13.1/highlight.min.js"></script>
+    <link crossorigin="anonymous" integrity="sha384-zhIsEafzyQWHSoMCQ4BfT8ZlRXQyIFwAHAJn32PNdsb8n6tVysGZSLpEEIvCskw4" href="https://lib.baomitu.com/highlight.js/9.13.1/styles/default.min.css" rel="stylesheet">
+    <link crossorigin="anonymous" integrity="sha384-F8wm+WtdEbahCkTy++GzdQ4Io00ydQJznAlJlDzUy4U7o/Jn+n1Te4V97GrDd0Fa" href="https://lib.baomitu.com/highlight.js/9.13.1/styles/atelier-dune-light.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-color: #dcedc1;
+    }
+    
+    pre {
+        background-color: #daebee;
+    }
+</style>
+
+<body>
+    <div style="margin:0 auto;width:980px;">
+        <div id="content"></div>
+        <textarea name="" id="input" cols="30" rows="10" style="background-color:#f7f6e7;width:970px;height:500px;border-color:#fbf0f0;" onkeyup="setNewMarkdow();">
+# api接口日志
+## 使用方式
+
+### 1.1推送接口
+#### 请求参数说明 Post方式请求 (全部是必传参数,如果没有可填空字符串或者空json)
+```
+{
+ type:0,//(int) sdk请求为0 对接请求为1 网页请求为2
+ game_id:1032,//(int)  游戏id 没有填0
+ route_id:1,//(int)接口编号 建议带上方便查找
+ route_name:"获取用户名",//接口名称
+ url:"api.com/get_user?user_id=1102",//(str) 当前url (含路由+参数)
+ params:{
+    user_name:"小明",
+ },//(json) 数据参数 包含get+post 
+ return:{
+    code:200,
+    msg:"查询成功",
+    data:{}
+ }//(json) 接口返回数据
+}
+```
+#### 返回参数说明
+```
+{
+    code:200,
+    msg:"记录成功"
+}
+{
+    code:403,
+    msg:"错误信息"
+}
+```
+
+
+### 1.2查询接口
+#### 请求参数说明 Get方式请求
+
+```
+{
+    size:10,//(int)  每页页数,默认为10,最大为100
+    page:1, //(int)  当前页数,默认为1
+    start_date:"2018-11-26 00:00:00",//开始时间
+    end_date:"2018-11-30 00:00:00",//结束时间
+}
+```
+
+#### 返回参数说明
+```
+{
+    code:200,
+    msg:"查询成功",
+    data:{}
+ }
+```
+</textarea>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        function setNewMarkdow() {
+            document.getElementById('content').innerHTML =
+                marked($("#input").val());
+            hljs.initHighlightingOnLoad();
+        }
+        setNewMarkdow();
+    </script>
+</body>
+
+</html>
