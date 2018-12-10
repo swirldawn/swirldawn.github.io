@@ -18,8 +18,7 @@
     body {
         background-color: #a8e6cf;
     }
-    
-    .thumbnail:hover {
+    /* .thumbnail:hover {
         box-shadow: 0px 35px 77px -17px rgba(0, 0, 0, 0.64);
         transform: scale(1.02);
     }
@@ -27,6 +26,10 @@
     .thumbnail {
         transition: all 0.4s ease-out;
         box-shadow: 0px 35px 77px -17px rgba(0, 0, 0, 0.44);
+    } */
+    
+    .geopattern {
+        -webkit-box-reflect: below -1px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.4)));
     }
 </style>
 
@@ -39,7 +42,7 @@
                 <div class="row">
                     <div class="col-md-3 " v-for="item in list">
                         <div class="jumbotron thumbnail">
-                            <div class="geopattern" style="padding:2px;width:100%;height:150px;" :color="item.color" :title="item.name">
+                            <div class="geopattern" style="padding:2px;width:100%;height:110px;" :color="item.color" :title="item.name">
 
                             </div>
                             <div class="jumbotron-contents">
