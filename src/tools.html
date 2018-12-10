@@ -193,6 +193,7 @@
             </div>
 
         </div>
+        <!-- json 解析 -->
         <div class="example" style='margin-top:12px;'>
             <div class='row'>
                 <div class=" col-md-1 " style="margin-top:12px;">
@@ -209,52 +210,66 @@
 
             </div>
         </div>
-        <div class="example" style='margin-top:12px;'>
-            <div class="form-group col-md-6 col-md-offset-3" style="margin-top:12px;">
-                <button type="button" class="btn btn-primary btn-block ">转成json</button>
-            </div>
-            <div class="col-md-12 example">
-
-                <div class="form-group">
-                    <div class="col-sm-3">
-                        <input type="text" placeholder="请输入key" class="form-control ">
-                    </div>
-                    <div class="col-sm-9">
-                        <input type="text" placeholder="请输入value" class="form-control ">
-                    </div>
+        <div class="example" style='margin-top:12px;margin-bottom:50px;'>
+            <div class='row'>
+                <div class="form-group col-md-6 col-md-offset-3" style="margin-top:12px;">
+                    <button type="button" class="btn btn-primary btn-block " onclick="toSql()">转成sql in </button>
                 </div>
 
-            </div>
-            <div class="col-md-12 example">
-
-                <div class="form-group">
-                    <div class="col-sm-3">
-                        <input type="text" placeholder="请输入key" class="form-control ">
-                    </div>
-                    <div class="col-sm-9">
-                        <input type="text" placeholder="请输入value" class="form-control ">
-                    </div>
+                <div class="col-md-12">
+                    <textarea name="" id="sql_id" class="col-md-12 form-control" rows="20"></textarea>
                 </div>
+                <div class="col-md-12">
+                    <p id="sql_show" style="word-break:break-all;">
 
-            </div>
-        </div>
-        <div class="col-md-12" style="margin-top:12px;">
-            <div class="footer">
-                <div class="container">
-                    <div class="clearfix">
-                    </div>
-                    <div class="footer-copyright text-center">Copyright © 2017 DawnLight</div>
+                    </p>
                 </div>
             </div>
         </div>
+
     </div>
 
 
-
+    <!-- footer -->
+    <div style="margin:0px;">
+        <div class="footer">
+            <div class="container">
+                <div class="clearfix">
+                </div>
+                <div class="footer-copyright text-center">Copyright © 2017 DawnLight</div>
+            </div>
+        </div>
+    </div>
 </body>
 
 <script src="analogClock.js"></script>
 <script>
+    //复制到剪贴板
+    function copyText(text) {
+        var save = function(e) {
+            e.clipboardData.setData('text/plain', text); //下面会说到clipboardData对象
+            e.preventDefault(); //阻止默认行为
+        }
+        document.addEventListener('copy', save);
+        document.execCommand("copy"); //使文档处于可编辑状态，否则无效
+    }
+
+    function toSql() {
+        let word = $("#sql_id").val().split(/[\n]/);
+        var sql = "(";
+        word.forEach(function(v, i) {
+            let val = $.trim(v);
+            if (val != "") {
+                sql = sql + val;
+                if (i != word.length - 1) {
+                    sql += ",";
+                }
+            }
+
+        });
+        sql += ")";
+        $("#sql_show").text(sql);
+    }
     let ShengUtils = {};
 
     /** 
@@ -409,4 +424,5 @@
         }
     });
     AnalogClock("clock3", new AnalogClockOption(120, "#eee", "#333")); //using option class to customize
+    //2017
 </script>
