@@ -372,6 +372,13 @@
         var date = moment(value).unix();
         return date;
     });
+    //时间戳过滤器
+    Vue.filter('date', function(value) {
+        console.log(value);
+        if (value == '') return '';
+        var res = moment(value * 1000).format('YYYY-MM-DD HH:mm:ss');
+        return res;
+    });
     //url编码过滤器
     Vue.filter('url_decode', function(value) {
         if (value == '') return '';
