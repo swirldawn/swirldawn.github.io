@@ -10,6 +10,12 @@
     <link href="https://cdn.jsdelivr.net/npm/quasar-framework@^0.16.0/dist/umd/quasar.mat.min.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/vue@latest/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/quasar-framework@^0.16.0/dist/umd/quasar.mat.umd.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="css/default.css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link type="text/css" href="./css/styles.css" media="all" rel="stylesheet" />
+    <link type="text/css" href="./css/stickysort.css" media="all" rel="stylesheet" />
+    <script text="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
     <title>漫威电影票房总览</title>
 </head>
 <style>
@@ -23,19 +29,249 @@
 </style>
 
 <body>
-    <div id="q-app">
-        <q-layout view="lHh Lpr fff" style="max-width:1300px;margin:0 auto;">
-            <q-page-container>
-                <my-page>
+    <div style="max-width:1200px;margin:0 auto;">
 
-                </my-page>
-            </q-page-container>
-        </q-layout>
+        <div id="q-app">
+            <!-- <q-layout view="lHh Lpr fff" style="max-width:1300px;margin:0 auto;">
+                <q-page-container>
+
+                </q-page-container>
+            </q-layout> -->
+        </div>
+
+        <section class="demo" id="marvel">
+
+            <h2>漫威电影票房总览</h2>
+            <table class="q-table q-table-horizontal-separator">
+                <thead style="color:white;background-color:teal;">
+                    <tr>
+                        <th class="text-left">序号</th>
+                        <th class="text-left">电影名</th>
+                        <th class="text-left sortable">时间<i aria-hidden="true" class="q-icon q-table-sort-icon q-table-sort-icon-left material-icons">arrow_upward</i></th>
+                        <th class="text-right sortable"><i aria-hidden="true" class="q-icon q-table-sort-icon q-table-sort-icon-right material-icons">arrow_upward</i>中国票房(千万人民币)</th>
+                        <th class="text-right sortable"><i aria-hidden="true" class="q-icon q-table-sort-icon q-table-sort-icon-right material-icons">arrow_upward</i>北美票房(千万美元)</th>
+                        <th class="text-right  sortable sorted sort-desc">全球票房(千万美元) <i aria-hidden="true" class="q-icon q-table-sort-icon q-table-sort-icon-right  material-icons">arrow_upward</i></th>
+                        <th class="text-right sortable"><i aria-hidden="true" class="q-icon q-table-sort-icon q-table-sort-icon-right material-icons">arrow_upward</i>制作成本(千万美元)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="">
+                        <td class="text-left">
+                            18
+                        </td>
+                        <td class="text-left">复仇者联盟3:无限战争</td>
+                        <td class="text-left">2018-04-27</td>
+                        <td class="text-right">239,053</td>
+                        <td class="text-right">65,500</td>
+                        <td class="text-right ">200,000</td>
+                        <td class="text-right">25,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            17
+                        </td>
+                        <td class="text-left">复仇者联盟1</td>
+                        <td class="text-left">2012-05-04</td>
+                        <td class="text-right">56,851</td>
+                        <td class="text-right">62,300</td>
+                        <td class="text-right ">152,000</td>
+                        <td class="text-right">22,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            16
+                        </td>
+                        <td class="text-left">复仇者联盟2:奥创纪元</td>
+                        <td class="text-left">2015-05-01</td>
+                        <td class="text-right">146,439</td>
+                        <td class="text-right">45,900</td>
+                        <td class="text-right ">140,000</td>
+                        <td class="text-right">25,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            15
+                        </td>
+                        <td class="text-left">黑豹</td>
+                        <td class="text-left">2018-02-16</td>
+                        <td class="text-right">66,258</td>
+                        <td class="text-right">69,900</td>
+                        <td class="text-right ">135,000</td>
+                        <td class="text-right">20,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            14
+                        </td>
+                        <td class="text-left">钢铁侠3</td>
+                        <td class="text-left">2013-05-03</td>
+                        <td class="text-right">75,486</td>
+                        <td class="text-right">40,900</td>
+                        <td class="text-right ">121,000</td>
+                        <td class="text-right">20,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            13
+                        </td>
+                        <td class="text-left">美国队长3:内战</td>
+                        <td class="text-left">2016-05-06</td>
+                        <td class="text-right">124,634</td>
+                        <td class="text-right">33,400</td>
+                        <td class="text-right ">115,000</td>
+                        <td class="text-right">25,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            12
+                        </td>
+                        <td class="text-left">蜘蛛侠:英雄归来</td>
+                        <td class="text-left">2017-07-07</td>
+                        <td class="text-right">77,413</td>
+                        <td class="text-right">33,400</td>
+                        <td class="text-right ">88,000</td>
+                        <td class="text-right">17,500</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            11
+                        </td>
+                        <td class="text-left">银河护卫队2</td>
+                        <td class="text-left">2017-05-05</td>
+                        <td class="text-right">68,611</td>
+                        <td class="text-right">39,000</td>
+                        <td class="text-right ">86,400</td>
+                        <td class="text-right">20,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            10
+                        </td>
+                        <td class="text-left">雷神3:诸神黄昏</td>
+                        <td class="text-left">2017-11-03</td>
+                        <td class="text-right">74,302</td>
+                        <td class="text-right">31,500</td>
+                        <td class="text-right ">85,400</td>
+                        <td class="text-right">18,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            9
+                        </td>
+                        <td class="text-left">银河护卫队</td>
+                        <td class="text-left">2014-08-01</td>
+                        <td class="text-right">59,612</td>
+                        <td class="text-right">33,300</td>
+                        <td class="text-right ">77,300</td>
+                        <td class="text-right">17,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            8
+                        </td>
+                        <td class="text-left">美国队长2:冬日战士</td>
+                        <td class="text-left">2014-04-04</td>
+                        <td class="text-right">71,853</td>
+                        <td class="text-right">26,000</td>
+                        <td class="text-right ">71,400</td>
+                        <td class="text-right">17,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            7
+                        </td>
+                        <td class="text-left">奇异博士</td>
+                        <td class="text-left">2016-11-04</td>
+                        <td class="text-right">75,170</td>
+                        <td class="text-right">23,300</td>
+                        <td class="text-right ">67,800</td>
+                        <td class="text-right">16,500</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            6
+                        </td>
+                        <td class="text-left">雷神2:黑暗世界</td>
+                        <td class="text-left">2013-11-08</td>
+                        <td class="text-right">34,239</td>
+                        <td class="text-right">20,600</td>
+                        <td class="text-right ">64,500</td>
+                        <td class="text-right">17,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            5
+                        </td>
+                        <td class="text-left">钢铁侠2</td>
+                        <td class="text-left">2010-05-07</td>
+                        <td class="text-right">17,509</td>
+                        <td class="text-right">31,200</td>
+                        <td class="text-right ">62,400</td>
+                        <td class="text-right">20,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            4
+                        </td>
+                        <td class="text-left">钢铁侠1</td>
+                        <td class="text-left">2008-05-02</td>
+                        <td class="text-right">7,779</td>
+                        <td class="text-right">31,800</td>
+                        <td class="text-right ">58,500</td>
+                        <td class="text-right">14,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            3
+                        </td>
+                        <td class="text-left">蚁人1</td>
+                        <td class="text-left">2015-07-17</td>
+                        <td class="text-right">67,176</td>
+                        <td class="text-right">18,000</td>
+                        <td class="text-right ">51,900</td>
+                        <td class="text-right">13,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            0
+                        </td>
+                        <td class="text-left">雷神1</td>
+                        <td class="text-left">2011-05-08</td>
+                        <td class="text-right">9,786</td>
+                        <td class="text-right">18,051</td>
+                        <td class="text-right ">44,800</td>
+                        <td class="text-right">15,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            2
+                        </td>
+                        <td class="text-left">美国队长1</td>
+                        <td class="text-left">2011-07-22</td>
+                        <td class="text-right">6,934</td>
+                        <td class="text-right">17,700</td>
+                        <td class="text-right ">37,100</td>
+                        <td class="text-right">14,000</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-left">
+                            1
+                        </td>
+                        <td class="text-left">无敌浩克</td>
+                        <td class="text-left">2008-06-13</td>
+                        <td class="text-right">0</td>
+                        <td class="text-right">13,500</td>
+                        <td class="text-right ">26,300</td>
+                        <td class="text-right">15,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </div>
 
     <script type="text/x-template" id="my-page">
         <q-page padding>
-            <q-table title="漫威电影票房总览" :data="table_data" :columns="columns" row-key="name" :pagination.sync="pagination">
+            <q-table v-show="false" title="漫威电影票房总览" :data="table_data" :columns="columns" row-key="name" :pagination.sync="pagination">
                 <q-td slot="body-cell-id" slot-scope="props" :props="props">
                     {{props.row.__index}}
                 </q-td>
@@ -43,8 +279,17 @@
         </q-page>
 
     </script>
-
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="js/jquery.stickysort.js"></script>
     <script>
+        $('#basic-sort table').stickySort({
+            sortable: true
+        });
+        $('#marvel table').stickySort({
+            sortable: true
+        });
+
         Vue.component('my-page', {
             template: '#my-page',
             data: () => ({
