@@ -58,7 +58,30 @@
 </style>
 
 <body>
-    <div calss="big">
+    <div style="position:fixed;">
+        <button onclick="$('#article_box').attr('hidden',true);$('#word_box').attr('hidden',false);">单词</button>
+        <button onclick="$('#article_box').attr('hidden',false);$('#word_box').attr('hidden',true);">文章</button>
+    </div>
+
+    <div calss="big" id="article_box">
+        <div class="index">
+            <div class="clipped-box">
+                <div class="content">
+                    <textarea id="other_word" style="width:980px;font-size:18px;" rows="15">color</textarea>
+                </div>
+            </div>
+
+            <div>
+                <h2 id="show_chinese2">
+                    dafasd
+                </h2>
+            </div>
+            <div class="">
+                <textarea class="" id="other_input" style="width:980px;" rows="15" onkeyup="getLestWord()"></textarea>
+            </div>
+        </div>
+    </div>
+    <div calss="big" id="word_box">
         <div class="index">
             <div class="clipped-box">
                 <div class="content">
@@ -135,7 +158,16 @@ extends
 switch
 throw
 protected
-private</textarea>
+private
+artisan
+response
+paginate
+validator
+security
+destroy
+inverted
+explode
+implode</textarea>
         </div>
     </div>
     <div id="bdtts_div_id">
@@ -146,10 +178,27 @@ private</textarea>
     </div>
 </body>
 <script>
+    function getLestWord() {
+        var word = $("#other_input").val();
+        var last = word.substr(word.length - 1, 1)
+        if (last == " " || last == "." || last == ",") {
+
+            word = word.substr(0, word.length - 1);
+            var lastIndex = word.lastIndexOf(" ");
+            if (lastIndex == -1) {
+                var text = word;
+            } else {
+                var text = $.trim(word.substr(lastIndex));
+            }
+            getChinese(text);
+            doTTS(text);
+            console.log(text);
+        }
+    }
     let num = 0;
     let newArray = new Array();
     $("#word_input").keyup(function(key) {
-        let inputWord = $(this).val();
+        let inputWord = $.trim($(this).val());
         let showWord = $("#show_word").text();
         // console.log(inputWord, showWord);
         if (inputWord == showWord) {
@@ -238,6 +287,7 @@ private</textarea>
             },
             success: function(data) {
                 $("#show_chinese").html(data.trans_result[0].dst);
+                $("#show_chinese2").html(data.trans_result[0].dst);
                 console.log(data.trans_result);
             }
         });

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.loli.net/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
+    <link href="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/css/quasar.mat.min.css" rel="stylesheet" type="text/css" media="screen" />
+    <script src="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/js/vue.min.js"></script>
+    <script src="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/js/quasar.mat.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar-framework@latest/dist/umd/i18n.zh-hans.umd.min.js"></script>
+    <script src="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/js/axios.min.js"></script>
+    <title>群资料收集</title>
+    <style>
+        body {
+            background-color: #f8c291;
+        }
+        
+        .q-list {
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <script type="text/x-template" id="my-page">
+        <q-page style="padding:20px;">
+
+            <div>
+                <div class="text-center">
+                    <q-icon name="pages" color="deep-purple" size="124px" />
+
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <q-field icon="pets" label="昵称" icon-color="purple" label-width="2">
+                    <q-input v-model="model" color="purple" />
+                </q-field> <br/>
+                <!-- 单行输入 -->
+                <q-radio v-model="option" val="0" label="女" color="purple" />
+                <q-radio v-model="option" val="1" label="男" color="purple" />
+                <br/>
+                <br/>
+                <q-input v-model="form.text" type="email" color="purple" float-label="请输入邮箱" :before="[{
+                    icon: 'email'
+                  }]" /><br/>
+                <q-input v-model="form.text" color="purple" float-label="请输入故乡" :before="[{
+                    icon: 'location_searching'
+                  }]" /><br/>
+
+                <q-input v-model="form.text" color="purple" float-label="请输入现居地" :before="[{
+                    icon: 'location_city'
+                  }]" /><br/>
+                <q-datetime v-model="form.text" type="date" color="purple" float-label="请选择出生年月" :before="[{
+                    icon: 'timer'
+                  }]" /><br/>
+                <q-select v-model="form.education" color="purple" float-label="请选择学历" :options="selectOptions" :before="[{
+                    icon: 'terrain'
+                  }]" /><br/>
+                <q-input v-model="form.text" color="purple" float-label="请输入毕业院校" :before="[{
+                    icon: 'school'
+                  }]" /><br/>
+                <q-input v-model="form.text" color="purple" float-label="请输入联系方式" :before="[{
+                    icon: 'data_usage'
+                  }]" /><br/>
+                <q-input v-model="form.text" color="purple" type="number" float-label="请输入身高" suffix="Cm" :before="[{
+                    icon: 'format_align_center'
+                  }]" /><br/>
+                <q-input v-model="form.text" color="purple" type="number" float-label="请输入体重" suffix="Kg" :before="[{
+                    icon: '360'
+                  }]" /><br/>
+                <q-chips-input v-model="palette" color="purple" float-label="请输入爱好,换行写入下一个" :before="[{
+                    icon: 'palette'
+                  }]" /><br/>
+                <p>
+                    说点什么:
+
+                </p>
+                <q-editor v-model="model" />
+                <br/>
+                <br/>
+                <div class="text-center">
+                    <q-btn size="lg" color="purple" push>提交</q-btn>
+                </div>
+            </div>
+        </q-page>
+    </script>
+    <script>
+        Vue.component('my-page', {
+            template: '#my-page',
+            data: () => ({
+                model: "",
+                palette: [],
+                selectOptions: [{
+                    label: '初中',
+                    value: '1'
+                }, {
+                    label: '高中',
+                    value: '2'
+                }, {
+                    label: '大专',
+                    value: '3'
+                }, {
+                    label: '本科',
+                    value: '4'
+                }, {
+                    label: '研究生在读',
+                    value: '5'
+                }, {
+                    label: '硕士',
+                    value: '6'
+                }, {
+                    label: '博士',
+                    value: '7'
+                }],
+                option: "0",
+                form: {
+                    text: "",
+                    education: "4",
+                    area: "",
+                }
+            }),
+            methods: {
+
+            }
+        });
+    </script>
+    <div id="q-app">
+        <q-layout view="lHh Lpr fff">
+            <q-page-container>
+                <div style="margin:0 auto;max-width:1100px;background-color:#fffff5;">
+
+                    <my-page></my-page>
+
+                </div>
+            </q-page-container>
+
+
+        </q-layout>
+    </div>
+
+    <script>
+        Quasar.i18n.set(Quasar.i18n.zhHans);
+        console.log(Quasar);
+        var vue = new Vue({
+            el: '#q-app',
+            data: function() {
+                return {
+                    model: "",
+
+                    form: {
+                        text: "",
+                        area: "",
+                    }
+                }
+            },
+            methods: {
+                launch: function(url) {
+                    Quasar.utils.openURL(url)
+                },
+
+                getContent: function() {
+
+
+                    axios.get(`http://www.kaffir-lily.cc:8080/bible?pid=${this.pid}&tid=${this.tid}`).then(({
+                        data
+                    }) => {
+                        this.contents = data.content;
+                        this.maxPages = eval(this.title[this.tid - 1].Paragraph).length;
+                        this.current_content = this.contents[this.sid - 1].Content;
+                    })
+
+                },
+            },
+            created() {},
+            watch: {
+
+            },
+
+        })
+
+
+
+        //2018-12
+    </script>
+
+</body>
