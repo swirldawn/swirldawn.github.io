@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>world-history</title>
+
+    <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <!-- BEGIN TimelineJS -->
+    <script src="https://lib.baomitu.com/timelinejs/2.36.0/js/storyjs-embed.js"></script>
+    <script src="https://lib.baomitu.com/timelinejs/2.36.0/js/locale/zh-cn.js"></script>
+    <script>
+        $(document).ready(function() {
+            var time = createStoryJS({
+                type: 'timeline',
+                width: '1300',
+                height: '700',
+                lang: 'zh-cn',
+
+                source: {
+
+                    "timeline": {
+                        "headline": "世界历史",
+                        "type": "default",
+                        "text": "People say stuff",
+                        "startDate": "12/1/1920 0:00:00",
+                        "date": [{
+                                "startDate": "1821,1,1",
+                                "endDate": "1850,1,1",
+                                "headline": "道光",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "中国清朝",
+                            }, {
+                                "startDate": "1851,1,1",
+                                "endDate": "1861,1,1",
+                                "headline": "咸丰",
+                                "tag": "中国清朝",
+                                "text": "<p>Vine Test</p>",
+                            }, {
+                                "startDate": "1861,1,1",
+                                "endDate": "1874,1,1",
+                                "headline": "同治",
+                                "tag": "中国清朝",
+                                "text": "<p>Vine Test</p>",
+                            }, {
+                                "startDate": "1874,1,1",
+                                "endDate": "1908,1,1",
+                                "headline": "光绪",
+                                "tag": "中国清朝",
+                                "text": "<p>Vine Test</p>",
+                            }, {
+                                "startDate": "1908,1,1",
+                                "endDate": "1911,1,1",
+                                "headline": "宣统",
+                                "tag": "中国清朝",
+                                "text": "<p>Vine Test</p>",
+                            }, {
+                                "startDate": "1912,1,1",
+                                "endDate": "1912,4,1",
+                                "headline": "孙中山临时大总统",
+                                "tag": "中华民国",
+                                "text": "<p>Vine Test</p>",
+                            }, {
+                                "startDate": "1912,4,1",
+                                "endDate": "1916,6,6",
+                                "headline": "袁世凯大总统",
+                                "tag": "中国清朝",
+                                "text": "<p>Vine Test</p>",
+                            }, {
+                                "startDate": "1916,6,7",
+                                "endDate": "1917,7,1",
+                                "headline": "黎元洪大总统",
+                                "tag": "中华民国",
+                                "text": "<p>Vine Test</p>",
+                            }, {
+                                "startDate": "1922,6,12",
+                                "endDate": "1923,6,14",
+                                "headline": "黎元洪复任大总统",
+                                "tag": "中华民国",
+                                "text": "<p>Vine Test</p>",
+                            }, {
+                                "startDate": "1917,7,6",
+                                "endDate": "1918,10,10",
+                                "headline": "冯国璋直系军阀",
+                                "tag": "中华民国",
+                                "text": "<p>Vine Test</p>",
+                            }, {
+                                "startDate": "1918,10,10",
+                                "endDate": "1922,6,2",
+                                "headline": "徐世昌皖系军阀",
+                                "tag": "中华民国",
+                                "text": "<p>Vine Test</p>",
+                            }, {
+                                "startDate": "1927,10,10",
+                                "endDate": "1949,6,2",
+                                "headline": "蒋介石",
+                                "tag": "中华民国",
+                                "text": "<p>Vine Test</p>",
+                            }, {
+                                "startDate": "1919,1,18",
+                                "endDate": "1919.1.18",
+                                "headline": "巴黎和会",
+                                "tag": "世界",
+                                "text": "<p>Vine Test</p>",
+                            }, {
+                                "startDate": "1914,7,28",
+                                "endDate": "1918.11.11",
+                                "headline": "第一次世界大战",
+                                "tag": "世界",
+                                "text": "<p>Vine Test</p>",
+                            }, {
+                                "startDate": "1919,5,4",
+                                "endDate": "1919,5,4",
+                                "headline": "五四运动",
+                                "tag": "中国",
+                                "text": "<p>Vine Test</p>",
+
+                            }, {
+                                "startDate": "1926,7,7",
+                                "endDate": "1928,7,7",
+                                "headline": "北伐",
+                                "tag": "中国",
+                                "text": "<p>Vine Test</p>",
+
+                            }, {
+                                "startDate": "1937,7,7",
+                                "endDate": "1937,7,7",
+                                "headline": "7.7卢沟桥事变",
+                                "tag": "中国",
+                                "text": "<p>Vine Test</p>",
+
+                            }, {
+                                "startDate": "1949,10,1",
+                                "endDate": "1959,10,1",
+                                "headline": "毛泽东主席",
+                                "tag": "中国",
+                                "text": "<p>Vine Test</p>",
+
+                            }, {
+                                "startDate": "1959,10,1",
+                                "endDate": "1966,10,1",
+                                "headline": "刘少奇主席",
+                                "tag": "中国",
+                                "text": "<p>Vine Test</p>",
+
+                            }, {
+                                "startDate": "1983,10,1",
+                                "endDate": "1988,10,1",
+                                "headline": "李先念主席",
+                                "tag": "中国",
+                                "text": "<p>Vine Test</p>",
+
+                            }, {
+                                "startDate": "1988,10,1",
+                                "endDate": "1993,10,1",
+                                "headline": "杨尚昆主席",
+                                "tag": "中国",
+                                "text": "<p>Vine Test</p>",
+
+                            }, {
+                                "startDate": "1993,10,1",
+                                "endDate": "2003,10,1",
+                                "headline": "江泽民主席",
+                                "tag": "中国",
+                                "text": "<p>Vine Test</p>",
+
+                            }, {
+                                "startDate": "2003,10,1",
+                                "endDate": "2013,10,1",
+                                "headline": "胡锦涛主席",
+                                "tag": "中国",
+                                "text": "<p>Vine Test</p>",
+
+                            }, {
+                                "startDate": "2013,10,1",
+                                "endDate": "2023,10,1",
+                                "headline": "习近平主席",
+                                "tag": "中国",
+                                "text": "<p>Vine Test</p>",
+
+                            }, {
+                                "startDate": "1789,1,1",
+                                "endDate": "1797,1,1",
+                                "headline": "乔治·华盛顿",
+                                "tag": "美国总统",
+                                "text": "<p>Vine Test</p>"
+                            }, {
+                                "startDate": "1797,1,1",
+                                "endDate": "1800,1,1",
+                                "headline": "约翰·亚当斯",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1801,1,1",
+                                "endDate": "1808,1,1",
+                                "headline": "托玛斯·杰弗逊",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1809,1,1",
+                                "endDate": "1816,1,1",
+                                "headline": "詹姆斯·麦迪逊",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1817,1,1",
+                                "endDate": "1824,1,1",
+                                "headline": "詹姆斯·门罗",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1825,1,1",
+                                "endDate": "1828,1,1",
+                                "headline": "约翰·昆西·亚当斯罗",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1829,1,1",
+                                "endDate": "1836,1,1",
+                                "headline": "安德鲁·杰克逊罗",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1837,1,1",
+                                "endDate": "1840,1,1",
+                                "headline": "马丁·范布伦",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1841,1,1",
+                                "endDate": "1841,4,1",
+                                "headline": "威廉·哈里森同年4月病死",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1841,1,1",
+                                "endDate": "1844,1,1",
+                                "headline": "约翰·泰勒",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1845,1,1",
+                                "endDate": "1848,1,1",
+                                "headline": "詹姆斯·波尔克",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1849,1,1",
+                                "endDate": "1850,7,1",
+                                "headline": "扎卡里·泰勒1850年7月病死",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1850,7,1",
+                                "endDate": "1852,1,1",
+                                "headline": "米勒德·菲尔莫尔",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1853,1,1",
+                                "endDate": "1856,1,1",
+                                "headline": "福兰克林·皮尔斯",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1857,1,1",
+                                "endDate": "1860,1,1",
+                                "headline": "詹姆斯·布坎南",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1860,1,1",
+                                "endDate": "1865,4,1",
+                                "headline": "亚伯拉罕·林肯1865年4月遇刺身亡",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1865,1,1",
+                                "endDate": "1868,1,1",
+                                "headline": "安德鲁·约翰逊",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1869,1,1",
+                                "endDate": "1876,1,1",
+                                "headline": "尤里塞斯·格兰特",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1877,1,1",
+                                "endDate": "1880,1,1",
+                                "headline": "拉瑟福德·海斯",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1881,1,1",
+                                "endDate": "1881,9,1",
+                                "headline": "詹姆斯·加菲尔德同年9月遇刺身亡",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1881,9,1",
+                                "endDate": "1884,1,1",
+                                "headline": "切斯特·阿瑟",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1885,1,1",
+                                "endDate": "1888,1,1",
+                                "headline": "格罗弗·克利夫兰",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1889,1,1",
+                                "endDate": "1892,1,1",
+                                "headline": "本杰明·哈里森",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1893,1,1",
+                                "endDate": "1896,1,1",
+                                "headline": "格罗弗·克利夫兰",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1897,1,1",
+                                "endDate": "1901,9,1",
+                                "headline": "威廉·麦金莱 1901年9月遇刺身亡",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1901,9,1",
+                                "endDate": "1908,1,1",
+                                "headline": "西奥多·罗斯福",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1909,9,1",
+                                "endDate": "1912,1,1",
+                                "headline": "威廉·塔夫脱",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1913,9,1",
+                                "endDate": "1920,1,1",
+                                "headline": "伍德罗·威尔逊",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1921,12,1",
+                                "endDate": "1923,8,1",
+                                "headline": "沃伦·哈定1923年8月病死",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1923,1,1",
+                                "endDate": "1928,1,1",
+                                "headline": "卡尔文·柯立芝",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1929,1,1",
+                                "endDate": "1932,1,1",
+                                "headline": "赫伯特·胡佛",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1933,1,1",
+                                "endDate": "1945,4,1",
+                                "headline": "富兰克林·罗斯福1945年4月病死",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1945,4,1",
+                                "endDate": "1952,12,1",
+                                "headline": "哈利·S·杜鲁门",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1953,4,1",
+                                "endDate": "1961,12,1",
+                                "headline": "德怀特·艾森豪威尔",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1961,12,1",
+                                "endDate": "1963,11,1",
+                                "headline": "约翰·肯尼迪(John Kennedy) 1963年11月遇刺身亡",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1963,11,1",
+                                "endDate": "1968,12,1",
+                                "headline": "林登·约翰逊",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1969,12,1",
+                                "endDate": "1974,8,1",
+                                "headline": "理查德·尼克松1974年8月因水门事件辞职",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1974,8,1",
+                                "endDate": "1976,12,1",
+                                "headline": "杰拉尔德·福特",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1977,12,1",
+                                "endDate": "1980,12,1",
+                                "headline": "吉米·卡特",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1981,12,1",
+                                "endDate": "1988,12,1",
+                                "headline": "罗纳德·里根",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1989,12,1",
+                                "endDate": "1992,12,1",
+                                "headline": "乔治·布什",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1993,12,1",
+                                "endDate": "2000,12,1",
+                                "headline": "比尔·克林顿",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "2001,12,1",
+                                "endDate": "2009,12,1",
+                                "headline": "乔治·沃克·布什",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "2009,12,1",
+                                "endDate": "2017,12,1",
+                                "headline": "贝拉克·奥巴马",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "2017,12,1",
+                                "endDate": "2021,12,1",
+                                "headline": "唐纳德·特朗普",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "美国总统",
+                            }, {
+                                "startDate": "1917,10,6",
+                                "endDate": "1922,4,3",
+                                "headline": "列宁",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "苏联俄罗斯首脑",
+                            }, {
+                                "startDate": "1922,4,3",
+                                "endDate": "1953,3,5",
+                                "headline": "斯大林",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "苏联俄罗斯首脑",
+                            }, {
+                                "startDate": "1953,3,5",
+                                "endDate": "1964,10,14",
+                                "headline": "赫鲁晓夫",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "苏联俄罗斯首脑",
+                            }, {
+                                "startDate": "1964,10,14",
+                                "endDate": "1982,11,10",
+                                "headline": "勃列日涅夫",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "苏联俄罗斯首脑",
+                            }, {
+                                "startDate": "1982,11,10",
+                                "endDate": "1984,2,9",
+                                "headline": "勃列日涅夫",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "苏联俄罗斯首脑",
+                            }, {
+                                "startDate": "1984,2,13",
+                                "endDate": "1985,3,10",
+                                "headline": "契尔年科",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "苏联俄罗斯首脑",
+                            }, {
+                                "startDate": "1985,3,10",
+                                "endDate": "1991,12,25",
+                                "headline": "戈尔巴乔夫",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "苏联俄罗斯首脑",
+                            }, {
+                                "startDate": "1991,7,10",
+                                "endDate": "1999,12,31",
+                                "headline": "叶利钦",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "苏联俄罗斯首脑",
+                            }, {
+                                "startDate": "1999,12,31",
+                                "endDate": "2008,5,7",
+                                "headline": "普京",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "苏联俄罗斯首脑",
+                            }, {
+                                "startDate": "2008,5,7",
+                                "endDate": "2012,5,7",
+                                "headline": "梅德韦杰夫",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "苏联俄罗斯首脑",
+                            }, {
+                                "startDate": "2012,5,7",
+                                "endDate": "2020,5,7",
+                                "headline": "普京",
+                                "text": "<p>Vine Test</p>",
+                                "tag": "苏联俄罗斯首脑",
+                            },
+
+                        ]
+                    }
+                },
+                embed_id: 'my-timeline',
+                debug: true
+            });
+            console.log(time);
+        });
+        //2018-09
+    </script>
+    <style>
+        body {
+            background-color: #7d5fff;
+        }
+    </style>
+    <!-- END TimelineJS -->
+</head>
+
+<body>
+    <div style="margin:0 auto;width:1100px;">
+
+
+        <div id="my-timeline"></div>
+    </div>
+</body>
+
+</html>

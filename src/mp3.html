@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <title>音频处理</title>
+</head>
+<script>
+</script>
+<style>
+    body {
+        background-color: #03899c;
+        overflow: hidden;
+        height: calc(100%);
+    }
+    /*canvas的大小需要在起标签内设置，否则会拉伸或缩小默认的大小*/
+    /*需要将img背景图的尺寸和canvas的尺寸设置相同*/
+    
+    .canvas_bgp {
+        height: calc(100%+120px);
+        /*位置绝对*/
+        position: fixed;
+        animation: mymove 100s infinite;
+        animation-timing-function: linear;
+        /* Safari and Chrome */
+        -webkit-animation: mymove 100s infinite;
+        -webkit-animation-timing-function: linear;
+        z-index: -1;
+    }
+    
+    @keyframes mymove {
+        0% {
+            left: -200px;
+            top: -10px;
+        }
+        25% {
+            left: -100px;
+            top: -5px;
+        }
+        50% {
+            left: -10px;
+            top: -0px;
+        }
+        75% {
+            left: -100px;
+            top: -5px;
+        }
+        100% {
+            left: -200px;
+            top: -10px;
+        }
+    }
+    
+    @-webkit-keyframes mymove
+    /* Safari and Chrome */
+    
+    {
+        0% {
+            left: -200px;
+            top: -10px;
+        }
+        25% {
+            left: -100px;
+            top: -5px;
+        }
+        50% {
+            left: -10px;
+            top: -0px;
+        }
+        75% {
+            left: -100px;
+            top: -5px;
+        }
+        100% {
+            left: -200px;
+            top: -10px;
+        }
+    }
+    
+    .father {
+        position: fixed;
+        top: 40px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 400px;
+        text-align: center;
+    }
+    
+    .all_list_brands_title_details_btn {
+        width: 70px;
+        height: 70px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 1.428571429;
+        color: #253b6e;
+        border-radius: 35px;
+        background-color: #a9eee6;
+        border: 0px solid #c8f4de;
+        margin-top: 80%;
+    }
+</style>
+
+<body>
+
+    <audio hidden crossOrigin="anonymous" src="https://web-js-or-css-source.oss-cn-beijing.aliyuncs.com/16.mp3" controls="controls" id="mp3">
+            </audio>
+
+    <img src="000.jpg" class="canvas_bgp">
+
+
+    <div align="center" class="father">
+        <canvas id="main" width="400" height="150" class="canvas"></canvas>
+        <button onclick="play()" id="play_button" class="all_list_brands_title_details_btn">播放</button>
+    </div>
+
+</body>
+
+<script>
+    var top = $(".canvas_bgp").css('left');
+    console.log(top);
+    var myVar = setInterval(function() {
+        setMove($(".canvas_bgp"));
+    }, 10);
+
+    function setMove(dom1) {
+        // var top = $(dom1).css('left');
+        // top = top.replace("%", "");
+        // console.log(top, $(dom1));
+        // // console.log((parseFloat(top) + 0.01) + "%");
+        // $(dom1).css("left", (parseFloat(top) + 0.01) + "%");
+    }
+
+    clearInterval(myVar);
+    var myAudio = document.querySelector('audio');
+    let is_play = false;
+
+    function play() {
+        if (is_play) {
+            $("#play_button").html("播放");
+            clearInterval(myVar);
+            myAudio.pause();
+        } else {
+            $("#play_button").html("暂停");
+            myAudio.play();
+            myVar = setInterval(function() {
+                setMove($(".canvas_bgp"));
+            }, 10);
+        }
+        is_play = !is_play;
+    }
+    //初始化
+    var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+
+    //创建分析器
+    var analyser = audioCtx.createAnalyser();
+    //快速傅里叶变换参数
+    analyser.fftSize = 64;
+    //bufferArray长度
+    var bufferLength = analyser.frequencyBinCount;
+    //创建bufferArray，用来装音频数据
+    var dataArray = new Uint8Array(bufferLength);
+
+    let gainNode = audioCtx.createGain();
+    let oscillator = audioCtx.createOscillator();
+    gainNode.gain.value = 0.5; // 音量 0~1
+    oscillator.type = 'sine'; // 振荡器输出正弦波
+    oscillator.frequency.value = 200; // 振荡频率200Hz
+    oscillator.connect(gainNode); // 发生源振荡器连接音量
+    gainNode.connect(audioCtx.destination); //音量连接扬声器
+
+    //配置处理器
+    var scriptProcessor = audioCtx.createScriptProcessor(2048, 1, 1);
+    analyser.connect(scriptProcessor);
+    scriptProcessor.connect(audioCtx.destination);
+
+    //########## 创建声源
+
+    var source = audioCtx.createMediaElementSource(myAudio);
+    source.connect(analyser); //连接处理器
+    source.connect(gainNode); //连接扬声器
+
+
+
+    // analyser.getByteTimeDomainData(dataArray);
+    // draw an oscilloscope of the current audio source
+    // console.log(canvasCtx);
+
+    var canvas = document.querySelector('#main');
+    var canvasCtx = canvas.getContext("2d");
+    WIDTH = canvas.width;
+    HEIGHT = canvas.height;
+
+    function draw() {
+        drawVisual = requestAnimationFrame(draw);
+
+        let cWidth = WIDTH,
+            cHeight = HEIGHT,
+            barWidth = parseInt(.5 * cWidth / bufferLength),
+            barHeight,
+            x = 0;
+        canvasCtx.fillStyle = '#930077';
+        canvasCtx.clearRect(0, 0, cWidth, cHeight);
+        //分析器获取音频数据“切片”
+        analyser.getByteFrequencyData(dataArray);
+        //把每个音频“切片”画在画布上
+        for (var i = 0; i < bufferLength; i++) {
+            barHeight = parseInt(0.4 * dataArray[i]);
+            canvasCtx.fillRect(x, cHeight - barHeight, barWidth, barHeight);
+            x += barWidth + 3;
+        }
+    };
+
+    draw();
+
+
+    // scriptProcessor.bufferLength = analyser.frequencyBinCount;
+    // scriptProcessor.onaudioprocess = function() {
+    //     let cWidth = WIDTH,
+    //         cHeight = HEIGHT,
+    //         barWidth = parseInt(.5 * cWidth / scriptProcessor.bufferLength),
+    //         barHeight,
+    //         x = 0;
+    //     canvasCtx.clearRect(0, 0, cWidth, cHeight);
+
+
+    //     //分析器获取音频数据“切片”
+    //     analyser.getByteFrequencyData(dataArray);
+
+    //     //把每个音频“切片”画在画布上
+    //     for (var i = 0; i < scriptProcessor.bufferLength; i++) {
+    //         barHeight = parseInt(0.4 * dataArray[i]);
+    //         console.log(barHeight);
+    //         canvasCtx.fillRect(x, cHeight - barHeight, barWidth, barHeight);
+    //         x += barWidth + 3;
+    //     }
+    // };
+    // console.log(scriptProcessor);
+
+    // function draw() {
+    //     // canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+    //     drawVisual = requestAnimationFrame(draw);
+
+    //     canvasCtx.fillStyle = 'rgb(200, 200, 200)';
+    //     canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+    //     canvasCtx.lineWidth = 2;
+    //     canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
+
+    //     canvasCtx.beginPath();
+
+    //     var sliceWidth = WIDTH * 1.0 / bufferLength;
+    //     var x = 0;
+    //     analyser.getByteTimeDomainData(dataArray);
+
+    //     for (var i = 0; i < bufferLength; i++) {
+
+    //         var v = dataArray[i] / 128.0;
+    //         var y = v * HEIGHT / 2;
+
+    //         if (i === 0) {
+    //             canvasCtx.moveTo(x, y);
+    //         } else {
+    //             canvasCtx.lineTo(x, y);
+    //         }
+
+    //         x += sliceWidth;
+    //     }
+
+    //     canvasCtx.lineTo(canvas.width, canvas.height / 2);
+    //     canvasCtx.stroke();
+    // };
+</script>
+
+</html>

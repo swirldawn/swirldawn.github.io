@@ -217,7 +217,7 @@
                 </div>
 
                 <div class="col-md-12">
-                    <textarea name="" id="sql_id" class="col-md-12 form-control" rows="20"></textarea>
+                    <textarea name="" id="sql_id" class="col-md-12 form-control" rows="20" placeholder="换行分开"></textarea>
                 </div>
                 <div class="col-md-12">
                     <p id="sql_show" style="word-break:break-all;">
@@ -390,7 +390,7 @@
         var re = ShengUtils.encode(value);
         return re;
     });
-    //base64过滤器
+    //base64过滤器 字段太长似乎不能搞
     Vue.filter('base64_encode', function(value) {
         if (value == '') return '';
         var re = window.btoa(value);
