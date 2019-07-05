@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.loli.net/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
+    <script src="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/js/vue.min.js"></script>
+    <script src="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/js/quasar.mat.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar-framework@latest/dist/umd/i18n.zh-hans.umd.min.js"></script>
+    <script src="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/js/axios.min.js"></script>
+    <link type="text/css" href="./css/styles.css" media="all" rel="stylesheet" />
+    <link type="text/css" href="./css/stickysort.css" media="all" rel="stylesheet" />
+    <title>常见食物营养表</title>
+    <style>
+        body {
+            background-color: #e4f9f5;
+        }
+        
+        .q-list {
+            background-color: #fff;
+        }
+        
+        \
+    </style>
+</head>
+
+<body>
+    <div style="max-width:1600px;margin:0 auto;">
+        <section class="demo" id="table_sort">
+
+
+            <h2>常见食物营养表</h2>
+            <table class="q-table q-table-horizontal-separator">
+                <thead style="color:white;background-color: #de9e0c;;">
+                    <tr>
+                        <th class="text-left">名称</th>
+                        <th class="text-right sortable"> 膳食纤维/g</th>
+                        <th class="text-right sortable"> 维生素C/mg</th>
+                        <th class="text-right sortable">糖/g</th>
+                        <th class="text-right sortable">蛋白质g</th>
+                        <th class="text-right sortable">脂肪g</th>
+                        <th class="text-right sortable"> 维生素Aug</th>
+                        <th class="text-right sortable"> 维生素Emg</th>
+
+                        <th class="text-right sortable"> 叶酸ug</th>
+                        <th class="text-right sortable"> 维生素B6mg</th>
+                        <th class="text-right sortable"> 维生素B12mg</th>
+                        <th class="text-right sortable"> 钙ug</th>
+                        <th class="text-right sortable"> 铁mg</th>
+                        <th class="text-right sortable"> 钾mg</th>
+                        <th class="text-right sortable"> 锌mg</th>
+
+                        <th class="text-right sortable"> 胆固醇mg</th>
+                        <th class="text-right sortable"> 能量千卡</th>
+                    </tr>
+                </thead>
+
+                <tbody id="contents">
+                </tbody>
+            </table>
+        </section>
+
+    </div>
+    <div id="q-app">
+
+        <q-layout view="lHh Lpr fff">
+
+
+
+        </q-layout>
+    </div>
+
+    <script type="text/x-template" id="my-page">
+
+
+        <q-table ref="tableBody" title="常见食物营养表" :data="contents" :columns="columns" :filter="filter" :pagination.sync="serverPagination" row-key="id" />
+
+
+    </script>
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="js/jquery.stickysort.js"></script>
+    <script>
+        $(function() {
+            $.get("https://www.kaffir-lily.cc/get_table_all?table=nutrition", function(data) {
+
+                for (var i = 0; i < data.data.length; i++) {
+                    let value = {};
+                    let html = '<tr class=""><td class="text-left">' + data.data[i].名称 +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].膳食纤维g) +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].VCmg) +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].糖g) +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].蛋白质g) +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].脂肪g) +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].维生素Aug) +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].维生素Emg) +
+
+                        '</td><td class="text-right">' + parseFloat(data.data[i].叶酸ug) +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].维生素B6mg) +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].维生素B12mg) +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].钙ug) +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].铁mg) +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].钾mg) +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].锌mg) +
+
+                        '</td><td class="text-right">' + parseFloat(data.data[i].胆固醇mg) +
+                        '</td><td class="text-right">' + parseFloat(data.data[i].能量千卡) + '</td></tr>';
+
+                    $("#contents").append(html);
+                }
+            });
+            $('#table_sort table').stickySort({
+                sortable: true
+            });
+        });
+
+        Vue.component('my-page', {
+            template: '#my-page',
+            data: () => ({
+                model: "",
+                contents: [],
+                filter: '',
+                rowKey: String,
+                columns: [{
+                        name: '名称',
+                        label: '名称',
+                        align: 'left',
+                        field: 'name',
+                    }, {
+                        name: '糖g',
+                        label: '糖/g',
+                        align: 'right',
+                        field: 'sugar',
+                        filter: true,
+                        sortable: true,
+                        type: 'number'
+                    }, {
+                        name: '蛋白质g',
+                        label: '蛋白质g',
+                        align: 'right',
+                        field: '蛋白质g',
+                        sortable: true
+                    }, {
+                        name: '脂肪g',
+                        label: '脂肪g',
+                        align: 'right',
+                        field: '脂肪g',
+                        sortable: true
+                    }, {
+                        name: '维生素Aug',
+                        label: '维生素Aug',
+                        align: 'right',
+                        field: '维生素Aug',
+                        sortable: true
+                    }, {
+                        name: '维生素Emg',
+                        label: '维生素Emg',
+                        align: 'right',
+                        field: '维生素Emg',
+                        sortable: true
+                    }, {
+                        name: '维生素Cmg',
+                        label: '维生素Cmg',
+                        align: 'right',
+                        field: 'VCmg',
+                        sortable: true
+                    }, {
+                        name: '叶酸ug',
+                        label: '叶酸ug',
+                        align: 'right',
+                        field: '叶酸ug',
+                        sortable: true
+                    }, {
+                        name: '维生素B6mg',
+                        label: '维生素B6mg',
+                        align: 'right',
+                        field: '维生素B6mg',
+                        sortable: true
+                    }, {
+                        name: '维生素B12mg',
+                        label: '维生素B12mg',
+                        align: 'right',
+                        field: '维生素B12mg',
+                        sortable: true
+                    }, {
+                        name: '钙ug',
+                        label: '钙ug',
+                        align: 'right',
+                        field: '钙ug',
+                        sortable: true
+                    }, {
+                        name: '铁mg',
+                        label: '铁mg',
+                        align: 'right',
+                        field: '铁mg',
+                        sortable: true
+                    }, {
+                        name: '钾mg',
+                        label: '钾mg',
+                        align: 'right',
+                        field: '钾mg',
+                        sortable: true
+                    }, {
+                        name: '锌mg',
+                        label: '锌mg',
+                        align: 'right',
+                        field: '锌mg',
+                        sortable: true
+                    }, {
+                        name: '膳食纤维g',
+                        label: '膳食纤维g',
+                        align: 'right',
+                        field: '膳食纤维g',
+                        sortable: true
+                    }, {
+                        name: '胆固醇mg',
+                        label: '胆固醇mg',
+                        align: 'right',
+                        field: '胆固醇mg',
+                        sortable: true
+                    }, {
+                        name: '能量千卡',
+                        label: '能量千卡',
+                        align: 'right',
+                        field: '能量千卡',
+                        sortable: true
+                    },
+
+
+                ],
+                serverPagination: {
+                    page: 1,
+                    rowsPerPage: 100,
+                    rowsNumber: 100 // 指定这个属性就确定了分页是服务器端的
+                },
+            }),
+            methods: {
+                launch: function(url) {
+                    Quasar.utils.openURL(url)
+                },
+                getContent: function() {
+                    axios.get(`https://www.kaffir-lily.cc/get_table_all?table=nutrition`).then(({
+                        data
+                    }) => {
+                        let nutrition = [];
+                        for (var i = 0; i < data.data.length; i++) {
+                            let value = {};
+                            value.id = i;
+                            value.name = data.data[i].名称;
+                            value.sugar = parseInt(data.data[i].糖g);
+                            value.蛋白质g = parseFloat(data.data[i].蛋白质g);
+                            value.脂肪g = parseFloat(data.data[i].脂肪g);
+                            value.维生素Aug = parseFloat(data.data[i].维生素Aug);
+                            value.维生素Emg = parseFloat(data.data[i].维生素Emg);
+                            value.VCmg = parseFloat(data.data[i].VCmg);
+                            value.叶酸ug = parseFloat(data.data[i].叶酸ug);
+                            value.维生素B6mg = parseFloat(data.data[i].维生素B6mg);
+                            value.维生素B12mg = parseFloat(data.data[i].维生素B12mg);
+                            value.钙ug = parseFloat(data.data[i].钙ug);
+                            value.铁mg = parseFloat(data.data[i].铁mg);
+                            value.钾mg = parseFloat(data.data[i].钾mg);
+                            value.锌mg = parseFloat(data.data[i].锌mg);
+                            value.膳食纤维g = parseFloat(data.data[i].膳食纤维g);
+                            value.胆固醇mg = parseFloat(data.data[i].胆固醇mg);
+                            value.能量千卡 = parseFloat(data.data[i].能量千卡);
+
+                            nutrition.push(value);
+                        }
+                        console.table(nutrition);
+                        this.contents = nutrition;
+                    })
+
+                },
+            },
+            mounted() {
+                // this.$refs.server_search.focus();
+
+            },
+            created() {
+                // this.getContent();
+            }
+        });
+    </script>
+    <script>
+        var vue = new Vue({
+            el: '#q-app',
+            data: function() {
+                return {
+
+                }
+            },
+            methods: {
+
+
+            },
+            created() {
+
+            },
+            watch: {
+
+            },
+
+        })
+    </script>
+</body>
+
+</html

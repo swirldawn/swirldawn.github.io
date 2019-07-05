@@ -34,7 +34,7 @@
         <div id="q-app">
             <!-- <q-layout view="lHh Lpr fff" style="max-width:1300px;margin:0 auto;">
                 <q-page-container>
-
+                    <my-page></my-page>
                 </q-page-container>
             </q-layout> -->
         </div>
@@ -277,7 +277,13 @@
                 </q-td>
             </q-table>
         </q-page>
-
+        <q-page padding>
+            <q-table title="粒子大小" :data="atom_data" :columns="atom_columns" row-key="name" :pagination.sync="pagination">
+                <q-td slot="body-cell-id" slot-scope="props" :props="props">
+                    {{props.row.__index}}
+                </q-td>
+            </q-table>
+        </q-page>
     </script>
     <script src="js/jquery-2.1.1.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
@@ -299,6 +305,21 @@
                     page: 1,
                     rowsPerPage: 100 // 当前每页显示的行数
                 },
+                atom_data: [{
+                    "name": "雷神1",
+                    "size": 20110508,
+                }, ],
+                atom_columns: [{
+                    "name": "name",
+                    "label": '名称',
+                    "field": "id",
+                    "align": "left",
+                }, {
+                    "name": "size",
+                    "label": '大小',
+                    "field": "name",
+                    "align": "left",
+                }],
                 columns: [{
                     "name": "id",
                     "label": '序号',
@@ -480,7 +501,7 @@
                     "cost": 25000,
                 }],
             }),
-        })
+        });
 
         new Vue({
             el: '#q-app',
