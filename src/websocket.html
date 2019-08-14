@@ -1,98 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<title>Chat Example</title>
-<script type="text/javascript">
-window.onload = function () {
-    var conn;
-    var msg = document.getElementById("msg");
-    var log = document.getElementById("log");
+    <link rel="stylesheet" type="text/css" href="public/style/cssreset-min.css">
+    <link rel="stylesheet" type="text/css" href="public/style/common.css">
 
-    function appendLog(item) {
-        var doScroll = log.scrollTop === log.scrollHeight - log.clientHeight;
-        log.appendChild(item);
-        if (doScroll) {
-            log.scrollTop = log.scrollHeight - log.clientHeight;
+    <script src="https://cdnjs.loli.net/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="./js/jquery.emoticons.js"></script>
+    <style type="text/css">
+        .emoticons {
+            width: 525px;
+            margin-bottom: 20px;
         }
-    }
+        
+        .emoticons .publisher {
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px dotted #dbdbdb;
+        }
+        
+        .emoticons .publisher textarea {
+            width: 500px;
+            height: 140px;
+            padding: 5px 10px;
+            border: 1px solid #dbdbdb;
+            resize: none;
+        }
+        
+        .emoticons .publisher .trigger {
+            font-size: 24px;
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .emoticons .publisher .trigger-active {
+            color: #eb7350;
+        }
+        
+        .emoticons .result {
+            padding: 10px 15px;
+            border: 1px dotted #dbdbdb;
+            margin-top: 10px;
+            height: 150px;
+            line-height: 24px;
+        }
+        
+        .emoticons .result img {
+            vertical-align: middle;
+        }
+        
+        .widget-layer {
+            position: relative;
+            width: 410px;
+            margin-top: 8px;
+            background: #fff;
+            border: 1px solid #dbdbdb;
+            border-radius: 2px;
+        }
+        
+        .widget-layer:before {
+            position: absolute;
+            top: -16px;
+            left: 2px;
+            display: block;
+            content: '';
+            width: 0;
+            height: 0;
+            border: 8px solid transparent;
+            border-bottom-color: #dbdbdb;
+        }
+        
+        .widget-layer:after {
+            position: absolute;
+            top: -15px;
+            left: 2px;
+            display: block;
+            content: '';
+            width: 0;
+            height: 0;
+            border: 8px solid transparent;
+            border-bottom-color: #f0f0f0;
+        }
+        
+        .widget-layer .widget-tool {
+            height: 28px;
+            background: #f0f0f0;
+        }
+        
+        .widget-layer .widget-close {
+            float: right;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            font-family: Arial;
+        }
+        
+        .widget-layer ul {
+            width: 372px;
+            margin: 0 auto;
+            padding: 15px 5px 20px;
+            overflow: hidden;
+        }
+        
+        .widget-layer li {
+            position: relative;
+            z-index: 8;
+            float: left;
+            width: 22px;
+            height: 22px;
+            padding: 4px;
+            margin-left: -1px;
+            margin-top: -1px;
+            border: 1px solid #e8e8e8;
+            cursor: pointer;
+        }
+        
+        .widget-layer li:hover {
+            z-index: 9;
+            border-color: #eb7350;
+        }
+    </style>
 
-    document.getElementById("form").onsubmit = function () {
-        if (!conn) {
-            return false;
-        }
-        if (!msg.value) {
-            return false;
-        }
-        conn.send(msg.value);
-        msg.value = "";
-        return false;
-    };
+    <title>Golang 聊天室</title>
+    <script type="text/javascript">
+        function dateFormat(fmt) { //author: meizz  
 
-    if (window["WebSocket"]) {
-        conn = new WebSocket("ws://api.kaffir-lily.cc:8081/ws");
-        conn.onclose = function (evt) {
-            var item = document.createElement("div");
-            item.innerHTML = "<b>Connection closed.</b>";
-            appendLog(item);
-        };
-        conn.onmessage = function (evt) {
-            var messages = evt.data.split('\n');
-            for (var i = 0; i < messages.length; i++) {
+            var myDate = new Date();
+            var o = {
+                "M+": myDate.getMonth() + 1, //月份   
+                "d+": myDate.getDate(), //日   
+                "H+": myDate.getHours(), //小时   
+                "m+": myDate.getMinutes(), //分   
+                "s+": myDate.getSeconds(), //秒   
+                "q+": Math.floor((myDate.getMonth() + 3) / 3), //季度   
+                "S": myDate.getMilliseconds() //毫秒   
+            };
+            if (/(y+)/.test(fmt))
+                fmt = fmt.replace(RegExp.$1, (myDate.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt))
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+
+
+        window.onload = function() {
+            var conn;
+            var msg = document.getElementById("msg");
+            var log = document.getElementById("log");
+
+            function appendLog(item) {
+                var doScroll = log.scrollTop === log.scrollHeight - log.clientHeight;
+                log.appendChild(item);
+                if (doScroll) {
+                    log.scrollTop = log.scrollHeight - log.clientHeight;
+                }
+            }
+
+            document.getElementById("form").onsubmit = function() {
+                if (!conn) {
+                    return false;
+                }
+                if (!msg.value) {
+                    return false;
+                }
+                conn.send(msg.value);
+                msg.value = "";
+                return false;
+            };
+
+            if (window["WebSocket"]) {
+                conn = new WebSocket("ws://api.kaffir-lily.cc:8081/ws");
+                conn.onclose = function(evt) {
+                    var item = document.createElement("div");
+                    item.innerHTML = "<b>Connection closed.</b>";
+                    appendLog(item);
+                };
+                conn.onmessage = function(evt) {
+                    var messages = evt.data.split('\n');
+                    for (var i = 0; i < messages.length; i++) {
+
+                        var time1 = dateFormat("yyyy-MM-dd HH:mm:ss");
+                        var msg = $.emoticonsFormat(messages[i])
+
+                        var item = '<div> ' + time1 + '   ' + msg + '   </div>';
+                        $("#log").append(item);
+                        // appendLog(item);
+                    }
+                };
+            } else {
                 var item = document.createElement("div");
-                item.innerText = messages[i];
+                item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
                 appendLog(item);
             }
         };
-    } else {
-        var item = document.createElement("div");
-        item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
-        appendLog(item);
-    }
-};
-</script>
-<style type="text/css">
-html {
-    overflow: hidden;
-}
-
-body {
-    overflow: hidden;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    background: gray;
-}
-
-#log {
-    background: white;
-    margin: 0;
-    padding: 0.5em 0.5em 0.5em 0.5em;
-    position: absolute;
-    top: 0.5em;
-    left: 0.5em;
-    right: 0.5em;
-    bottom: 3em;
-    overflow: auto;
-}
-
-#form {
-    padding: 0 0.5em 0 0.5em;
-    margin: 0;
-    position: absolute;
-    bottom: 1em;
-    left: 0px;
-    width: 100%;
-    overflow: hidden;
-}
-
-</style>
+    </script>
+    <style type="text/css">
+        html {
+            overflow: hidden;
+        }
+        
+        body {
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            background: gray;
+        }
+        
+        #log {
+            background: white;
+            margin: 0;
+            padding: 0.5em 0.5em 0.5em 0.5em;
+            position: absolute;
+            top: 0.5em;
+            left: 0.5em;
+            right: 0.5em;
+            bottom: 3em;
+            overflow: auto;
+        }
+        
+        #form {
+            padding: 0 0.5em 0 0.5em;
+            margin: 0;
+            position: absolute;
+            bottom: 1em;
+            left: 0px;
+            width: 100%;
+            overflow: hidden;
+        }
+    </style>
 </head>
+
 <body>
-<div id="log"></div>
-<form id="form">
-    <input type="submit" value="Send" />
-    <input type="text" id="msg" size="64"/>
-</form>
+    <div id="log"></div>
+    <form id="form">
+        <input type="submit" value="Send" />
+        <input type="text" id="msg" size="64" />
+        <a class="trigger" href="javascript:;">☺</a>
+    </form>
 </body>
+<script>
+    $.emoticons({
+        'activeCls': 'trigger-active',
+        'top': -300,
+        'content': '#msg'
+    }, function(api) {
+        var $content = $('#msg');
+        var $result = $('#result');
+        $('#msg').click(function() {
+            $result.html(api.format($content.val()));
+        });
+    });
+    console.log($.emoticons);
+</script>
+
 </html>
