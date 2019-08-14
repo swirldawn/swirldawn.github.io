@@ -189,6 +189,10 @@
 
                         var item = '<div> ' + time1 + '   ' + msg + '   </div>';
                         $("#log").append(item);
+                        var doScroll = log.scrollTop === log.scrollHeight - log.clientHeight;
+                        if (doScroll) {
+                            log.scrollTop = log.scrollHeight - log.clientHeight;
+                        }
                         // appendLog(item);
                     }
                 };
