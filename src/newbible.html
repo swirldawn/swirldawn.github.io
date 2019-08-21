@@ -40,8 +40,8 @@
                         <q-list-header>{{current_title}}</q-list-header>
                         <div class="" v-for="c in contents">
 
-                            <h2 v-if="c.Section == sid"> {{c.Paragraph}}:{{c.Section}} {{c.Content}}</h2>
-                            <p v-else> {{c.Paragraph}}:{{c.Section}} {{c.Content}}</p>
+                            <h2 v-if="c.section == sid"> {{c.paragraph}}:{{c.section}} {{c.content}}</h2>
+                            <p v-else> {{c.paragraph}}:{{c.section}} {{c.content}}</p>
                         </div>
                     </q-list>
                 </div>
@@ -72,7 +72,7 @@
                     current_title: "创世纪",
                     current_content: "",
                     selectOptions: [],
-                    select: 1,
+                    select: '1',
                     pid: 1,
                     tid: 1,
                     sid: 1,
@@ -88,32 +88,33 @@
                     Quasar.utils.openURL(url)
                 },
                 getTitle() {
-                    axios.get(`http://101.200.128.119:8080/bibletitle`).then(({
+                    axios.get(`http://www.kaffir-lily.cc:8081/get_bible_title`).then(({
                         data
                     }) => {
-                        this.title = data.content;
+                        this.title = data.data;
 
                         let select = [];
-                        data.content.forEach(function(v, i) {
+                        data.data.forEach(function(v, i) {
                             let title = {};
-                            title.label = v.Cn_title + v.Prefix;
-                            title.value = v.Id;
+                            title.label = v.cn_title + v.prefix;
+                            title.value = v.id;
                             select.push(title);
 
                         });
 
                         this.selectOptions = select;
+                        this.getContent();
                     });
                 },
                 getContent: function() {
 
 
-                    axios.get(`http://www.kaffir-lily.cc:8080/bible?pid=${this.pid}&tid=${this.tid}`).then(({
+                    axios.get(`http://www.kaffir-lily.cc:8081/get_bible?pid=${this.pid}&tid=${this.tid}`).then(({
                         data
                     }) => {
-                        this.contents = data.content;
-                        this.maxPages = eval(this.title[this.tid - 1].Paragraph).length;
-                        this.current_content = this.contents[this.sid - 1].Content;
+                        this.contents = data.data;
+                        this.maxPages = eval(this.title[this.tid - 1].paragraph).length;
+                        this.current_content = this.contents[this.sid - 1].content;
                     })
 
                 },
@@ -169,20 +170,20 @@
             },
             created() {
                 this.getTitle();
-                this.getContent();
+
             },
             watch: {
                 select: function(val, oldVal) {
                     this.tid = val;
                     this.pid = 1;
                     this.page = 1;
-                    this.current_title = this.title[val - 1].Cn_title;
+                    this.current_title = this.title[val - 1].cn_title;
                     this.getContent();
                     console.log(val, oldVal);
                 },
                 sid: function(val, oldVal) {
 
-                    this.current_content = this.contents[val - 1].Content;
+                    this.current_content = this.contents[val - 1].content;
                     console.log(val, this.current_content);
                 }
             },
