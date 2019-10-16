@@ -209,7 +209,7 @@
                 }
                 conn.send(re_msg);
                 msg.value = "";
-                $('#log').scrollTop($('#log').children().length * 33);
+                $('#log').scrollTop(document.getElementById("log").scrollHeight + 10);
 
                 return false;
             };
@@ -236,7 +236,7 @@
                         }
                         // appendLog(item);
                     }
-                    $('#log').scrollTop($('#log').children().length * 33);
+                    $('#log').scrollTop(document.getElementById("log").scrollHeight + 10);
                 };
             } else {
                 var item = document.createElement("div");
