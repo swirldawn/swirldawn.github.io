@@ -129,6 +129,35 @@
 
     <title>Golang 聊天室</title>
     <script type="text/javascript">
+        function setCookie(cname, cvalue, exdays) {
+            var curDate = new Date();
+            //当前时间戳
+            var curTamp = curDate.getTime();
+            //当日凌晨的时间戳,减去一毫秒是为了防止后续得到的时间不会达到00:00:00的状态
+            var curWeeHours = new Date(curDate.toLocaleDateString()).getTime() - 1;
+            //当日已经过去的时间（毫秒）
+            var passedTamp = curTamp - curWeeHours;
+            //当日剩余时间
+            var leftTamp = 24 * 60 * 60 * 1000 - passedTamp;
+            var leftTime = new Date();
+            leftTime.setTime(leftTamp + curTamp + (exdays * 24 * 60 * 60 * 1000));
+            //创建cookie
+            document.cookie = cname + "=" + cvalue + ";expires=" + leftTime.toGMTString();
+
+        }
+        //获取cookie
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1);
+                if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+            }
+            return "";
+
+        }
+
         function dateFormat(fmt) { //author: meizz  
 
             var myDate = new Date();
@@ -151,6 +180,10 @@
 
 
         window.onload = function() {
+            document.cookie = "aa=adfd ";
+            var nikeName1 = getCookie('nike_name');
+            console.log(nikeName1);
+            $("#nikeName").val(nikeName1);
             var conn;
             var msg = document.getElementById("msg");
             var log = document.getElementById("log");
@@ -170,8 +203,16 @@
                 if (!msg.value) {
                     return false;
                 }
-                conn.send(msg.value);
+                var nikeName = $("#nikeName").val();
+                setCookie('nike_name', nikeName, 30)
+                var re_msg = msg.value;
+                if (nikeName != '') {
+                    re_msg = nikeName + ':' + re_msg
+                }
+                conn.send(re_msg);
                 msg.value = "";
+                $('#log').scrollTop(document.body.scrollWidth);
+
                 return false;
             };
 
@@ -249,6 +290,7 @@
     </div>
     <form id="form">
         <input type="submit" value="发送" style="background-color: #cfe0f9;height: 24px;width: 68px;color: #1794ac;" />
+        <input type="text" id="nikeName" size="12" style="background-color:#cfe0f9;margin: 0px;padding: 0px;border:none;height: 24px; " placeholder="昵称" />
         <input type="text" id="msg" size="64" style="background-color:#cfe0f9;margin: 0px;padding: 0px;border:none;height: 24px; " />
         <a class="trigger" href="javascript:;">☺</a>
     </form>
