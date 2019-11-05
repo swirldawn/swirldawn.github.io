@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陈韵瑶作品集展览</title>
+    <link rel="stylesheet" type="text/css" href="css/htmleaf-demo.css">
+    <!--演示页面样式，使用时可以不引用-->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/spotlight.bundle.js"></script>
+    <style>
+        .content {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .related {
+            position: relative;
+        }
+        
+        img,
+        .image {
+            width: 100vw;
+            max-width: 300px;
+            margin: 0vh 0vw;
+            padding: 0 0 0 0;
+        }
+        
+        .col-md-4 {
+            padding-right: 1px;
+            padding-left: 1px;
+            margin: 0 0 0 0;
+            height: 210px;
+        }
+        
+        .col-sm-6 {
+            padding-right: 1px;
+            padding-left: 1px;
+            margin: 0 0 0 0;
+            margin-top: 1px;
+            float: left;
+            height: 210px;
+        }
+        
+        .col-xs-12 {
+            padding-right: 1px;
+            padding-left: 1px;
+            margin: 0 0 0 0;
+            margin-top: 1px;
+            float: left;
+            height: 210px;
+        }
+        
+        .row {
+            margin: 0 0 0 0;
+        }
+        
+        p {
+            margin: 0 0 0 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="htmleaf-header">
+        <h1>陈韵瑶作品集展览</span>
+        </h1>
+        <div class="htmleaf-links">
+        </div>
+    </header>
+    <div class="content">
+        <div class="row">
+
+            <b>Anchors &amp; Images</b>
+            <p class="spotlight-group">
+
+                <a class="spotlight col-md-4 col-sm-6 col-xs-12" href="gallery/brooklyn-bridge-1791001.jpg" data-description="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.">
+                    <img src="gallery/brooklyn-bridge-1791001-thumb.jpg" alt="Lorem ipsum dolor sit amet">
+                </a>
+                <a class="spotlight col-md-4 col-sm-6 col-xs-12" href="gallery/california-1751455.jpg">
+                    <img src="gallery/california-1751455-thumb.jpg">
+                </a>
+                <a class="spotlight col-md-4 col-sm-6 col-xs-12" href="gallery/canada-2340312.jpg">
+                    <img src="gallery/canada-2340312-thumb.jpg">
+                </a>
+                <a class="spotlight col-md-4 col-sm-6 col-xs-12" href="gallery/canada-2340312.jpg">
+                    <img src="gallery/canada-2340312-thumb.jpg">
+                </a>
+            </p>
+        </div>
+        <div class="row">
+            <b>Anchors &amp; Images</b>
+            <p class="spotlight-group">
+
+                <a class="spotlight col-sm-12 col-md-4" href="gallery/brooklyn-bridge-1791001.jpg" data-description="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.">
+                    <img src="gallery/godafoss-1840758-thumb.jpg" alt="Lorem ipsum dolor sit amet">
+                </a>
+                <a class="spotlight col-sm-12 col-md-4" href="gallery/brooklyn-bridge-1791001.jpg" data-description="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.">
+                    <img src="gallery/godafoss-1840758-thumb.jpg" alt="Lorem ipsum dolor sit amet">
+                </a>
+
+                <a class="spotlight col-sm-12 col-md-4" href="gallery/canada-2340312.jpg">
+                    <img src="gallery/montana-1829251-thumb.jpg">
+                </a>
+            </p>
+        </div>
+
+
+
+    </div>
+    <div style="width:1100px;height:50px;"></div>
+    <!-- <div class="related">
+        <h3>如果你喜欢我的作品,请赶快联系我吧
+        </h3>
+
+    </div> -->
+
+
+    <script>
+        const checkboxes = document.getElementsByTagName("input");
+
+        const gallery = [{
+
+            title: "Image 1",
+            description: "This is a description.",
+            src: "gallery/london-1758181.jpg"
+        }, {
+            title: "Image 2",
+            description: "This is a description.",
+            src: "gallery/sea-1975403.jpg"
+        }, {
+            title: "Image 3",
+            description: "This is a description.",
+            src: "gallery/newport-beach-2089906.jpg"
+        }];
+
+        window.showGallery = function(index) {
+
+            Spotlight.show(gallery, {
+
+                index: index,
+                theme: "dark",
+                animation: [
+                    checkboxes[0].checked && checkboxes[0].value,
+                    checkboxes[1].checked && checkboxes[1].value,
+                    checkboxes[2].checked && checkboxes[2].value,
+                    checkboxes[3].checked && checkboxes[3].value
+                ]
+            });
+        };
+    </script>
+</body>
+
+</html>
