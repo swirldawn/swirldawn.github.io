@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://lib.baomitu.com/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="public/style/cssreset-min.css">
     <link rel="stylesheet" type="text/css" href="public/style/common.css">
 
@@ -64,7 +65,7 @@
         .widget-layer:before {
             position: absolute;
             top: 250px;
-            left: 2px;
+            left: -410px;
             display: block;
             content: '';
             width: 0;
@@ -112,8 +113,8 @@
             position: relative;
             z-index: 8;
             float: left;
-            width: 22px;
-            height: 22px;
+            width: 28px;
+            height: 28px;
             padding: 4px;
             margin-left: -1px;
             margin-top: -1px;
@@ -179,10 +180,12 @@
         }
 
 
+        var conn;
+
         window.onload = function() {
             var nikeName1 = getCookie('nike_name');
             $("#nikeName").val(nikeName1);
-            var conn;
+
             var msg = document.getElementById("msg");
             var log = document.getElementById("log");
 
@@ -245,6 +248,70 @@
                 appendLog(item);
             }
         };
+        var isIE = /msie/i.test(navigator.userAgent) && !window.opera;
+
+        function changeFile(event, target) {
+            var fileSize = 0;
+            var filetypes = [".jpg", ".png", ".gif", ".jpeg"];
+            var filepath = target.value;
+            var filemaxsize = 1024 * 2; //2M
+            if (filepath) {
+                var isnext = false;
+                var fileend = filepath.substring(filepath.lastIndexOf("."));
+                if (filetypes && filetypes.length > 0) {
+                    for (var i = 0; i < filetypes.length; i++) {
+                        if (filetypes[i] == fileend) {
+                            isnext = true;
+                            break;
+                        }
+                    }
+                }
+                if (!isnext) {
+                    alert("不接受此文件类型！");
+                    target.value = "";
+                    return false;
+                }
+            } else {
+                return false;
+            }
+            if (isIE && !target.files) {
+                var filePath = target.value;
+                var fileSystem = new ActiveXObject("Scripting.FileSystemObject");
+                if (!fileSystem.FileExists(filePath)) {
+                    alert("附件不存在，请重新输入！");
+                    return false;
+                }
+                var file = fileSystem.GetFile(filePath);
+                fileSize = file.Size;
+            } else {
+                fileSize = target.files[0].size;
+            }
+
+            var size = fileSize / 1024;
+            if (size > filemaxsize) {
+                alert("附件大小不能大于" + filemaxsize / 1024 + "M！");
+                target.value = "";
+                return false;
+            }
+            if (size <= 0) {
+                alert("附件大小不能为1M！");
+                target.value = "";
+                return false;
+            }
+
+            file = event.target.files[0];
+            var a = new FileReader();
+            a.onload = function(e) {
+                var base64Str = e.target.result; //获取base64
+                //下面是测试得到的base64串能否正常使用：
+                // var item = '<div> <img style="max-width:500px;" src="' + base64Str + '"/> </div>';
+                var item = ' <img style="max-width:500px;" src="' + base64Str + '"/>';
+                conn.send(item);
+                // $("#log").append(item);
+                // document.getElementById('showImg').src = base64Str;
+            }
+            a.readAsDataURL(file);
+        }
     </script>
     <style type="text/css">
         html {
@@ -289,10 +356,24 @@
     <div id="log">
     </div>
     <form id="form">
-        <input type="submit" value="发送" style="background-color: #cfe0f9;height: 24px;width: 68px;color: #1794ac;" />
-        <input type="text" id="nikeName" size="12" style="background-color:#cfe0f9;margin: 0px;padding: 0px;border:none;height: 24px; " placeholder="昵称" />
-        <input type="text" id="msg" size="64" style="background-color:#cfe0f9;margin: 0px;padding: 0px;border:none;height: 24px; " />
-        <a class="trigger" href="javascript:;">☺</a>
+
+
+        <div class="input-group">
+            <input type="text" id="nikeName" class="form-control" placeholder="你要显示的昵称" />
+
+        </div>
+        <div class="input-group">
+            <div class="input-group-btn">
+                <a class="btn btn-default trigger">☺</a>
+                <button type="button" class="btn btn-default" onclick="document.getElementById('images_upload').click();"><span class="glyphicon glyphicon-picture"></span></button>
+                <input type="file" id="images_upload" onchange="changeFile(event,this);" class="hidden" />
+            </div>
+            <input type="text" id="msg" class="form-control">
+            <div class="input-group-btn">
+                <button type="submit" class="btn btn-default">发送</button>
+            </div>
+        </div>
+
     </form>
 </body>
 <script>
@@ -307,7 +388,6 @@
             $result.html(api.format($content.val()));
         });
     });
-    console.log($.emoticons);
 </script>
 
 </html>
