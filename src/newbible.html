@@ -88,7 +88,7 @@
                     Quasar.utils.openURL(url)
                 },
                 getTitle() {
-                    axios.get(`http://www.kaffir-lily.cc/get_bible_title`).then(({
+                    axios.get(`http://api.kaffir-lily.cc/get_bible_title`).then(({
                         data
                     }) => {
                         this.title = data.data;
@@ -109,7 +109,7 @@
                 getContent: function() {
 
 
-                    axios.get(`http://www.kaffir-lily.cc/get_bible?pid=${this.pid}&tid=${this.tid}`).then(({
+                    axios.get(`http://api.kaffir-lily.cc/get_bible?pid=${this.pid}&tid=${this.tid}`).then(({
                         data
                     }) => {
                         this.contents = data.data;
