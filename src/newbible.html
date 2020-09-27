@@ -11,7 +11,7 @@
     <script src="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/js/quasar.mat.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/quasar-framework@latest/dist/umd/i18n.zh-hans.umd.min.js"></script>
     <script src="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/js/axios.min.js"></script>
-    <title>在线圣经</title>
+    <title>创世纪-在线圣经</title>
     <style>
         body {
             background-color: #E0E3DA;
@@ -34,13 +34,13 @@
 
         </blockquote>
         <q-layout view="lHh Lpr fff">
-            <div style="margin:5px auto;max-width:1100px;" class="fixed-top">
+            <div style="margin:5px auto;max-width:1100px;" v-touch-pan.horizontal.prevent.mouse="handlePan" class="fixed-top">
                 <div>
                     <q-list id="content_list" style="text-align:left;height:calc(100vh - 80px);overflow:auto;padding:20px;">
                         <q-list-header>{{current_title}}</q-list-header>
                         <div class="" v-for="c in contents">
 
-                            <h2 v-if="c.section == sid"> {{c.paragraph}}:{{c.section}} {{c.content}}</h2>
+                            <h2 v-if="c.section == sid && width>700"> {{c.paragraph}}:{{c.section}} {{c.content}}</h2>
                             <p v-else> {{c.paragraph}}:{{c.section}} {{c.content}}</p>
                         </div>
                     </q-list>
@@ -61,6 +61,7 @@
 
     <script>
         Quasar.utils.scroll.animScrollTo(document.getElementById("content_list"), 900, 100);
+        var width = document.body.clientWidth;
         console.log(Quasar);
         var vue = new Vue({
             el: '#q-app',
@@ -81,6 +82,7 @@
                     maxPages: 27,
                     contents: [],
                     show_tips: false,
+                    width: width,
                 }
             },
             methods: {
@@ -112,9 +114,12 @@
                     axios.get(`http://api.kaffir-lily.cc/get_bible?pid=${this.pid}&tid=${this.tid}`).then(({
                         data
                     }) => {
+                        this.page = this.pid;
                         this.contents = data.data;
-                        this.maxPages = eval(this.title[this.tid - 1].paragraph).length;
                         this.current_content = this.contents[this.sid - 1].content;
+                        document.getElementById("content_list").scrollTop = 0;
+                        this.current_title = this.title[this.tid - 1].cn_title;
+                        this.maxPages = eval(this.title[this.tid - 1].paragraph).length;
                     })
 
                 },
@@ -163,8 +168,51 @@
                 },
                 left() {
 
+                    if (this.tid == 1 && this.pid == 1) {
+                        return;
+                    }
+
+                    if (this.pid == 1) {
+                        this.tid = this.tid - 1;
+                        this.select = this.tid + "";;
+                        this.pid = eval(this.title[this.tid - 1].paragraph).length;
+                        this.getContent();
+                        return;
+                    }
+                    this.pid--;
+                    this.getContent();
+
                 },
                 right() {
+                    console.log(this.tid, this.pid);
+                    if (this.tid == 66 && this.pid == 22) {
+                        return;
+                    }
+
+                    if (this.pid == this.maxPages) {
+                        this.tid = ++this.tid;
+                        this.select = this.tid + "";
+                        this.pid = 1;
+                        this.getContent();
+                        return;
+                    }
+
+                    this.pid++;
+                    this.getContent();
+                },
+                handlePan({
+                    evt,
+                    ...info
+                }) {
+
+                    if (info.isFinal) {
+                        console.log(info);
+                        if (info.direction == "left") {
+                            this.left();
+                        } else {
+                            this.right();
+                        }
+                    }
 
                 }
             },
@@ -179,11 +227,13 @@
                     this.page = 1;
                     this.current_title = this.title[val - 1].cn_title;
                     this.getContent();
+                    document.title = this.current_title + "-在线圣经";
                     console.log(val, oldVal);
                 },
                 sid: function(val, oldVal) {
 
                     this.current_content = this.contents[val - 1].content;
+
                     console.log(val, this.current_content);
                 }
             },
