@@ -54,7 +54,7 @@
 
                 </q-pagination>
 
-                <q-select align="center" color="orange" inverted-light v-model="select" filter :options="selectOptions"></q-select>
+                <q-select align="center" color="orange" inverted-light v-model="select" @input="gotoTitle" filter :options="selectOptions"></q-select>
             </div>
 
         </q-layout>
@@ -95,14 +95,12 @@
                         data
                     }) => {
                         this.title = data.data;
-
                         let select = [];
                         data.data.forEach(function(v, i) {
                             let title = {};
                             title.label = v.cn_title + v.prefix;
                             title.value = v.id;
                             select.push(title);
-
                         });
 
                         this.selectOptions = select;
@@ -110,8 +108,6 @@
                     });
                 },
                 getContent: function() {
-
-
                     axios.get(`http://api.kaffir-lily.cc/get_bible?pid=${this.pid}&tid=${this.tid}`).then(({
                         data
                     }) => {
@@ -147,7 +143,7 @@
                         var sHeight = Quasar.utils.scroll.getScrollHeight(document.getElementById("content_list"));
                         var Height = Quasar.utils.dom.height(document.getElementById("content_list"));
                         var toHeight = this.sid / this.contents.length * sHeight;
-                        console.log(toHeight);
+                        // console.log(toHeight);
                         Quasar.utils.scroll.animScrollTo(document.getElementById("content_list"), toHeight - sHeight / 100 * 20, 100);
                     }
 
@@ -172,11 +168,12 @@
                     if (this.tid == 1 && this.pid == 1) {
                         return;
                     }
-
                     if (this.pid == 1) {
                         this.tid = this.tid - 1;
-                        this.select = this.tid + "";;
+                        this.select = this.tid + "";
+                        console.log(this.pid);
                         this.pid = eval(this.title[this.tid - 1].paragraph).length;
+                        console.log(this.pid, "aaaa");
                         this.getContent();
                         return;
                     }
@@ -185,7 +182,7 @@
 
                 },
                 right() {
-                    console.log(this.tid, this.pid);
+                    // console.log(this.tid, this.pid);
                     if (this.tid == 66 && this.pid == 22) {
                         return;
                     }
@@ -201,18 +198,24 @@
                     this.pid++;
                     this.getContent();
                 },
+                gotoTitle(val) {
+                    console.log(val);
+                    this.tid = val;
+                    this.pid = 1;
+                    this.current_title = this.title[val - 1].cn_title;
+                    this.getContent();
+                    document.title = this.current_title + "-在线圣经";
+                },
                 handlePan({
                     evt,
                     ...info
                 }) {
-
                     if (info.isFinal) {
-                        console.log(info);
+                        // console.log(info);
                         if (info.direction == "left") {
                             this.right();
                         } else {
                             this.left();
-
                         }
                     }
 
@@ -220,23 +223,17 @@
             },
             created() {
                 this.getTitle();
-
             },
             watch: {
                 select: function(val, oldVal) {
-                    this.tid = val;
-                    this.pid = 1;
-                    this.page = 1;
-                    this.current_title = this.title[val - 1].cn_title;
-                    this.getContent();
-                    document.title = this.current_title + "-在线圣经";
-                    console.log(val, oldVal);
+
+                    // console.log(val, oldVal);
                 },
                 sid: function(val, oldVal) {
 
                     this.current_content = this.contents[val - 1].content;
 
-                    console.log(val, this.current_content);
+                    // console.log(val, this.current_content);
                 }
             },
 
