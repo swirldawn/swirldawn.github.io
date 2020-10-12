@@ -202,9 +202,9 @@
                     console.log(val);
                     this.tid = val;
                     this.pid = 1;
-                    this.current_title = this.title[val - 1].cn_title;
+
                     this.getContent();
-                    document.title = this.current_title + "-在线圣经";
+
                 },
                 handlePan({
                     evt,
@@ -226,7 +226,8 @@
             },
             watch: {
                 select: function(val, oldVal) {
-
+                    this.current_title = this.title[val - 1].cn_title;
+                    document.title = this.current_title + "-在线圣经";
                     // console.log(val, oldVal);
                 },
                 sid: function(val, oldVal) {
