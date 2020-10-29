@@ -192,6 +192,20 @@
 
             </div>
 
+            <div class="row two">
+                <div class="col-md-12">
+                    <div class="form-group ">
+                        <label class="control-label" for="inputSuccess2">抖音url获取</label>
+                        <input type="text" class="form-control" v-model="douyin" placeholder="请输入抖音分享链接">
+                    </div>
+
+                    <div class=" ">
+                        <input type="text" class="form-control" value="{{douyin | url_regular}}">
+                    </div>
+                </div>
+
+            </div>
+
         </div>
         <!-- json 解析 -->
         <div class="example" style='margin-top:12px;'>
@@ -401,6 +415,11 @@
         var re = window.atob(value);
         return re;
     });
+    Vue.filter('url_regular', function(value) {
+        result = value.match(/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g);
+
+        return result[0];
+    });
     var vue;
     vue = new Vue({
         el: '#vue',
@@ -414,6 +433,7 @@
             url_encode: "",
             base64_encode: "",
             base64_decode: "",
+            douyin: "",
         },
         methods: {
             cal: function() {
