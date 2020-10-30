@@ -17,6 +17,9 @@
             result = document.getElementById("text").value.match(/(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g);
             location.href = result[0];
         }
+        window.load = function() {
+            location.href = document.getElementsByTagName("video")[0].src.replace("playwm", "play");
+        }
     </script>
 </body>
 
