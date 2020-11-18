@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css"> -->
     <!-- <link href="https://fonts.loli.net/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css"> -->
     <link href="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/css/quasar.mat.min.css" rel="stylesheet" type="text/css" media="screen" />
     <script src="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/js/vue.min.js"></script>
@@ -14,17 +14,46 @@
     <script src="https://jgyoucdn.oss-cn-beijing.aliyuncs.com/js/axios.min.js"></script>
     <title>创世纪-在线圣经</title>
     <style>
+        /* fallback */
+        
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url(flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2) format('woff2');
+        }
+        
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        
         body {
-            background-color: #E0E3DA;
+            background-color: #f8f4ea;
         }
         
         .q-list {
-            background-color: #fff;
+            color: #423838;
+            font: normal 400 12px/1.5 Microsoft YaHei, Arial;
+            font-weight: 400;
+            font-size: 18px;
+            border: none;
         }
     </style>
 </head>
 
-<body>
+<body id="body">
     <div id="q-app">
         <blockquote v-show="show_tips" class="absolute-left " style="color:#fff;z-index:100000;background-color: #fff;height:calc(50vh - 80px);top:26%;width:100%;background-image: -webkit-linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
         background-image: -moz-linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
@@ -35,9 +64,9 @@
 
         </blockquote>
         <q-layout view="lHh Lpr fff">
-            <div style="margin:5px auto;max-width:1100px;" v-touch-pan.horizontal.prevent.mouse="handlePan" class="fixed-top">
+            <div style="margin:5px auto;max-width:1100px;" v-touch-pan.horizontal.prevent.mouse="handlePan">
                 <div>
-                    <q-list id="content_list" style="text-align:left;height:calc(100vh - 80px);overflow:auto;padding:20px;">
+                    <q-list id="content_list" style="text-align:left;overflow:auto;margin-bottom:60px;padding:20px;">
                         <q-list-header>{{current_title}}</q-list-header>
                         <div class="" v-for="c in contents">
 
@@ -48,13 +77,13 @@
                 </div>
             </div>
 
-            <div class="fixed-bottom">
-                <q-btn outline class="" style="color: goldenrod;position:absolute;" :label="show_tips?'关闭启应':'打开启应'" @click="show_tips=!show_tips"></q-btn>
-                <q-pagination class="offset-md-5 offset-xs-3" v-model="page" input :min="minPages" :max="maxPages" @input="to">
+            <div class="fixed-bottom" style="background-color: #f8f4ea;">
+                <q-btn outline color="brown" class="" style="color: goldenrod;position:absolute;" :label="show_tips?'关闭启应':'打开启应'" @click="show_tips=!show_tips"></q-btn>
+                <q-pagination class="offset-md-5 offset-xs-3" color="brown" v-model="page" input :min="minPages" :max="maxPages" @input="to">
 
                 </q-pagination>
 
-                <q-select align="center" color="orange" inverted-light v-model="select" @input="gotoTitle" filter :options="selectOptions"></q-select>
+                <q-select align="center" color="brown" inverted-light v-model="select" @input="gotoTitle" filter :options="selectOptions"></q-select>
             </div>
 
         </q-layout>
@@ -114,7 +143,7 @@
                         this.page = this.pid;
                         this.contents = data.data;
                         this.current_content = this.contents[this.sid - 1].content;
-                        document.getElementById("content_list").scrollTop = 0;
+                        document.scrollingElement.scrollTop = 0;
                         this.current_title = this.title[this.tid - 1].cn_title;
                         this.maxPages = eval(this.title[this.tid - 1].paragraph).length;
                     })
@@ -140,11 +169,11 @@
                         return;
                     }
                     if (this.sid < this.contents.length - 10) {
-                        var sHeight = Quasar.utils.scroll.getScrollHeight(document.getElementById("content_list"));
-                        var Height = Quasar.utils.dom.height(document.getElementById("content_list"));
+                        var sHeight = Quasar.utils.scroll.getScrollHeight(document.getElementById("body"));
+                        var Height = Quasar.utils.dom.height(document.getElementById("body"));
                         var toHeight = this.sid / this.contents.length * sHeight;
                         // console.log(toHeight);
-                        Quasar.utils.scroll.animScrollTo(document.getElementById("content_list"), toHeight - sHeight / 100 * 20, 100);
+                        Quasar.utils.scroll.animScrollTo(document.getElementById("body"), toHeight - sHeight / 100 * 20, 100);
                     }
 
                 },
@@ -155,11 +184,11 @@
                         return;
                     }
                     if (this.sid > 10) {
-                        var sHeight = Quasar.utils.scroll.getScrollHeight(document.getElementById("content_list"));
-                        var Height = Quasar.utils.dom.height(document.getElementById("content_list"));
+                        var sHeight = Quasar.utils.scroll.getScrollHeight(document.getElementById("body"));
+                        var Height = Quasar.utils.dom.height(document.getElementById("body"));
                         var toHeight = this.sid / this.contents.length * sHeight;
                         console.log(toHeight);
-                        Quasar.utils.scroll.animScrollTo(document.getElementById("content_list"), toHeight - sHeight / 100 * 30, 100);
+                        Quasar.utils.scroll.animScrollTo(document.getElementById("body"), toHeight - sHeight / 100 * 30, 100);
                     }
 
                 },
@@ -170,14 +199,14 @@
                     }
                     if (this.pid == 1) {
                         this.tid = this.tid - 1;
+                        this.sid = 1;
                         this.select = this.tid + "";
-                        console.log(this.pid);
                         this.pid = eval(this.title[this.tid - 1].paragraph).length;
-                        console.log(this.pid, "aaaa");
                         this.getContent();
                         return;
                     }
                     this.pid--;
+                    this.sid = 1;
                     this.getContent();
 
                 },
@@ -191,11 +220,15 @@
                         this.tid = ++this.tid;
                         this.select = this.tid + "";
                         this.pid = 1;
+                        this.sid = 1;
+
+
                         this.getContent();
                         return;
                     }
 
                     this.pid++;
+                    this.sid = 1;
                     this.getContent();
                 },
                 gotoTitle(val) {
@@ -250,7 +283,7 @@
                 }
                 if (evt.keyCode == 40) {
                     vue.down();
-                    console.log(Quasar.utils.scroll.getScrollHeight(document.getElementById("content_list")));
+                    console.log(Quasar.utils.scroll.getScrollHeight(document.getElementById("body")));
                     console.log("Down");
                 }
                 if (evt.keyCode == 39) {
