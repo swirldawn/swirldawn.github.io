@@ -77,13 +77,15 @@
                 </div>
             </div>
 
-            <div class="fixed-bottom" style="background-color: #f8f4ea;">
-                <q-btn outline color="brown" class="" style="color: goldenrod;position:absolute;" :label="show_tips?'关闭启应':'打开启应'" @click="show_tips=!show_tips"></q-btn>
-                <q-pagination class="offset-md-5 offset-xs-3" color="brown" v-model="page" input :min="minPages" :max="maxPages" @input="to">
+            <div class="fixed-bottom " style="background-color: #f8f4ea;">
+                <div class="row" style="max-width:600px;margin:0 auto;">
+                    <q-btn outline color="brown" class="col-2" style="color: goldenrod;" :label="show_tips?'关闭':'启应'" @click="show_tips=!show_tips"></q-btn>
+                    <q-select outlined align="center" color="brown-3 " class="col-4" v-model="select" @input="gotoTitle" filter :options="selectOptions"></q-select>
+                    <q-pagination class="col-5" color="brown" v-model="page" input :min="minPages" :max="maxPages" @input="to">
 
-                </q-pagination>
+                    </q-pagination>
+                </div>
 
-                <q-select outlined align="center" color="brown-3" v-model="select" @input="gotoTitle" filter :options="selectOptions"></q-select>
             </div>
 
         </q-layout>
