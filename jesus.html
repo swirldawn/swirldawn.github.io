@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>world-history</title>
+
+    <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <!-- BEGIN TimelineJS -->
+    <script src="https://lib.baomitu.com/timelinejs/2.36.0/js/storyjs-embed.js"></script>
+    <script src="https://lib.baomitu.com/timelinejs/2.36.0/js/locale/zh-cn.js"></script>
+    <script>
+        $(document).ready(function() {
+            var time = createStoryJS({
+                type: 'timeline',
+                width: '1300',
+                height: '700',
+                lang: 'zh-cn',
+                source: {
+                    "timeline": {
+                        "headline": "耶稣时代",
+                        "type": "default",
+                        "text": "People say stuff",
+                        "startDate": "19,1,1",
+                        "date": [{
+                            "startDate": "-41,1,1",
+                            "endDate": "-4,1,1",
+                            "headline": "大希律-杀死所有2岁以内的婴儿",
+                            "tag": "犹大行省王",
+                            "text": "<p>Vine Test</p>",
+                        }, {
+                            "startDate": "-4,1,1",
+                            "endDate": "6,1,1",
+                            "headline": "希律·亚基老-耶稣回埃及时做王的",
+                            "tag": "犹大行省王",
+                            "text": "<p>大希律王去世后，国家被分配给三个幼子，阿基劳斯（希律·亚基老）获得包含耶路撒冷在内的朱迪亚，安提帕（希律·安提帕）获得北面的加利利，腓力（希律·腓力）则获得更北面的土地。后来阿基劳斯被屋大维废黜，将朱迪亚纳为罗马的行省。</p>",
+                        }, {
+                            "startDate": "4,1,1",
+                            "endDate": "49,1,1",
+                            "headline": "希律·安提帕-杀死施洗约翰",
+                            "tag": "加利利王",
+                            "text": "<p>加利利王 杀死施洗约翰的希律 因为他娶了他兄弟的妻子希罗底，实习约翰指责他</p>",
+                        }, {
+                            "startDate": "41,1,1",
+                            "endDate": "44,1,1",
+                            "headline": "希律·亚基帕一世",
+                            "tag": "朱迪亚王",
+                            "text": "<p></p>",
+                        }, {
+                            "startDate": "50,1,1",
+                            "endDate": "100,1,1",
+                            "headline": "希律·亚基帕二世-审问保罗",
+                            "tag": "哈尔基斯国王",
+                            "text": "<p></p>",
+                        }, {
+                            "startDate": "-6,12,25",
+                            "endDate": "30,1,1",
+                            "headline": "耶稣生平",
+                            "tag": "基督生平",
+                            "text": "<p>Vine Test</p>",
+                        }]
+                    }
+                },
+                embed_id: 'my-timeline',
+                debug: true
+            });
+        });
+        //2018-09
+    </script>
+    <style>
+        body {
+            background-color: #7d5fff;
+        }
+    </style>
+    <!-- END TimelineJS -->
+</head>
+
+<body>
+    <div style="">
+
+
+        <div id="my-timeline"></div>
+    </div>
+</body>
+
+</html>

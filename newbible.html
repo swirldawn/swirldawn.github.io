@@ -47,7 +47,6 @@
             color: #423838;
             font: normal 400 12px/1.5 Microsoft YaHei, Arial;
             font-weight: 400;
-            font-size: 18px;
             border: none;
         }
     </style>
@@ -59,6 +58,7 @@
         background-image: -moz-linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
         background-image: -o-linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
         background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+        position: fixed;
         ">
             <h2 class="text-bold text-center">{{current_title}} {{pid}}:{{sid}} {{current_content}}</h2>
 
@@ -66,12 +66,10 @@
         <q-layout view="lHh Lpr fff">
             <div style="margin:5px auto;max-width:1100px;" v-touch-pan.horizontal.prevent.mouse="handlePan">
                 <div>
-                    <q-list id="content_list" style="text-align:left;overflow:auto;margin-bottom:60px;padding:20px;">
-                        <q-list-header>{{current_title}}</q-list-header>
-                        <div class="" v-for="c in contents">
+                    <q-list id="content_list" :style="{ fontSize: fontSize + 'px',lineHight:lineHight+'%' }" style="text-align:left;overflow:auto;margin-bottom:60px;padding:20px;">
 
-                            <h2 v-if="c.section == sid && width>700"> {{c.paragraph}}:{{c.section}} {{c.content}}</h2>
-                            <p v-else> {{c.paragraph}}:{{c.section}} {{c.content}}</p>
+                        <div class="" v-for="c in contents">
+                            <p> {{c.paragraph}}:{{c.section}} {{c.content}}</p>
                         </div>
                     </q-list>
                 </div>
@@ -79,7 +77,7 @@
 
             <div class="fixed-bottom " style="background-color: #f8f4ea;">
                 <div class="row" style="max-width:600px;margin:0 auto;">
-                    <q-btn outline color="brown" class="col-2" style="color: goldenrod;" :label="show_tips?'关闭':'启应'" @click="show_tips=!show_tips"></q-btn>
+                    <q-btn outline v-show="width>500" color="brown" class="col-2" style="color: goldenrod;" :label="show_tips?'关闭':'启应'" @click="show_tips=!show_tips"></q-btn>
                     <q-select outlined align="center" color="brown-3 " class="col-4" v-model="select" @input="gotoTitle" filter :options="selectOptions"></q-select>
                     <q-pagination class="col-5" color="brown" v-model="page" input :min="minPages" :max="maxPages" @input="to">
 
@@ -92,6 +90,51 @@
     </div>
 
     <script>
+        var D = {};
+        //获取url参数
+        D.getQueryString = function(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]);
+                return null;
+            }
+            //修改url的get参数值
+        D.changeCurrentURLArg = function(url, arg, arg_val) {
+                var pattern = arg + '=([^&]*)';
+                var replaceText = arg + '=' + arg_val;
+                if (url.match(pattern)) {
+                    var tmp = '/(' + arg + '=)([^&]*)/gi';
+                    tmp = url.replace(eval(tmp), replaceText);
+                    url = tmp;
+                } else {
+                    if (url.match('[\?]')) {
+                        url = url + '&' + replaceText;
+                    } else {
+                        url = url + '?' + replaceText;
+                    }
+                }
+                return url;
+            }
+            /*
+            功能：获取cookies函数
+            参数：name，cookie名字
+            */
+        D.getCookie = function(name) {
+            var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+            if (arr != null) {
+                return unescape(arr[2]);
+            } else {
+                return null;
+            }
+        }
+
+        D.setCookie = function(name, value) {
+            var Days = 30;
+            var exp = new Date();
+            exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+            document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+        }
+
         Quasar.utils.scroll.animScrollTo(document.getElementById("content_list"), 900, 100);
         var width = document.body.clientWidth;
         console.log(Quasar);
@@ -115,6 +158,8 @@
                     contents: [],
                     show_tips: false,
                     width: width,
+                    fontSize: 16,
+                    lineHight: 100,
                 }
             },
             methods: {
@@ -135,10 +180,17 @@
                         });
 
                         this.selectOptions = select;
-                        this.getContent();
+
                     });
                 },
                 getContent: function() {
+                    var url = location.href;
+                    url = D.changeCurrentURLArg(url, 'tid', this.tid);
+                    url = D.changeCurrentURLArg(url, 'pid', this.pid);
+                    url = D.changeCurrentURLArg(url, 'sid', this.sid);
+                    D.setCookie("tid", this.tid);
+                    D.setCookie("pid", this.pid);
+                    history.pushState(null, null, url); //将网址设置
                     axios.get(`http://api.kaffir-lily.cc/get_bible?pid=${this.pid}&tid=${this.tid}`).then(({
                         data
                     }) => {
@@ -254,16 +306,42 @@
                         }
                     }
 
+                },
+                init() {
+                    var tid = D.getQueryString('tid');
+                    if (tid == null) {
+                        tid = D.getCookie("tid");
+                        if (tid == null) tid = 1;
+                    }
+                    this.tid = tid;
+                    this.select = tid + "";
+                    var pid = D.getQueryString('pid');
+                    if (pid == null) {
+                        pid = D.getCookie("pid");
+                        if (pid == null) pid = 1;
+                    }
+                    this.pid = pid;
+                    this.getContent();
+                    // var sid = D.getQueryString('sid');
+                    // if (sid == null) sid = 1;
+                    // this.sid = sid;
                 }
             },
             created() {
                 this.getTitle();
+                var that = this;
+                setTimeout(function() {
+                    that.init();
+                }, 300);
+
+
+
             },
             watch: {
                 select: function(val, oldVal) {
                     this.current_title = this.title[val - 1].cn_title;
                     document.title = this.current_title + "-在线圣经";
-                    // console.log(val, oldVal);
+                    // console.log(val);
                 },
                 sid: function(val, oldVal) {
 

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>world-history</title>
+
+    <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <!-- BEGIN TimelineJS -->
+    <script src="https://lib.baomitu.com/timelinejs/2.36.0/js/storyjs-embed.js"></script>
+    <script src="https://lib.baomitu.com/timelinejs/2.36.0/js/locale/zh-cn.js"></script>
+    <script>
+        $(document).ready(function() {
+            var time = createStoryJS({
+                type: 'timeline',
+                width: '1300',
+                height: '700',
+                lang: 'zh-cn',
+
+                source: {
+
+                    "timeline": {
+                        "headline": "世界历史",
+                        "type": "default",
+                        "text": "People say stuff",
+                        "startDate": "-1400,1,1",
+                        "date": [{
+                                "startDate": "-2070,1,1",
+                                "endDate": "-2070,1,1",
+                                "headline": "大禹治水",
+                                "tag": "中国",
+                                "text": "<p></p>",
+                            }, {
+                                "startDate": "-2166,1,1",
+                                "endDate": "-2166,1,1",
+                                "headline": "亚伯拉罕",
+                                "tag": "以色列",
+                                "text": "<p></p>",
+                            }, {
+                                "startDate": "-1525,1,1",
+                                "endDate": "-1405,1,1",
+                                "headline": "摩西",
+                                "tag": "以色列",
+                                "text": "<p></p>",
+                            }, {
+                                "startDate": "-1040,1,1",
+                                "endDate": "-970,1,1",
+                                "headline": "大卫王",
+                                "tag": "以色列",
+                                "text": "<p></p>",
+                            }, {
+                                "startDate": "-966,1,1",
+                                "endDate": "-966,1,1",
+                                "headline": "所罗门圣殿",
+                                "tag": "以色列",
+                                "text": "<p></p>",
+                            }, {
+                                "startDate": "-1300,1,1",
+                                "endDate": "-1300,1,1",
+                                "headline": "盘庚",
+                                "tag": "中国",
+                                "text": "<p></p>",
+                            }, {
+                                "startDate": "-1670,1,1",
+                                "endDate": "-1587,1,1",
+                                "headline": "商汤",
+                                "tag": "中国",
+                                "text": "<p></p>",
+                            }, {
+                                "startDate": "-1192,1,1",
+                                "endDate": "-1192,1,1",
+                                "headline": "妇好",
+                                "tag": "中国",
+                                "text": "<p></p>",
+                            }, {
+                                "startDate": "-1103,1,1",
+                                "endDate": "-1043,1,1",
+                                "headline": "周武王姬发",
+                                "tag": "中国",
+                                "text": "<p></p>",
+                            }, {
+                                "startDate": "-1026,1,1",
+                                "endDate": "-922,1,1",
+                                "headline": "周穆王西游",
+                                "tag": "中国",
+                                "text": "<p></p>",
+                            }, {
+                                "startDate": "-841,1,1",
+                                "endDate": "-841,1,1",
+                                "headline": "周厉王国人暴动",
+                                "tag": "中国",
+                                "text": "<p></p>",
+                            },
+
+
+                        ]
+                    }
+                },
+                embed_id: 'my-timeline',
+                debug: true
+            });
+            console.log(time);
+        });
+        //2018-09
+    </script>
+    <style>
+        body {
+            background-color: #7d5fff;
+        }
+    </style>
+    <!-- END TimelineJS -->
+</head>
+
+<body>
+    <div style="margin:0 auto;width:1100px;">
+
+
+        <div id="my-timeline"></div>
+    </div>
+</body>
+
+</html>
