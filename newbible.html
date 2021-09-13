@@ -312,6 +312,7 @@
                     if (tid == null) {
                         tid = D.getCookie("tid");
                         if (tid == null) tid = 1;
+                         this.current_title = this.title[this.tid - 1].cn_title;
                     }
                     this.tid = tid;
                     this.select = tid + "";
