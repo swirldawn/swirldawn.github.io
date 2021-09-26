@@ -8,11 +8,11 @@
     <script   src="./epub/epub.js"></script>
     <script  src="./epub/jszip.min.js"></script>
     <!-- <script crossorigin="anonymous"  src="https://lib.baomitu.com/jszip/latest/jszip.min.js"></script> -->
-    <title>Document</title>
+    <title>Epub阅读器</title>
   <style>
       .arrow{
         font-size:22px;
-        width:120px;
+        width:100px;
         display:inline-block;
       }
       .box{
@@ -35,28 +35,73 @@
     
 
 }
+.panel-body {
+    padding: 4px;
+}
   </style>
 </head>
 
 <body>
     <div class="box col-12" >
         <div class="menu col-2">
-   
-            <input type="file" name="file" id="file" onchange="showEpub(this)" >选择书籍</input>
+        
             <!-- <button onclick="prevPage()">上一页</button>
             <button onclick="nextPage()">下一页</button> -->
             <div>
-                <a id="prev" href="#prev" class="arrow" >‹ 上一页</a>
-                <a id="next" href="#next" class="arrow" >下一页 ›</a>
+                <a id="prev" href="#prev"  class="btn btn-info "  >‹ 上一页</a>
+                <a id="next" href="#next"  class="btn btn-info "  >下一页 ›</a>
             </div>
            
-            <select id="toc" ></select>
+            <select id="toc" class="hidden" ></select>
             <ul class="list-group" id="toc-list">
                 <li class="list-group-item">
                   <a href="#">项目</a>
                 </li>
                
               </ul>
+              <div class="panel panel-info">
+                  <div class="panel-heading">
+                    选择背景：
+
+                  </div>
+                  <div class="panel-body">
+                    <div class="btn-group" data-toggle="buttons">
+                      <label class="btn   "  style="background-color: #f1e5d5;color:#2c3c6d;" onclick="setBackgroundColor('黄色')">
+                        <input type="radio" name="options"  id="option1" checked> 黄色
+                      </label>
+                      <label class="btn " style="background-color: #cccccc;color:#2c3c6d;" onclick="setBackgroundColor('灰色')">
+                        <input type="radio" name="options"   id="option2"> 灰色
+                      </label>
+                      <label class="btn" style="background-color: #000000;color:#fff;"  onclick="setBackgroundColor('黑色')">
+                        <input type="radio" name="options"  id="option3"> 黑色
+                      </label>
+                    </div>
+                  </div>
+
+               
+                  <div class="panel-heading">
+                    选择字号：
+                  </div>
+                  <div class="panel-body">
+                    <select class="form-control" id="font-size-select" onchange="setFontSize()">
+                      <option value="12px">12px</option>
+                      <option value="14px">14px</option>
+                      <option value="16px" selected>16px</option>
+                      <option value="18px">18px</option>
+                      <option value="20px">20px</option>
+                      <option value="22px">22px</option>
+                      <option value="24px">24px</option>
+                      <option value="26px">26px</option>
+                      <option value="28px">28px</option>
+                    </select>
+                  </div>
+                  <div class="panel-body">
+                    <p>因为时网页阅读器 所以一次只允许加载一本图书临时用用算了</p>
+                  </div>
+              </div>
+             
+              <button type="button" class="btn btn-primary uploader-btn-browse" onclick="document.getElementById('file').click()"><i class="icon icon-cloud-upload"></i> 选择文件</button>
+              <input type="file" name="file" id="file" onchange="showEpub(this)" class="hidden" hidden ></input>
         </div>
  
     <div id="area"  class="col-8 content"></div>
@@ -205,34 +250,50 @@ function remove(name,index) {
                 function initBook(bookdata){
                    
                     book = ePub();
-                book.open(bookdata);
+                    book.open(bookdata);
                     
                    
                     rendition = book.renderTo("area",{
-                    width: "100%",
-                    height: window.innerHeight,
-                    // spread: "always",
-                    flow: "scrolled-doc",//似乎是单页
-                    });  
+                      width: "100%",
+                      height: window.innerHeight,
+                      // spread: "always",
+                      flow: "scrolled-doc",//似乎是单页
+                      });  
                     // console.log(rendition);
                     var page = localStorage.getItem("page");
                     page = page==null?1:page;
                     rendition.display(page);
                     
-                    rendition.themes.fontSize("16px");
-                    rendition.themes.font("微软雅黑");
+                   
                     //必须注册才能选择背景颜色
                     rendition.themes.register("黄色",{
                     body:{
                         color:"#2c3c6d",background:"#f1e5d5",
                     }
                     })
+                    rendition.themes.register("灰色",{
+                    body:{
+                        color:"#2c3c6d",background:"#CCCCCC",
+                    }
+                    })
+                    rendition.themes.register("黑色",{
+                    body:{
+                        color:"#fff",background:"#000",
+                    }
+                    })
+                    var color = localStorage.getItem('color');
+                    var size = localStorage.getItem('size');
+                    size = size?size:"16px";
+                    color = color?color:"黄色";
                     //此处可选背景颜色
-                    rendition.themes.select("黄色");
+                    rendition.themes.select(color);
+                    rendition.themes.fontSize(size);
+                    rendition.themes.font("微软雅黑");
                     // rendition.display();
                     //设置翻页和快捷键
                     book.ready.then(() => {
-
+                      console.log(book.package.metadata.title);
+                      document.title= "Epub阅读器-"+book.package.metadata.title;
                         var next = document.getElementById("next");
 
                         next.addEventListener("click", function(e){
@@ -260,7 +321,7 @@ function remove(name,index) {
                         // Right Key
                         if ((e.keyCode || e.which) == 39) {
                             book.package.metadata.direction === "rtl" ? rendition.prev() : rendition.next();
-                            console.log(rendition.location.start.href );
+                            // console.log(rendition.location.start.href );
                             localStorage.setItem("page",rendition.location.start.href);
                         }
 
@@ -271,37 +332,50 @@ function remove(name,index) {
 
                         })
                         //查看当前目录？
-                    // rendition.on("rendered", function(section){
-                    //     var current = book.navigation && book.navigation.get(section.href);
+                    rendition.on("rendered", function(section){
+                      //滚动到记录的位置
+                      setTimeout(() => {
+                                pagePercent =  localStorage.getItem("pagePercent");
+                                if(pagePercent>0){
+                                    document.getElementById("area").children[0].scrollTop=pagePercent;
+                                }
+                                    document.getElementById("area").children[0].onscroll =function(){
+                                        var height =document.getElementById("area").children[0].scrollHeight;
+                                        var current =document.getElementById("area").children[0].scrollTop;
+                                        localStorage.setItem("pagePercent",current);
+                                        // console.log(height,current);
+                                    }  
+                            }, 200);
+                        // var current = book.navigation && book.navigation.get(section.href);
                             
-                    //     if (current) {
-                    //         var $select = document.getElementById("toc");
-                    //         var $selected = $select.querySelector("option[selected]");
-                    //         if ($selected) {
-                    //         $selected.removeAttribute("selected");
-                    //         }
+                        // if (current) {
+                        //     var $select = document.getElementById("toc");
+                        //     var $selected = $select.querySelector("option[selected]");
+                        //     if ($selected) {
+                        //     $selected.removeAttribute("selected");
+                        //     }
 
-                    //         var $options = $select.querySelectorAll("option");
-                    //         for (var i = 0; i < $options.length; ++i) {
-                    //         let selected = $options[i].getAttribute("ref") === current.href;
-                    //         if (selected) {
-                    //             $options[i].setAttribute("selected", "");
-                    //         }
-                    //         }
-                    //     }
+                        //     var $options = $select.querySelectorAll("option");
+                        //     for (var i = 0; i < $options.length; ++i) {
+                        //     let selected = $options[i].getAttribute("ref") === current.href;
+                        //     if (selected) {
+                        //         $options[i].setAttribute("selected", "");
+                        //     }
+                        //     }
+                        // }
 
-                    //     });
+                        });
                         //渲染目录
                         book.loaded.navigation.then(function(toc){
-                            var $select = document.getElementById("toc"),
-                            docfrag = document.createDocumentFragment();
+                            // var $select = document.getElementById("toc"),
+                            // docfrag = document.createDocumentFragment();
                             var tocList = document.getElementById("toc-list");
                             toc.forEach(function(chapter) {
-                                var option = document.createElement("option");
-                                option.textContent = chapter.label;
-                                option.setAttribute("ref", chapter.href);
+                                // var option = document.createElement("option");
+                                // option.textContent = chapter.label;
+                                // option.setAttribute("ref", chapter.href);
 
-                                docfrag.appendChild(option);
+                                // docfrag.appendChild(option);
                                 var a = document.createElement("a");
                                 a.textContent = chapter.label;
                                 a.setAttribute("ref", chapter.href);
@@ -317,15 +391,15 @@ function remove(name,index) {
                                 tocList.appendChild(li);
                             });
 
-                            $select.appendChild(docfrag);
+                            // $select.appendChild(docfrag);
 
-                            $select.onchange = function(){
-                            var index = $select.selectedIndex,
-                                    url = $select.options[index].getAttribute("ref");
-                                    localStorage.setItem("page",url);
-                            rendition.display(url);
-                            return false;
-                            };
+                            // $select.onchange = function(){
+                            // var index = $select.selectedIndex,
+                            //     url = $select.options[index].getAttribute("ref");
+                            //     localStorage.setItem("page",url);
+                            // rendition.display(url);
+                            // return false;
+                            // };
 
                     });
                 }
@@ -334,21 +408,21 @@ function remove(name,index) {
                     var book = search('list',1).then(function(data){
                             initBook(data.data);
                            
-                            setTimeout(() => {
-                                pagePercent =  localStorage.getItem("pagePercent");
-                                if(pagePercent>0){
-                                    document.getElementById("area").children[0].scrollTop=pagePercent;
-                                }
-                                    document.getElementById("area").children[0].onscroll =function(){
-                                        var height =document.getElementById("area").children[0].scrollHeight;
-                                        var current =document.getElementById("area").children[0].scrollTop;
-                                        localStorage.setItem("pagePercent",current);
-                                        console.log(height,current);
-                                    }  
-                            }, 200);
+                           
                            
                     });
                 }, 400);
+                function setFontSize(){
+                    var size = document.getElementById("font-size-select").value;
+                  rendition.themes.fontSize(size);
+                  localStorage.setItem("size",size);
+                }
+                function setBackgroundColor(color){
+                  
+                  //此处可选背景颜色
+                  rendition.themes.select(color);
+                  localStorage.setItem("color",color);
+                }
                
          </script>
     
