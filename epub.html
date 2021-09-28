@@ -295,45 +295,30 @@ function remove(name,index) {
                     // rendition.display();
                     //设置翻页和快捷键
                     book.ready.then(() => {
-                      console.log(book.package.metadata.title);
+                      
                       document.title= "Epub阅读器-"+book.package.metadata.title;
                         var next = document.getElementById("next");
 
                         next.addEventListener("click", function(e){
                         book.package.metadata.direction === "rtl" ? rendition.prev() : rendition.next();
                         e.preventDefault();
-                        setTimeout(() => {
-                              localStorage.setItem("page",rendition.location.start.href);
-                            }, 600);
                         }, false);
 
                         var prev = document.getElementById("prev");
                         prev.addEventListener("click", function(e){
                         book.package.metadata.direction === "rtl" ? rendition.next() : rendition.prev();
-                     
-                        e.preventDefault();   setTimeout(() => {
-                              localStorage.setItem("page",rendition.location.start.href);
-                            }, 600);
+                        e.preventDefault();  
                         }, false);
 
                         var keyListener = function(e){
-
                         // Left Key
                         if ((e.keyCode || e.which) == 37) {
                             book.package.metadata.direction === "rtl" ? rendition.next() : rendition.prev();
-                            setTimeout(() => {
-                              localStorage.setItem("page",rendition.location.start.href);
-                            }, 600);
-                            // console.log();
                         }
 
                         // Right Key
                         if ((e.keyCode || e.which) == 39) {
                             book.package.metadata.direction === "rtl" ? rendition.prev() : rendition.next();
-                            setTimeout(() => {
-                              localStorage.setItem("page",rendition.location.start.href);
-                            }, 600);
-                            
                         }
 
                         };
@@ -341,7 +326,15 @@ function remove(name,index) {
                         rendition.on("keyup", keyListener);
                         document.addEventListener("keyup", keyListener, false);
 
-                        })
+                      })
+                    rendition.on("locationChanged", function(section){
+                      console.log(section);
+                      localStorage.setItem("page",section.href);
+                        // setTimeout(() => {
+                        //      
+                        //     }, 600);
+                    });
+                        
                         //查看当前目录？
                     rendition.on("rendered", function(section){
                       //滚动到记录的位置
@@ -414,6 +407,7 @@ function remove(name,index) {
                             // };
 
                     });
+                   
                 }
                 setTimeout(() => {
                     // remove('list',1);
