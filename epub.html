@@ -304,7 +304,7 @@ function remove(name,index) {
                         e.preventDefault();
                         setTimeout(() => {
                               localStorage.setItem("page",rendition.location.start.href);
-                            }, 200);
+                            }, 600);
                         }, false);
 
                         var prev = document.getElementById("prev");
@@ -313,7 +313,7 @@ function remove(name,index) {
                      
                         e.preventDefault();   setTimeout(() => {
                               localStorage.setItem("page",rendition.location.start.href);
-                            }, 200);
+                            }, 600);
                         }, false);
 
                         var keyListener = function(e){
@@ -323,7 +323,7 @@ function remove(name,index) {
                             book.package.metadata.direction === "rtl" ? rendition.next() : rendition.prev();
                             setTimeout(() => {
                               localStorage.setItem("page",rendition.location.start.href);
-                            }, 200);
+                            }, 600);
                             // console.log();
                         }
 
@@ -332,7 +332,7 @@ function remove(name,index) {
                             book.package.metadata.direction === "rtl" ? rendition.prev() : rendition.next();
                             setTimeout(() => {
                               localStorage.setItem("page",rendition.location.start.href);
-                            }, 200);
+                            }, 600);
                             
                         }
 
