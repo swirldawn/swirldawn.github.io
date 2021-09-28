@@ -17,7 +17,7 @@
       }
       .box{
           margin:0 auto;
-          width:1200px;
+          max-width:1200px;
       }
       .menu{
           float:left;
@@ -43,10 +43,12 @@
 
 <body>
     <div class="box col-12" >
-        <div class="menu col-2">
+      <a  href="#"  class="btn btn-info " style="position: fixed;" id="menu-btn" onclick="hide()" >隐藏左栏</a>
+        <div class="menu col-2" id="menu">
         
             <!-- <button onclick="prevPage()">上一页</button>
             <button onclick="nextPage()">下一页</button> -->
+            
             <div>
                 <a id="prev" href="#prev"  class="btn btn-info "  >‹ 上一页</a>
                 <a id="next" href="#next"  class="btn btn-info "  >下一页 ›</a>
@@ -104,7 +106,7 @@
               <input type="file" name="file" id="file" onchange="showEpub(this)" class="hidden" hidden ></input>
         </div>
  
-    <div id="area"  class="col-8 content"></div>
+    <div id="area"  class="col-10  content"></div>
 </div>
     <script>
        
@@ -254,8 +256,9 @@ function remove(name,index) {
                     
                    
                     rendition = book.renderTo("area",{
-                      width: "100%",
+                      width: "96%",
                       height: window.innerHeight,
+                      overflowX:"hidden",
                       // spread: "always",
                       flow: "scrolled-doc",//似乎是单页
                       });  
@@ -298,15 +301,19 @@ function remove(name,index) {
 
                         next.addEventListener("click", function(e){
                         book.package.metadata.direction === "rtl" ? rendition.prev() : rendition.next();
-                        localStorage.setItem("page",rendition.location.start.href);
                         e.preventDefault();
+                        setTimeout(() => {
+                              localStorage.setItem("page",rendition.location.start.href);
+                            }, 200);
                         }, false);
 
                         var prev = document.getElementById("prev");
                         prev.addEventListener("click", function(e){
                         book.package.metadata.direction === "rtl" ? rendition.next() : rendition.prev();
-                        localStorage.setItem("page",rendition.location.start.href);
-                        e.preventDefault();
+                     
+                        e.preventDefault();   setTimeout(() => {
+                              localStorage.setItem("page",rendition.location.start.href);
+                            }, 200);
                         }, false);
 
                         var keyListener = function(e){
@@ -314,15 +321,19 @@ function remove(name,index) {
                         // Left Key
                         if ((e.keyCode || e.which) == 37) {
                             book.package.metadata.direction === "rtl" ? rendition.next() : rendition.prev();
-                            localStorage.setItem("page",rendition.location.start.href);
+                            setTimeout(() => {
+                              localStorage.setItem("page",rendition.location.start.href);
+                            }, 200);
                             // console.log();
                         }
 
                         // Right Key
                         if ((e.keyCode || e.which) == 39) {
                             book.package.metadata.direction === "rtl" ? rendition.prev() : rendition.next();
-                            // console.log(rendition.location.start.href );
-                            localStorage.setItem("page",rendition.location.start.href);
+                            setTimeout(() => {
+                              localStorage.setItem("page",rendition.location.start.href);
+                            }, 200);
+                            
                         }
 
                         };
@@ -336,6 +347,7 @@ function remove(name,index) {
                       //滚动到记录的位置
                       setTimeout(() => {
                                 pagePercent =  localStorage.getItem("pagePercent");
+                                // document.getElementsByClassName("epub-view")[0].style.width= document.getElementsByClassName("epub-view")[0].style.width-20+"px";
                                 if(pagePercent>0){
                                     document.getElementById("area").children[0].scrollTop=pagePercent;
                                 }
@@ -422,6 +434,22 @@ function remove(name,index) {
                   //此处可选背景颜色
                   rendition.themes.select(color);
                   localStorage.setItem("color",color);
+                }
+                function hide(){
+                  var current = document.getElementById("menu-btn").innerText;
+
+                  if(current=="隐藏左栏"){
+                    document.getElementById("menu-btn").innerText="显示左栏";
+                    document.getElementById("menu").classList.add("hidden");
+                    document.getElementById("area").classList.add("col-12");
+                    document.getElementById("area").classList.remove("col-10");
+                  }else{
+                    document.getElementById("menu-btn").innerText="隐藏左栏";
+                    document.getElementById("menu").classList.remove("hidden");
+                    document.getElementById("area").classList.remove("col-12");
+                    document.getElementById("area").classList.add("col-10");
+                    
+                  }
                 }
                
          </script>
