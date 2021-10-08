@@ -23,17 +23,22 @@
           float:left;
       }
       body{
-          background-color: #EEEEEE;
+          /* background-color: #EEEEEE; */
+          background-color: #283b49;
       }
       .content{float:left}
       
 
 .list-group-item {
 
-   
+    background-color: #4e5b5d;
+    border: 1px solid #71777a;
     padding: 3px 15px;
     
 
+}
+.list-group-item a{
+  color:#c38b6f;
 }
 .panel-body {
     padding: 4px;
@@ -48,7 +53,6 @@
         
             <!-- <button onclick="prevPage()">上一页</button>
             <button onclick="nextPage()">下一页</button> -->
-            
             <div>
                 <a id="prev" href="#prev"  class="btn btn-info "  >‹ 上一页</a>
                 <a id="next" href="#next"  class="btn btn-info "  >下一页 ›</a>
@@ -79,7 +83,6 @@
                       </label>
                     </div>
                   </div>
-
                
                   <div class="panel-heading">
                     选择字号：
@@ -98,7 +101,7 @@
                     </select>
                   </div>
                   <div class="panel-body">
-                    <p>因为时网页阅读器 所以一次只允许加载一本图书临时用用算了</p>
+                    <p>因为是网页阅读器，所以一次只允许加载一本图书临时用用算了</p>
                   </div>
               </div>
              
@@ -109,19 +112,19 @@
     <div id="area"  class="col-10  content"></div>
 </div>
     <script>
-       
+//打开并初始化数据库 数据库名为 books      
 let request = window.indexedDB.open('books',2);
-let db
-
+let db;//预定义一个数据库实体
+//钩子函数 数据库错误
 request.onerror = (event) => {
   console.log('数据库打开报错', event)
 }
-
+//钩子函数 数据库完成
 request.onsuccess = () => {
   db = request.result
   console.log('数据库打开成功', db)
 }
-
+//钩子函数 数据库更新
 request.onupgradeneeded = ({ target: { result } }) => {
   // changing objectStore data is done here, as opposed to a transaction enum:
   db = result
@@ -147,7 +150,7 @@ request.onupgradeneeded = ({ target: { result } }) => {
     // objStore.createIndex('nameIndex', 'name', { unique: false })
   }
 }
-
+//添加数据库数据
 function add(name,data) {
   let content = db.transaction([name], 'readwrite')
      .objectStore(name)
@@ -161,6 +164,7 @@ function add(name,data) {
     console.log('数据写入失败')
   }
 }
+//搜索数据库数据
 function search (name, index) {
     return new Promise((result, reject) => {
       const request = db.transaction([name])
@@ -208,6 +212,7 @@ function search (name, index) {
 //   }
 //   return re;
 // }
+//删除数据库数据
 function remove(name,index) {
   const request = db.transaction([name], 'readwrite')
     .objectStore(name)
@@ -249,12 +254,13 @@ function remove(name,index) {
                 
               }
         }
-                function initBook(bookdata){
+                //初始化书籍
+        function initBook(bookdata){
                    
                     book = ePub();
                     book.open(bookdata);
                     
-                   
+                   //挂载书籍
                     rendition = book.renderTo("area",{
                       width: "96%",
                       height: window.innerHeight,
@@ -268,7 +274,7 @@ function remove(name,index) {
                     rendition.display(page);
                     
                    
-                    //必须注册才能选择背景颜色
+                    //必须注册才能选择背景颜色 此处分别注册三个主题
                     rendition.themes.register("黄色",{
                     body:{
                         color:"#2c3c6d",background:"#f1e5d5",
@@ -284,6 +290,7 @@ function remove(name,index) {
                         color:"#fff",background:"#000",
                     }
                     })
+                    //获取保存的主题和字体大小
                     var color = localStorage.getItem('color');
                     var size = localStorage.getItem('size');
                     size = size?size:"16px";
@@ -327,8 +334,8 @@ function remove(name,index) {
                         document.addEventListener("keyup", keyListener, false);
 
                       })
+                      //监听页面更新，实时保存阅读进度
                     rendition.on("locationChanged", function(section){
-                      console.log(section);
                       localStorage.setItem("page",section.href);
                         // setTimeout(() => {
                         //      
