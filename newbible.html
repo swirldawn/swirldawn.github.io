@@ -167,7 +167,7 @@
                     Quasar.utils.openURL(url)
                 },
                 getTitle() {
-                    axios.get(`http://api.kaffir-lily.cc/get_bible_title`).then(({
+                    axios.get(`http://120.53.2.139:8081/get_bible_title`).then(({
                         data
                     }) => {
                         this.title = data.data;
@@ -191,7 +191,7 @@
                     D.setCookie("tid", this.tid);
                     D.setCookie("pid", this.pid);
                     history.pushState(null, null, url); //将网址设置
-                    axios.get(`http://api.kaffir-lily.cc/get_bible?pid=${this.pid}&tid=${this.tid}`).then(({
+                    axios.get(`http://120.53.2.139:8081/get_bible?pid=${this.pid}&tid=${this.tid}`).then(({
                         data
                     }) => {
                         this.page = this.pid;
@@ -312,7 +312,7 @@
                     if (tid == null) {
                         tid = D.getCookie("tid");
                         if (tid == null) tid = 1;
-                         this.current_title = this.title[this.tid - 1].cn_title;
+                        this.current_title = this.title[this.tid - 1].cn_title;
                     }
                     this.tid = tid;
                     this.select = tid + "";
