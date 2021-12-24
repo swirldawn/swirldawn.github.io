@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link crossorigin="anonymous" integrity="sha384-ZGOeC5599LBklRxQdNE29esWMd4pDZqTT5TCWhaseM5+6WUGgBWetO2pZ2AC8NoA" href="https://lib.baomitu.com/zui/1.9.2/css/zui.min.css" rel="stylesheet">
-    <script   src="./epub/epub.js"></script>
-    <script  src="./epub/jszip.min.js"></script>
+    <link   href="./zui.min.css" rel="stylesheet">
+    <script   src="./epub.js"></script>
+    <script  src="./jszip.min.js"></script>
     <!-- <script crossorigin="anonymous"  src="https://lib.baomitu.com/jszip/latest/jszip.min.js"></script> -->
     <title>Epub阅读器</title>
   <style>
@@ -47,6 +47,7 @@
 </head>
 
 <body>
+  
     <div class="box col-12" >
       <a  href="#"  class="btn btn-info " style="position: fixed;" id="menu-btn" onclick="hide()" >隐藏左栏</a>
         <div class="menu col-2" id="menu">
@@ -244,10 +245,11 @@ function remove(name,index) {
                 var bookdata = e.target.result; 
                 var insertData = {id:1,data:bookdata};
                     console.log(insertData);
+                  remove("list",1);//删除之前的书
                     //删除之前书的进度
                     localStorage.removeItem("page");
                     //保存这本书
-               add('list', insertData);
+                add('list', insertData);
                
                 
                 initBook(bookdata);
@@ -382,6 +384,12 @@ function remove(name,index) {
                             // var $select = document.getElementById("toc"),
                             // docfrag = document.createDocumentFragment();
                             var tocList = document.getElementById("toc-list");
+                            tocList.innerHTML = "";
+                            // var childs = tocList.childNodes;
+                            // for(var i = 0; i < childs.length; i++) {
+                            //     // alert(childs[i].nodeName);
+                            //     f.removeChild(childs[i]);
+                            // }
                             toc.forEach(function(chapter) {
                                 // var option = document.createElement("option");
                                 // option.textContent = chapter.label;
@@ -416,42 +424,42 @@ function remove(name,index) {
                     });
                    
                 }
-                setTimeout(() => {
-                    // remove('list',1);
-                    var book = search('list',1).then(function(data){
-                            initBook(data.data);
-                           
-                           
-                           
-                    });
-                }, 400);
-                function setFontSize(){
-                    var size = document.getElementById("font-size-select").value;
-                  rendition.themes.fontSize(size);
-                  localStorage.setItem("size",size);
-                }
-                function setBackgroundColor(color){
-                  
-                  //此处可选背景颜色
-                  rendition.themes.select(color);
-                  localStorage.setItem("color",color);
-                }
-                function hide(){
-                  var current = document.getElementById("menu-btn").innerText;
+        setTimeout(() => {
+            // remove('list',1);
+            var book = search('list',1).then(function(data){
+                    initBook(data.data);
 
-                  if(current=="隐藏左栏"){
-                    document.getElementById("menu-btn").innerText="显示左栏";
-                    document.getElementById("menu").classList.add("hidden");
-                    document.getElementById("area").classList.add("col-12");
-                    document.getElementById("area").classList.remove("col-10");
-                  }else{
-                    document.getElementById("menu-btn").innerText="隐藏左栏";
-                    document.getElementById("menu").classList.remove("hidden");
-                    document.getElementById("area").classList.remove("col-12");
-                    document.getElementById("area").classList.add("col-10");
-                    
-                  }
-                }
+
+
+            });
+        }, 400);
+        function setFontSize(){
+            var size = document.getElementById("font-size-select").value;
+          rendition.themes.fontSize(size);
+          localStorage.setItem("size",size);
+        }
+        function setBackgroundColor(color){
+
+          //此处可选背景颜色
+          rendition.themes.select(color);
+          localStorage.setItem("color",color);
+        }
+        function hide(){
+          var current = document.getElementById("menu-btn").innerText;
+
+          if(current=="隐藏左栏"){
+            document.getElementById("menu-btn").innerText="显示左栏";
+            document.getElementById("menu").classList.add("hidden");
+            document.getElementById("area").classList.add("col-12");
+            document.getElementById("area").classList.remove("col-10");
+          }else{
+            document.getElementById("menu-btn").innerText="隐藏左栏";
+            document.getElementById("menu").classList.remove("hidden");
+            document.getElementById("area").classList.remove("col-12");
+            document.getElementById("area").classList.add("col-10");
+
+          }
+        }
                
          </script>
     
