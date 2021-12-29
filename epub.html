@@ -344,6 +344,11 @@ function remove(name,index) {
                         //     }, 600);
                     });
                         
+             rendition.on("displayed",function(){
+                      var dom=document.getElementsByTagName("iframe")[0];
+                      var body = dom.contentWindow.document.body;
+                      body.firstElementChild.style.paddingBottom="150px"
+                    });
                         //查看当前目录？
                     rendition.on("rendered", function(section){
                       //滚动到记录的位置
