@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link   href="./zui.min.css" rel="stylesheet">
-    <script   src="./epub/epub.js"></script>
-    <script  src="./epub/jszip.min.js"></script>
+    <script   src="./epub.js"></script>
+    <script  src="./jszip.min.js"></script>
     <!-- <script crossorigin="anonymous"  src="https://lib.baomitu.com/jszip/latest/jszip.min.js"></script> -->
     <title>Epub阅读器</title>
   <style>
@@ -49,7 +49,7 @@
 <body>
   
     <div class="box col-12" >
-      <a  href="#"  class="btn btn-info " style="position: fixed;" id="menu-btn" onclick="hide()" >隐藏左栏</a>
+      <a  href="#"  class="btn btn-info " style="position: fixed;left:0px;" id="menu-btn" onclick="hide()" >隐藏左栏</a>
         <div class="menu col-2" id="menu">
         
             <!-- <button onclick="prevPage()">上一页</button>
@@ -258,28 +258,34 @@ function remove(name,index) {
         }
                 //初始化书籍
         function initBook(bookdata){
+                    var options = {
+                      styles :{
+                        paddingBottom:"15px",
+                      }
+                    };
+                    var content = document.getElementById("area");
+                    content.innerHTML = "";
                    
-                    book = ePub();
+                    book = ePub(options);
                     book.open(bookdata);
                     
                    //挂载书籍
                     rendition = book.renderTo("area",{
-                      width: "96%",
-                      height: window.innerHeight,
-                      overflowX:"hidden",
+                      // width: "96%",
+                      // height: window.innerHeight,
                       // spread: "always",
-                      flow: "scrolled-doc",//似乎是单页
+                      flow: "scrolled",//似乎是单页
                       });  
                     // console.log(rendition);
                     var page = localStorage.getItem("page");
                     page = page==null?1:page;
                     rendition.display(page);
-                    
-                   
+                    // rendition.contents.contentHeight(10000);
+                    // console.log(rendition);
                     //必须注册才能选择背景颜色 此处分别注册三个主题
                     rendition.themes.register("黄色",{
                     body:{
-                        color:"#2c3c6d",background:"#f1e5d5",
+                        color:"#2c3c6d",background:"#f1e5d5", paddingBottom:"15px",
                     }
                     })
                     rendition.themes.register("灰色",{
@@ -343,12 +349,13 @@ function remove(name,index) {
                         //      
                         //     }, 600);
                     });
-                        
-             rendition.on("displayed",function(){
+                    //因为展开的时候，总是会挡住最后一行字，所以在这里手动控制iframe里面的div下padding
+                    rendition.on("displayed",function(){
                       var dom=document.getElementsByTagName("iframe")[0];
                       var body = dom.contentWindow.document.body;
                       body.firstElementChild.style.paddingBottom="150px"
                     });
+                        
                         //查看当前目录？
                     rendition.on("rendered", function(section){
                       //滚动到记录的位置
