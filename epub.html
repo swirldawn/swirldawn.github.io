@@ -353,7 +353,7 @@ function remove(name,index) {
                     rendition.on("displayed",function(){
                       var dom=document.getElementsByTagName("iframe")[0];
                       var body = dom.contentWindow.document.body;
-                      body.firstElementChild.style.paddingBottom="150px"
+                      body.lastElementChild.style.paddingBottom="150px"
                     });
                         
                         //查看当前目录？
