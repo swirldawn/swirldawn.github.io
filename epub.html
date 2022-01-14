@@ -351,9 +351,12 @@ function remove(name,index) {
                     });
                     //因为展开的时候，总是会挡住最后一行字，所以在这里手动控制iframe里面的div下padding
                     rendition.on("displayed",function(){
-                      var dom=document.getElementsByTagName("iframe")[0];
+                      setTimeout(() => {
+                        var dom=document.getElementsByTagName("iframe")[0];
                       var body = dom.contentWindow.document.body;
                       body.lastElementChild.style.paddingBottom="150px"
+                        
+                      }, 800);
                     });
                         
                         //查看当前目录？
