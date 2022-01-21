@@ -311,7 +311,7 @@ function remove(name,index) {
                     //设置翻页和快捷键
                     book.ready.then(() => {
                       
-                      document.title= "Epub阅读器-"+book.package.metadata.title;
+                     // document.title= "Epub阅读器-"+book.package.metadata.title;
                         var next = document.getElementById("next");
 
                         next.addEventListener("click", function(e){
@@ -377,6 +377,7 @@ function remove(name,index) {
                                         // console.log(height,current);
                                     }  
                             }, 200);
+                        document.title= section.document.activeElement.firstElementChild.innerText+book.package.metadata.title+"-Epub阅读器";
                         // var current = book.navigation && book.navigation.get(section.href);
                             
                         // if (current) {
