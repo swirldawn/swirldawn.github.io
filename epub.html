@@ -360,7 +360,8 @@ function remove(name,index) {
                       setTimeout(() => {
                         var dom=document.getElementsByTagName("iframe")[0];
                       var body = dom.contentWindow.document.body;
-                      body.lastElementChild.style.paddingBottom="150px"
+                      body.lastElementChild.style.paddingBottom="150px";
+                          body.style.lineHeight="32px";
                         
                       }, 3000);
                       //滚动到记录的位置
