@@ -361,7 +361,10 @@ function remove(name,index) {
                         var dom=document.getElementsByTagName("iframe")[0];
                       var body = dom.contentWindow.document.body;
                       body.lastElementChild.style.paddingBottom="150px";
-                          body.style.lineHeight="32px";
+                           var obj = body.getElementsByTagName('p');
+                      for(let i = 0; i<obj.length; i++){
+                              obj[i].style.lineHeight="32px";
+                          }
                         
                       }, 3000);
                       //滚动到记录的位置
