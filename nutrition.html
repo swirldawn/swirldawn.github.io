@@ -87,7 +87,7 @@
     <script type="text/javascript" src="js/jquery.stickysort.js"></script>
     <script>
         $(function() {
-            $.get("https://www.kaffir-lily.cc/get_table_all?table=nutrition", function(data) {
+            $.get("http://120.53.2.139/get_table_all?table=nutrition", function(data) {
 
                 for (var i = 0; i < data.data.length; i++) {
                     let value = {};
@@ -244,7 +244,7 @@
                     Quasar.utils.openURL(url)
                 },
                 getContent: function() {
-                    axios.get(`https://www.kaffir-lily.cc/get_table_all?table=nutrition`).then(({
+                    axios.get(`http://120.53.2.139/get_table_all?table=nutrition`).then(({
                         data
                     }) => {
                         let nutrition = [];
