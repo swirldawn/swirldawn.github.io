@@ -26,22 +26,25 @@
         color: #084C61;
         font-family: 'Droid Serif', serif;
     }
-    .list-url{
+    
+    .list-url {
         color: #CC3300;
-        background-color:#EEEEEE;
-        margin-top:20px;
-       
+        background-color: #EEEEEE;
+        margin-top: 20px;
     }
-    .title{
+    
+    .title {
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        font-size:20px;
+        font-size: 20px;
     }
-    .subtitle{
-color:#996699;
+    
+    .subtitle {
+        color: #996699;
     }
-    .avatar{
+    
+    .avatar {
         width: 2.5rem;
-    height: 2.5rem;
+        height: 2.5rem;
     }
     /* .thumbnail:hover {
         box-shadow: 0px 35px 77px -17px rgba(0, 0, 0, 0.64);
@@ -52,7 +55,6 @@ color:#996699;
         transition: all 0.4s ease-out;
         box-shadow: 0px 35px 77px -17px rgba(0, 0, 0, 0.44);
     } */
-    
     /* .geopattern {
         -webkit-box-reflect: below -1px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.4)));
     } */
@@ -64,13 +66,15 @@ color:#996699;
         <div id="vue">
             <div class="list list-url ">
                 <a class="item with-avatar multi-lines" v-for="item in list" :href="item.to">
-                  <div class="avatar circle"><div class="geopattern" style="padding:2px;width:50px;height:50px;" :color="item.color" :title="item.name"></div></div>
-                  <div class="content">
-                    <div class="title">{{item.name}}</div>
-                    <div class="subtitle">{{item.info}}</div>
-                  </div>
+                    <div class="avatar circle">
+                        <div class="geopattern" style="padding:2px;width:50px;height:50px;" :color="item.color" :title="item.name"></div>
+                    </div>
+                    <div class="content">
+                        <div class="title">{{item.name}}</div>
+                        <div class="subtitle">{{item.info}}</div>
+                    </div>
                 </a>
-              </div>
+            </div>
             <!-- <div class="example">
                 <h2 class="example-title">Mystic Zone</h2>
                 <div class="row">
@@ -99,11 +103,16 @@ color:#996699;
         el: "#vue",
         data: () => ({
             list: [{
+                name: "Github",
+                info: "Github",
+                to: "https://github.com/swirldawn",
+                color: "#9B59B6",
+            }, {
                 name: "个人主站",
                 info: "个人基于laravel全手工制作的主站",
                 to: "http://120.53.2.139",
                 color: "#b38766",
-            },  {
+            }, {
                 name: "typecho测试",
                 info: "typecho博客测试",
                 to: "http://120.53.2.139:8080",
