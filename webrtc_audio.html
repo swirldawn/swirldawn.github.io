@@ -1,67 +1,363 @@
 <!DOCTYPE html>
+
 <html>
-<title>dawn视频聊天室</title>
-
 <head>
-    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src=./js/latest.js "></script>
-    <script>
-        var webrtc = new SimpleWebRTC({
-            // the id/element dom element that will hold "our " video
-            localVideoEl: 'localVideo',
-            // the id/element dom element that will hold remote videos
-            remoteVideosEl: 'remoteVideos',
-            // immediately ask for camera access
-            autoRequestMedia: true,
-            url: 'http://120.53.2.139:8083',
-            nick: 'dawn'
-        });
-
-
-
-        // we have to wait until it's ready
-        webrtc.on('readyToCall', function() {
-            // you can name it anything
-            webrtc.joinRoom('room1');
-
-            // Send a chat message
-            $('#send').click(function() {
-                var msg = $('#text').val();
-                webrtc.sendToAll('chat', {
-                    message: msg,
-                    nick: webrtc.config.nick
-                });
-                $('#messages').append('<br>You:<br>' + msg + '\n');
-                $('#text').val('');
-            });
-        });
-
-        //For Text Chat ------------------------------------------------------------------
-        // Await messages from others
-        webrtc.connection.on('message', function(data) {
-            if (data.type === 'chat') {
-                console.log('chat received', data);
-                $('#messages').append('<br>' + data.payload.nick + ':<br>' + data.payload.message + '\n');
-            }
-        });
-    </script>
-    <style>
-        #remoteVideos video {
-            height: 150px;
-        }
-        
-        #localVideo {
-            height: 150px;
-        }
-    </style>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>dawn音频聊天</title>
+	<script src="https://lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+  <style type='text/css'>
+    ul { list-style: none; }
+    #recordingslist audio { display: block; margin-bottom: 10px; }
+	
+  </style>
 </head>
-
 <body>
-    <textarea id="messages" rows="5" cols="20"></textarea><br />
-    <input id="text" type="text" />
-    <input id="send" type="button" value="发送" /><br />
-    <video id="localVideo"></video>
-    <div id="remoteVideos"></div>
-</body>
 
+  <h1>Recorder.js simple WAV export example</h1>
+
+  <p>Make sure you are using a recent version of Google Chrome.</p>
+  <p>Also before you enable microphone input either plug in headphones or turn the volume down if you want to avoid ear splitting feedback!</p>
+
+  <button onclick="recStart(this);">我要说话</button>
+  <button onclick="recStop(this);" >停止说话</button>
+  <audio id="dawn" src="" ></audio>
+  <h2>Recordings</h2>
+  <ul id="recordingslist"></ul>
+  
+  <h2>Log</h2>
+  <pre id="log"></pre>
+
+  <script>
+	function base64toBlob(base64,type) {  
+    // 将base64转为Unicode规则编码
+    bstr = atob(base64, type),  
+    n = bstr.length,  
+    u8arr = new Uint8Array(n);  
+    while (n--) {  
+        u8arr[n] = bstr.charCodeAt(n) // 转换编码后才可以使用charCodeAt 找到Unicode编码
+    }  
+    return new Blob([u8arr], {  
+        type,
+    })
+} 
+	 function setCookie(cname, cvalue, exdays) {
+            var curDate = new Date();
+            //当前时间戳
+            var curTamp = curDate.getTime();
+            //当日凌晨的时间戳,减去一毫秒是为了防止后续得到的时间不会达到00:00:00的状态
+            var curWeeHours = new Date(curDate.toLocaleDateString()).getTime() - 1;
+            //当日已经过去的时间（毫秒）
+            var passedTamp = curTamp - curWeeHours;
+            //当日剩余时间
+            var leftTamp = 24 * 60 * 60 * 1000 - passedTamp;
+            var leftTime = new Date();
+            leftTime.setTime(leftTamp + curTamp + (exdays * 24 * 60 * 60 * 1000));
+            //创建cookie
+            document.cookie = cname + "=" + cvalue + ";expires=" + leftTime.toGMTString();
+
+        }
+        //获取cookie
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1);
+                if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+            }
+            return "";
+
+        }
+		function dateFormat(fmt) { //author: meizz  
+
+		var myDate = new Date();
+		var o = {
+			"M+": myDate.getMonth() + 1, //月份   
+			"d+": myDate.getDate(), //日   
+			"H+": myDate.getHours(), //小时   
+			"m+": myDate.getMinutes(), //分   
+			"s+": myDate.getSeconds(), //秒   
+			"q+": Math.floor((myDate.getMonth() + 3) / 3), //季度   
+			"S": myDate.getMilliseconds() //毫秒   
+		};
+		if (/(y+)/.test(fmt))
+			fmt = fmt.replace(RegExp.$1, (myDate.getFullYear() + "").substr(4 - RegExp.$1.length));
+		for (var k in o)
+			if (new RegExp("(" + k + ")").test(fmt))
+				fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+		return fmt;
+		}
+		var myname="";
+		var msg_sum=0;
+		var conn;
+		var dom_list={};
+		var ul_list = document.getElementById("recordingslist");
+	   window.onload = function() {
+            var nikeName1 = getCookie('nike_name');
+			var log = document.getElementById("log");
+			var audio = document.getElementById("dawn");
+            function appendLog(item) {
+                log.appendChild(item);
+            }
+
+            if (window["WebSocket"]) {
+                conn = new WebSocket("ws://120.53.2.139:8081/ws");
+                conn.onclose = function(evt) {
+                    var item = document.createElement("div");
+                    item.innerHTML = "<b>Connection closed.</b>";
+                    appendLog(item);
+                };
+                conn.onmessage = function(evt) {
+					if(msg_sum<1){//获取自己是谁
+						myname=evt.data.substr(0,7);
+						myname=myname.replace("----","");
+					}
+					if(evt.data.indexOf(":")>0){
+						var re = evt.data.split(':');
+							var name = re[0];
+							var audioContent=re[1];
+							if(dom_list.hasOwnProperty(name)&&name!=myname){//如果存在
+								dom_list[name].src= "data:audio/mp3;base64,"+audioContent;
+								dom_list[name].play();
+							}else if(name!=myname){
+								var li=document.createElement("li");
+								var span=document.createElement("span");
+								span.innerHTML=name;
+								var audio_dom=document.createElement("audio");
+								li.append(span);
+								li.append(audio_dom);
+								ul_list.append(li);
+								var dom=$("#recordingslist").find('span:contains("'+name+'")').parent().children("audio")[0];								
+								dom_list[name]=dom;
+								dom.src = "data:audio/mp3;base64,"+audioContent;
+								dom.play();
+							}								
+					}else{
+						if(evt.data.indexOf("进入")>0){//新增一个audio
+
+						}else if(evt.data.indexOf("退出")>0){//删掉对应audio
+							var exit_name=evt.data.substr(0,7);
+								exit_name=myname.replace("----","");
+								dom_list[exit_name].parent().remove();
+								delete dom_list[exit_name];
+						}
+						var item = document.createElement("div");
+						item.innerHTML = "<b>"+evt.data+"</b>";
+						appendLog(item);
+					}
+					msg_sum++;
+					
+					
+                };
+            } else {
+                var item = document.createElement("div");
+                item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
+                appendLog(item);
+            }
+        };
+  var testOutputWavLog=false;//顺带打一份wav的log，录音后执行mp3、wav合并的demo代码可对比音质
+var testSampleRate=16000;
+var testBitRate=16;
+
+var SendInterval=300;//发送间隔时长(毫秒)，mp3 chunk数据会缓冲，当pcm的累积时长达到这个时长，就会传输发送。这个值在takeoffEncodeChunk实现下，使用0也不会有性能上的影响。
+
+//重置环境，每次开始录音时必须先调用此方法，清理环境
+var RealTimeSendTryReset=function(){
+	realTimeSendTryTime=0;
+};
+
+var realTimeSendTryTime=0;
+var realTimeSendTryNumber;
+var transferUploadNumberMax;
+var realTimeSendTryBytesChunks;
+var realTimeSendTryClearPrevBufferIdx;
+var realTimeSendTryWavTestBuffers;
+var realTimeSendTryWavTestSampleRate;
+
+//=====实时处理核心函数==========
+var RealTimeSendTry=function(chunkBytes,isClose){
+	if(chunkBytes){//推入缓冲再说
+		realTimeSendTryBytesChunks.push(chunkBytes);
+	};
+	
+	var t1=Date.now();
+	if(!isClose && t1-realTimeSendTryTime<SendInterval){
+		return;//控制缓冲达到指定间隔才进行传输
+	};
+	realTimeSendTryTime=t1;
+	var number=++realTimeSendTryNumber;
+	
+	
+	//mp3缓冲的chunk拼接成一个更长点的mp3
+	var len=0;
+	for(var i=0;i<realTimeSendTryBytesChunks.length;i++){
+		len+=realTimeSendTryBytesChunks[i].length;
+	};
+	var chunkData=new Uint8Array(len);
+	for(var i=0,idx=0;i<realTimeSendTryBytesChunks.length;i++){
+		var chunk=realTimeSendTryBytesChunks[i];
+		chunkData.set(chunk,idx);
+		idx+=chunk.length;
+	};
+	realTimeSendTryBytesChunks=[];
+	
+	//推入传输
+	var blob=null,meta={};
+	if(chunkData.length>0){//mp3不是空的
+		blob=new Blob([chunkData],{type:"audio/mp3"});
+		meta=Recorder.mp3ReadMeta([chunkData.buffer],chunkData.length)||{};//读取出这个mp3片段信息
+	};
+	TransferUpload(number
+		,blob
+		,meta.duration||0
+		,{set:{
+			type:"mp3"
+			,sampleRate:meta.sampleRate
+			,bitRate:meta.bitRate
+		}}
+		,isClose
+	);
+	
+	
+	if(testOutputWavLog){
+		//测试输出一份wav，方便对比数据
+		var recMock2=Recorder({
+			type:"wav"
+			,sampleRate:testSampleRate
+			,bitRate:16
+		});
+		var chunk=Recorder.SampleData(realTimeSendTryWavTestBuffers,realTimeSendTryWavTestSampleRate,realTimeSendTryWavTestSampleRate);
+		recMock2.mock(chunk.data,realTimeSendTryWavTestSampleRate);
+		recMock2.stop(function(blob,duration){
+			var logMsg="No."+(number<100?("000"+number).substr(-3):number);
+			
+		});
+	};
+	realTimeSendTryWavTestBuffers=[];
+};
+
+//=====实时处理时清理一下内存（延迟清理），本方法先于RealTimeSendTry执行======
+var RealTimeOnProcessClear=function(buffers,powerLevel,bufferDuration,bufferSampleRate,newBufferIdx,asyncEnd){
+	if(realTimeSendTryTime==0){
+		realTimeSendTryTime=Date.now();
+		realTimeSendTryNumber=0;
+		transferUploadNumberMax=0;
+		realTimeSendTryBytesChunks=[];
+		realTimeSendTryClearPrevBufferIdx=0;
+		realTimeSendTryWavTestBuffers=[];
+		realTimeSendTryWavTestSampleRate=0;
+	};
+	
+	//清理PCM缓冲数据，最后完成录音时不能调用stop，因为数据已经被清掉了
+	//这里进行了延迟操作（必须要的操作），只清理上次到现在的buffer
+	for(var i=realTimeSendTryClearPrevBufferIdx;i<newBufferIdx;i++){
+		buffers[i]=null;
+	};
+	realTimeSendTryClearPrevBufferIdx=newBufferIdx;
+	
+	//备份一下方便后面生成测试wav
+	for(var i=newBufferIdx;i<buffers.length;i++){
+		realTimeSendTryWavTestBuffers.push(buffers[i]);
+	};
+	realTimeSendTryWavTestSampleRate=bufferSampleRate;
+};
+
+//=====数据传输函数==========
+var TransferUpload=function(number,blobOrNull,duration,blobRec,isClose){
+	transferUploadNumberMax=Math.max(transferUploadNumberMax,number);
+	if(blobOrNull){
+		var blob=blobOrNull;
+		
+		//*********发送方式一：Base64文本发送***************
+		var reader=new FileReader();
+		reader.onloadend=function(){
+			var base64=(/.+;\s*base64\s*,\s*(.+)$/i.exec(reader.result)||[])[1];
+			conn.send(base64);
+			//可以实现
+			//WebSocket send(base64) ...
+			//WebRTC send(base64) ...
+			//XMLHttpRequest send(base64) ...
+			
+			//这里啥也不干
+		};
+		reader.readAsDataURL(blob);
+		
+		
+
+		//*********发送方式二：Blob二进制发送***************
+		//可以实现
+		//WebSocket send(blob) ...
+		//WebRTC send(blob) ...
+		//XMLHttpRequest send(blob) ...
+		
+		
+		//****这里仅 console.log一下 意思意思****
+		var numberFail=number<transferUploadNumberMax?'<span style="color:red">顺序错乱的数据，如果要求不高可以直接丢弃，或者调大SendInterval试试</span>':"";
+		var logMsg="No."+(number<100?("000"+number).substr(-3):number)+numberFail;
+		
+		
+		
+		if(true && number%100==0){//emmm....
+			
+		};
+	};
+	
+	if(isClose){
+		
+	};
+};
+
+
+
+
+
+
+//调用录音
+var rec;
+function recStart(){
+	if(rec){
+		rec.close();
+	};
+	
+	rec=Recorder({
+		type:"mp3"
+		,sampleRate:testSampleRate
+		,bitRate:testBitRate
+		,onProcess:function(buffers,powerLevel,bufferDuration,bufferSampleRate,newBufferIdx,asyncEnd){
+			
+			
+			RealTimeOnProcessClear(buffers,powerLevel,bufferDuration,bufferSampleRate,newBufferIdx,asyncEnd);//实时数据处理，清理内存
+		}
+		,takeoffEncodeChunk:function(chunkBytes){
+			//接管实时转码，推入实时处理
+			RealTimeSendTry(chunkBytes,false);
+		}
+	});
+	
+	var t=setTimeout(function(){
+		console.Log("无法录音：权限请求被忽略（超时假装手动点击了确认对话框）",1);
+	},8000);
+	
+	rec.open(function(){//打开麦克风授权获得相关资源
+		clearTimeout(t);
+		rec.start();//开始录音
+		
+		RealTimeSendTryReset();//重置环境，开始录音时必须调用一次
+	},function(msg,isUserNotAllow){
+		clearTimeout(t);
+		console.Log((isUserNotAllow?"UserNotAllow，":"")+"无法录音:"+msg, 1);
+	});
+};
+function recStop(){
+	rec.close();//直接close掉即可，这个例子不需要获得最终的音频文件
+	
+	RealTimeSendTry(null,true);//最后一次发送
+};
+  </script>
+
+  <script src="./src/recorder-core.js"></script>
+  <script src="./src/engine/mp3.js"></script>
+  <script src="./src/engine/mp3-engine.js"></script>
+  <script src="./src/engine/wav.js"></script>
+</body>
 </html>
