@@ -185,6 +185,7 @@
         window.onload = function() {
             var nikeName1 = getCookie('nike_name');
             $("#nikeName").val(nikeName1);
+            var audio = document.getElementById("audio_web");
 
             var msg = document.getElementById("msg");
             var log = document.getElementById("log");
@@ -225,6 +226,12 @@
                     appendLog(item);
                 };
                 conn.onmessage = function(evt) {
+                    var re = evt.data.split(':');
+                    if(evt.data.indexOf(":")>0&&re[1]=="6464"){
+                        audio.src= "data:audio/mp3;base64,"+re[2];
+                        console.log(re);
+                        audio.play();
+                    } else{
                     var messages = evt.data.split('\n');
                     for (var i = 0; i < messages.length; i++) {
 
@@ -241,6 +248,8 @@
                         // }
                         // appendLog(item);
                     }
+                }
+                    
                 };
             } else {
                 var item = document.createElement("div");
@@ -322,8 +331,8 @@
             overflow: hidden;
             padding: 0;
             margin: 0;
-            width: 100%;
-            height: 100%;
+            width: 80%;
+            height: 80%;
             background: #348498;
             color: #004d61;
         }
@@ -355,6 +364,7 @@
 <body>
     <div id="log">
     </div>
+    
     <form id="form">
 
 
@@ -375,6 +385,7 @@
         </div>
 
     </form>
+    <div><audio id="audio_web" controls src="" style="float:right;"></audio></div>
 </body>
 <script>
     $.emoticons({

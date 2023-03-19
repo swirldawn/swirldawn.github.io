@@ -272,7 +272,7 @@ var TransferUpload=function(number,blobOrNull,duration,blobRec,isClose){
 		var reader=new FileReader();
 		reader.onloadend=function(){
 			var base64=(/.+;\s*base64\s*,\s*(.+)$/i.exec(reader.result)||[])[1];
-			conn.send(base64);
+			conn.send("6464:"+base64);
 			//可以实现
 			//WebSocket send(base64) ...
 			//WebRTC send(base64) ...
