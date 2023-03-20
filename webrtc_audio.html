@@ -108,44 +108,57 @@
                     appendLog(item);
                 };
                 conn.onmessage = function(evt) {
-					if(msg_sum<1){//获取自己是谁
-						myname=evt.data.substr(0,7);
-						myname=myname.replace("----","");
-					}
-					if(evt.data.indexOf(":")>0){
-						var re = evt.data.split(':');
-							var name = re[0];
-							var audioContent=re[1];
-							if(dom_list.hasOwnProperty(name)&&name!=myname){//如果存在
-								dom_list[name].src= "data:audio/mp3;base64,"+audioContent;
-								dom_list[name].play();
-							}else if(name!=myname){
-								var li=document.createElement("li");
-								var span=document.createElement("span");
-								span.innerHTML=name;
-								var audio_dom=document.createElement("audio");
-								li.append(span);
-								li.append(audio_dom);
-								ul_list.append(li);
-								var dom=$("#recordingslist").find('span:contains("'+name+'")').parent().children("audio")[0];								
-								dom_list[name]=dom;
-								dom.src = "data:audio/mp3;base64,"+audioContent;
-								dom.play();
-							}								
-					}else{
-						if(evt.data.indexOf("进入")>0){//新增一个audio
-
-						}else if(evt.data.indexOf("退出")>0){//删掉对应audio
-							var exit_name=evt.data.substr(0,7);
-								exit_name=myname.replace("----","");
-								dom_list[exit_name].parent().remove();
-								delete dom_list[exit_name];
-						}
+					var re = evt.data.split(':');
+                    if(evt.data.indexOf(":")>0&&re[1]=="6464"){
+                        
+                    } else{
 						var item = document.createElement("div");
-						item.innerHTML = "<b>"+evt.data+"</b>";
-						appendLog(item);
-					}
-					msg_sum++;
+							item.innerHTML = "<b>"+evt.data+"</b>";
+							appendLog(item);
+                    }
+					// if(msg_sum<1){//获取自己是谁
+					// 	myname=evt.data.substr(0,7);
+					// 	myname=myname.replace("----","");
+					// }
+					// if(evt.data.indexOf(":")>0){
+					// 	var re = evt.data.split(':');
+					// 		var name = re[0];
+					// 		var audioContent=re[1];
+					// 		if(dom_list.hasOwnProperty(name)&&name!=myname){//如果存在
+					// 			dom_list[name].src= "data:audio/mp3;base64,"+audioContent;
+					// 			dom_list[name].play();
+					// 		}else if(name!=myname){
+					// 			var li=document.createElement("li");
+					// 			var span=document.createElement("span");
+					// 			span.innerHTML=name;
+					// 			var audio_dom=document.createElement("audio");
+					// 			li.append(span);
+					// 			li.append(audio_dom);
+					// 			ul_list.append(li);
+					// 			var dom=$("#recordingslist").find('span:contains("'+name+'")').parent().children("audio")[0];								
+					// 			dom_list[name]=dom;
+					// 			dom.src = "data:audio/mp3;base64,"+audioContent;
+					// 			dom.play();
+					// 		}else{
+
+					// 			var item = document.createElement("div");
+					// 			item.innerHTML = "<b>"+evt.data+"</b>";
+					// 			appendLog(item);
+					// 		}								
+					// }else{
+					// 	if(evt.data.indexOf("进入")>0){//新增一个audio
+
+					// 	}else if(evt.data.indexOf("退出")>0){//删掉对应audio
+					// 		var exit_name=evt.data.substr(0,7);
+					// 			exit_name=myname.replace("----","");
+					// 			dom_list[exit_name].parent().remove();
+					// 			delete dom_list[exit_name];
+					// 	}
+					// 	var item = document.createElement("div");
+					// 	item.innerHTML = "<b>"+evt.data+"</b>";
+					// 	appendLog(item);
+					// }
+					// msg_sum++;
 					
 					
                 };
@@ -159,7 +172,7 @@
 var testSampleRate=16000;
 var testBitRate=16;
 
-var SendInterval=300;//发送间隔时长(毫秒)，mp3 chunk数据会缓冲，当pcm的累积时长达到这个时长，就会传输发送。这个值在takeoffEncodeChunk实现下，使用0也不会有性能上的影响。
+var SendInterval=1000;//发送间隔时长(毫秒)，mp3 chunk数据会缓冲，当pcm的累积时长达到这个时长，就会传输发送。这个值在takeoffEncodeChunk实现下，使用0也不会有性能上的影响。
 
 //重置环境，每次开始录音时必须先调用此方法，清理环境
 var RealTimeSendTryReset=function(){
