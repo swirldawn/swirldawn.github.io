@@ -228,6 +228,7 @@
             <div class='row'>
                 <div class="form-group col-md-6 col-md-offset-3" style="margin-top:12px;">
                     <button type="button" class="btn btn-primary btn-block " onclick="toSql()">转成sql in </button>
+                    <button type="button" class="btn btn-primary btn-block " onclick="toarr()">转换成数组 </button>
                 </div>
 
                 <div class="col-md-12">
@@ -284,6 +285,22 @@
         sql += ")";
         $("#sql_show").text(sql);
     }
+    function toarr() {
+        let word = $("#sql_id").val().split(/[\n]/);
+        var sql = "(";
+        word.forEach(function(v, i) {
+            let val = $.trim(v);
+            if (val != "") {
+                sql = sql + '"'+val;
+                if (i != word.length - 1) {
+                    sql += '",';
+                }
+            }
+
+        });
+        sql += ")";
+        $("#sql_show").text(sql);
+    }
     let ShengUtils = {};
 
     /** 
@@ -310,8 +327,7 @@
         }
         return zipstr;
     }
-
-    /** 
+    /**
      * Url解码 
      **/
     ShengUtils.decode = function(zipStr) {
