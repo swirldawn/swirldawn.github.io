@@ -806,7 +806,7 @@
                     Quasar.utils.openURL(url)
                 },
                 getTitle() {
-                    axios.get(`http://120.53.2.139:8081/get_bible_title`).then(({
+                    axios.get(`http://api.iloli.pub/get_bible_title`).then(({
                         data
                     }) => {
                         this.title = data.data;
@@ -830,7 +830,7 @@
                     D.setCookie("tid", this.tid);
                     D.setCookie("pid", this.pid);
                     history.pushState(null, null, url); //将网址设置
-                    axios.get(`http://120.53.2.139:8081/get_bible?pid=${this.pid}&tid=${this.tid}`).then(({
+                    axios.get(`http://api.iloli.pub/get_bible?pid=${this.pid}&tid=${this.tid}`).then(({
                         data
                     }) => {
                         this.page = this.pid;
