@@ -830,7 +830,7 @@
                     D.setCookie("tid", this.tid);
                     D.setCookie("pid", this.pid);
                     history.pushState(null, null, url); //将网址设置
-                    axios.get(`http://api.iloli.pub/get_bible?pid=${this.pid}&tid=${this.tid}`).then(({
+                    axios.get(`http://back.bjsda.net/get_bible?pid=${this.pid}&tid=${this.tid}`).then(({
                         data
                     }) => {
                         this.page = this.pid;
