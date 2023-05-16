@@ -131,6 +131,22 @@
                     <input type="text" class="form-control" id="hex_sha1-value" value=''>
                 </div>
 
+                <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">大写转小写</label>
+                            <input type="text" class="form-control" onChange="$('#toLowerCase').val(this.value.toLowerCase());" placeholder="请输入要加密的字符串">
+                        </div>
+                        <input type="text" class="form-control" id="toLowerCase" value=''>
+                    </div>
+
+                <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">小写转大写</label>
+                            <input type="text" class="form-control" onChange="$('#toUpperCase').val(this.value.toUpperCase());" placeholder="请输入要加密的字符串">
+                        </div>
+                        <input type="text" class="form-control" id="toUpperCase" value=''>
+                    </div>
+
             </div>
             <hr>
             <!-- urldecode  urldecode urldecode urldecode urldecode -->
