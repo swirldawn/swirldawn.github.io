@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://lib.baomitu.com/highlight.js/9.13.1/highlight.min.js"></script>
 <link href="https://lib.baomitu.com/highlight.js/9.13.1/styles/default.min.css" rel="stylesheet">
 <link href="https://lib.baomitu.com/highlight.js/9.13.1/styles/atelier-dune-light.min.css" rel="stylesheet">
@@ -22,7 +24,7 @@
         .nav {
             width: 190px;
             float:left;
-           
+            position: fixed;
         }
         .nav h2 {
             margin:0;
@@ -93,13 +95,35 @@
             background-color: #3c6382;
             border:1px solid #66677c;
         }
+        #articleList{
+            padding:0 5px;
+        }
+        #articleList h2{
+            font-size:12px;
+            color:#E6EE9C;
+            margin:2px;
+        }
+        
+        #articleList li a{
+            color:rgb(150, 162, 180);
+            font-size: 14px;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+            text-decoration: none;
+            background: #353c48;
+            display: block;
+            padding: 0px 20px;
+            height: 30px;
+            line-height: 30px;
+            border-bottom:0px solid #999;
+        }
     </style>
 </head>
 <body>
-  
-        <div class="example" id="toc">
-                <div class="row">
-        
+    <div id="title" style="color:#E6EE9C;" class="visible-xs visible-sm"></div>
+<div class="contextBox" style="display: flex;">
+        <div class="example visible-lg visible-md" id="toc">
+                <div class="row">        
                         <div class="list-group" id="toc_list">
                                 <!-- <a href="#" class="list-group-item">用div >项目</a>
                                 <a href="#" class="list-group-item">待办</a>
@@ -107,29 +131,30 @@
                                 <a href="#" class="list-group-item active">任务</a>
                                 <a href="#" class="list-group-item">Bug</a>
                                 <a href="#" class="list-group-item">用例</a> -->
-                              </div>
+                        </div>
                 </div>
             </div>
-    <div class="nav" >
+    <div class="nav visible-lg visible-md" >
         <img src="./light_logo.png"  class="light_logo" alt="">
-      
-     
         <div id="nav">
-        <h2>用户管理</h2>
-        <ul>
-            <li><a href="#">用户列表</a></li>
-            <li><a href="#">用户添加</a></li>
-            <li><a href="#">用户删除</a></li>
-            <li><a href="#">用户修改</a></li>
-        </ul>
-
-       
+            <h2>用户管理</h2>
+            <ul>
+                <li><a href="#">用户列表</a></li>
+                <li><a href="#">用户添加</a></li>
+                <li><a href="#">用户删除</a></li>
+                <li><a href="#">用户修改</a></li>
+            </ul>       
+        </div>
     </div>
-    </div>
-    <div id="content">
+   
+    <div id="content" >
 
     </div>
+   
+</div>
+<div id="articleList" class="visible-xs visible-sm">
 
+</div>
     <script src="https://lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/lib/marked.umd.js"></script>
     <script src="https://cdn.bootcss.com/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
@@ -140,12 +165,13 @@
             console.log(id);
             $.get(`${url}/markdown_detail?id=${id}`).then(({data})=>{
                 //  console.log(data);
-                 document.getElementById('content').innerHTML =
-                marked.parse(data.content==null?" ":data.content);
+                 document.getElementById('title').innerHTML =data.title
+                 document.getElementById('content').innerHTML = marked.parse(data.content==null?" ":data.content);
                 $('pre code').each(function(i, block) {
                     hljs.highlightBlock(block);
                 });
                 makeToc();
+                $.scrollTo('#content', 500);
                 });
         }
           
@@ -182,7 +208,18 @@
             });
         }
            
+function getQuery(variable){
+	var query = window.location.search.substring(1);
+	var vars = query.split("&");
+	for (var i=0;i<vars.length;i++) {
+		var pair = vars[i].split("=");
+		if(pair[0] == variable){return pair[1];}
+	}
+	return (false);
+}       
         $(function(){
+            var contentId=getQuery("id");
+            
             $.get(`${url}/markdown_list?size=100&page=1`).then(({data})=>{
                 // console.log(data.data);
                     var list={};
@@ -204,9 +241,14 @@
                      
                                 // console.log(list[key]);
                         for(i=0;i<list[key].length;i++){
-                            if(obj_i==0&&i==0){
+                            if(contentId){
+                                getContent(contentId);
+                            }else{
+                                if(obj_i==0&&i==0){
                                 getContent(list[key][i].id);
                             }
+                            }
+                            
                             html+=' <li data-id="'+list[key][i].id+'" ><a href="javascript:void(0);" οnclick="getContent('+list[key][i].id+')" >'+list[key][i].title+'</a></li>';
                         }
                         html+='</ul>';
@@ -215,10 +257,15 @@
                     }
                     // console.log(html);
                     document.getElementById('nav').innerHTML =html;
+                    document.getElementById('articleList').innerHTML =html;
                     $('.nav h2').on('click', function(){
                         $(this).next('ul').toggleClass('active')
                     });
                     $('.nav li').on('click', function(){
+                        console.log($(this).attr("data-id"));
+                        getContent($(this).attr("data-id"));
+                    });
+                    $('#articleList li').on('click', function(){
                         console.log($(this).attr("data-id"));
                         getContent($(this).attr("data-id"));
                     });
